@@ -20,3 +20,4 @@ publish/package
 !demo-vue/webpack.config.js
 !demo-vue/app/*.js
 package
+platforms/android/nativescript_yoonit_camera.aar
