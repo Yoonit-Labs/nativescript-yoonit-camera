@@ -3,7 +3,7 @@
 declare module ai {
 	export module cyberlabs {
 		export module yoonit {
-			export module facetrack {
+			export module camera {
 				export class BuildConfig {
 					public static class: java.lang.Class<ai.cyberlabs.yoonit.camera.BuildConfig>;
 					public static DEBUG: boolean;
@@ -27,13 +27,13 @@ declare module ai {
 				export class CameraView {
 					public static class: java.lang.Class<ai.cyberlabs.yoonit.camera.CameraView>;
 					public constructor(param0: globalAndroid.content.Context, param1: globalAndroid.util.AttributeSet);
-					public start(param0: ai.cyberlabs.facetrack.CaptureOptions): void;
+					public start(param0: ai.cyberlabs.yoonit.camera.CaptureOptions): void;
 					public startPreview(): void;
 					public startCaptureType(param0: string): void;
 					public stopCapture(): void;
 					public toggleCameraLens(): void;
 					public getCameraLens(): number;
-					public setCameraEventListener(param0: ai.cyberlabs.facetrack.interfaces.CameraEventListener): void;
+					public setCameraEventListener(param0: ai.cyberlabs.yoonit.camera.interfaces.CameraEventListener): void;
 					public setFaceNumberOfImages(param0: number): void;
 					public setFaceDetectionBox(param0: Boolean): void;
 					public setFaceTimeBetweenImages(param0: number): void;
@@ -43,7 +43,7 @@ declare module ai {
 				}
 				export module CameraView {
 					export class DetectorCallback {
-						public static class: java.lang.Class<ai.cyberlabs.facetrack.CameraView.DetectorCallback>;
+						public static class: java.lang.Class<ai.cyberlabs.yoonit.camera.CameraView.DetectorCallback>;
 						public handleMessage(param0: globalAndroid.os.Message): boolean;
 					}
 				}
@@ -57,7 +57,7 @@ declare module ai {
 		export module yoonit {
 			export module camera {
 				export class CameraGraphicView extends ai.cyberlabs.yoonit.camera.CameraGraphicView {
-					public static class: java.lang.Class<ai.cyberlabs.facetrack.CameraGraphicView>;
+					public static class: java.lang.Class<ai.cyberlabs.yoonit.camera.CameraGraphicView>;
 					public draw(param0: globalAndroid.graphics.Canvas): void;
 					public drawBoundingBox(param0: globqalAndroid.graphics.RectF);
 					public clear();
