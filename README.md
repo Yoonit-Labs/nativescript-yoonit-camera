@@ -1,30 +1,89 @@
 # nativescript-yoonit-camera
 
-Add your plugin badges here. See [nativescript-urlhandler](https://github.com/hypery2k/nativescript-urlhandler) for example.
+![Generic badge](https://img.shields.io/badge/version-v1.0.0-<COLOR>.svg) ![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)
 
-Then describe what's the purpose of your plugin. 
-
-In case you develop UI plugin, this is where you can add some screenshots.
-
-## (Optional) Prerequisites / Requirements
-
-Describe the prerequisites that the user need to have installed before using your plugin. See [nativescript-firebase plugin](https://github.com/eddyverbruggen/nativescript-plugin-firebase) for example.
+A NativeScript plugin to provide:
+- Camera preview
+- Face detection
+- QR Code scanning
 
 ## Installation
-
-Describe your plugin installation steps. Ideally it would be something like:
 
 ```javascript
 tns plugin add nativescript-yoonit-camera
 ```
 
 ## Usage 
-
-Describe any usage specifics for your plugin. Give examples for Android, iOS, Angular if needed. See [nativescript-drop-down](https://www.npmjs.com/package/nativescript-drop-down) for example.
 	
-	```javascript
-    Usage code snippets here
-    ```)
+All the functionalities that the `nativescript-yoonit-camera` provides is accessed through the `YoonitCamera` component, that includes the camera preview. Below we have the basic usage code, for more details, your can see the [**Methods**](#methods), [**Events**](#events) or the [**Demo Vue**](https://github.com/Yoonit-Labs/nativescript-yoonit-camera/tree/development/demo-vue).
+		
+```javascript
+<template>
+  <Page @loaded="onLoaded">
+    <YoonitCamera
+      id="yoonitCameraView"
+      @faceDetectedEvent="handleFaceDetected"
+      @faceImageCreatedEvent="handleFaceImageCreated"
+      @endCaptureEvent="handleEndCapture"
+      @barcodeScannedEvent="handleBarcodeScanned"
+      @messageEvent="handleMessage"
+      @errorEvent="handleError"
+    />
+  </Page>
+</template>
+```
+
+Get the reference like this:
+
+```javascript
+this.yoonitCameraView = args.object.getViewById('yoonitCameraView');
+
+```
+
+### Camera Preview
+
+Can request camera permission and start camera preview like this:
+
+```javascript
+const permissionGranted = await this.yoonitCameraView.requestCameraPermissions();
+if (permissionGranted) {
+  this.yoonitCameraView.startPreview();
+}
+```
+
+### Start capturing face images
+
+With camera preview, we can start capture detected face and generate images:
+
+```javascript
+this.cameraView.startCaptureType("face")
+```
+
+Add event `@faceImageCreatedEvent` (see [**Events**](#events)) to get the result:
+
+```javascript
+handleFaceImageCreated({ count, total, imagePath }) {
+  // count: current face image index created
+  // total: total face images to create
+  // imagePath: face image path
+}
+```
+
+### Start scanning QR Codes
+
+With camera preview, we can start scanning QR codes:
+
+```javascript
+this.cameraView.startCaptureType("qrcode")
+```
+
+Add event `@barcodeScannedEvent` (see [**Events**](#events)) to get the result:
+
+```javascript
+barcodeScannedEvent({ content }) {
+  // content of the qr code read
+}
+```
 
 ## API
 
@@ -34,7 +93,7 @@ Describe any usage specifics for your plugin. Give examples for Android, iOS, An
 |-|-|-|-|-|  
 | **`hasCameraPermission`** | - | boolean | - | Return if application has camera permission.
 | **`startPreview`** | - | void | - | Start camera preview if has permission.
-| **`startCaptureType`** | `captureType : string` | void | `none` default capture type. `face` for face recognition. `barcode` to read barcode content. | Set capture type none, face or barcode.
+| **`startCaptureType`** | `captureType: string` | void | `none` default capture type. `face` for face recognition. `barcode` to read barcode content. | Set capture type none, face or barcode.
 | **`stopCapture`** | - | void | - | Stop any type of capture.
 | **`toggleCameraLens`** | - | void | - | Set camera lens facing front or back.
 | **`getCameraLens`** | - | number | - | Return `number` that represents lens face state: 0 for front 1 for back camera.  
@@ -50,10 +109,10 @@ Describe any usage specifics for your plugin. Give examples for Android, iOS, An
 
 | Event | Parameters | Description |
 |-|-|-|
-| **`faceImageCreatedEvent`** | `count: number, total: number, imagePath: string` | Emit when the camera save an image face.  
-| **`faceDetectedEvent`** | `faceDetected: boolean` | Emit when a face is detected or hided.  
-| **`endCaptureEvent`** | - | Emit when the number of images saved is equal of the number of images set.   
-| **`barcodeScannedEvent`** | `content: string` | Emit content when detect a barcode.   
-| **`errorEvent`** |`error: string` | Emit message error.  
-| **`messageEvent`** | `message: string` | Emit message.   
-| **`permissionDeniedEvent`** | - | Emit when try to `startPreview` but there is not camera permission.
+| faceImageCreatedEvent | `{ count: number, total: number, imagePath: string }` | Must have started capture type of face (see `startCaptureType`). Emitted when the face image file is created: <ul><li>count: current index</li><li>total: total to create</li><li>imagePath: the face image path</li><ul>
+| faceDetectedEvent | `{ faceDetected: boolean }` | Emitted `true` while the camera detects a face. Emitted `false` once when a face is no more detected    
+| endCaptureEvent | - | Emitted when the number of face image files created is equal of the number of images set (see the method `setFaceNumberOfImages`).   
+| barcodeScannedEvent | `{ content: string }` | Must have started capture type of barcode (see `startCaptureType`). Emitted when the camera scan a QR Code.   
+| errorEvent |`{ error: string }` | Emitted message error from native. Used more often for debug purpose.
+| messageEvent | `{ message: string }` | Emitted message from native. Used more often for debug purpose.   
+| permissionDeniedEvent | - | Emitted when try to `startPreview` but there is not camera permission.
