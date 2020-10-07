@@ -1,10 +1,10 @@
-pod 'FaceTracker', :git => "git@gitlab.com:cyberlabsai/utils/mobilenative/facetrack-swift.git", :branch => 'feature/refactory'
+pod 'YoonitCamera', :git => "git@github.com:Yoonit-Labs/ios-yoonit-camera.git", :branch => 'development'
 
 platform :ios, '12.0'
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|
-    if target.name == 'FaceTracker'
+    if target.name == 'yoonit-camera'
       target.build_configurations.each do |config|
         config.build_settings['SWIFT_VERSION'] = '5.0'
       end
