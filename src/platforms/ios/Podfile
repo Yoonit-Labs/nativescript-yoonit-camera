@@ -1,4 +1,4 @@
-pod 'YoonitCamera', :git => "git@github.com:Yoonit-Labs/ios-yoonit-camera.git", :branch => 'development'
+pod 'YoonitCamera', :git => "https://github.com/Yoonit-Labs/ios-yoonit-camera.git", :branch => 'development'
 
 platform :ios, '12.0'
 
