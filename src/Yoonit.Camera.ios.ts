@@ -1,15 +1,29 @@
+// +-+-+-+-+-+-+
+// |y|o|o|n|i|t|
+// +-+-+-+-+-+-+
+//
+// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+// | Yoonit Camera Plugin for NativeScript applications              |
+// | Luigui Delyer, Haroldo Teruya,                                  |
+// | Victor Goulart & Márcio Bruffato @ Cyberlabs AI 2020            |
+// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
 import {
     MessageEventData,
     ErrorEventData,
     FaceImageCreatedEventData,
     FaceDetectedEventData,
     BarcodeScannedEventData
-} from '.';
-import { CameraBase } from './Yoonit.Camera.common';
-import { EventData } from "tns-core-modules/ui/content-view";
-import * as camera from "nativescript-camera";
+} from '.'
+import { CameraBase } from './Yoonit.Camera.common'
+import { EventData } from 'tns-core-modules/ui/content-view'
+import * as camera from 'nativescript-camera'
+import { ImageSource } from 'tns-core-modules/image-source'
+import { knownFolders, path } from 'tns-core-modules/file-system'
 
 export class YoonitCamera extends CameraBase {
+
+    permission: boolean = false;
 
     nativeView: CameraView;
 
@@ -57,11 +71,11 @@ export class YoonitCamera extends CameraBase {
         super.disposeNativeView();
     }
 
-    public startPreview(): void {
+    public preview(): void {
         this.nativeView.startPreview();
     }
 
-    public startCaptureType(captureType: string) {
+    public startCapture(captureType: string) {
         this.nativeView.startCaptureTypeWithCaptureType(captureType);
     }
 
@@ -69,11 +83,11 @@ export class YoonitCamera extends CameraBase {
         this.nativeView.stopCapture();
     }
 
-    public toggleCameraLens() {
+    public toggleLens() {
         this.nativeView.toggleCameraLens();
     }
 
-    public getCameraLens(): number {
+    public getLens(): number {
         return this.nativeView.getCameraLens();
     }
 
@@ -97,13 +111,26 @@ export class YoonitCamera extends CameraBase {
         this.nativeView.setFaceImageSizeWithFaceImageSize(faceImageSize);
     }
 
-    public requestCameraPermissions(explanation: string = ''): Promise<boolean> {
+    public requestPermission(explanation: string = ''): Promise<boolean> {
         return new Promise((resolve, reject) => camera
             .requestCameraPermissions()
-            .then(() => resolve(true))
-            .catch(err => reject(false))
+            .then(() => {
+              this.permission = true
+
+              return resolve(true)
+            })
+            .catch(err => {
+              this.permission = false
+
+              return reject(false)
+            })
         );
     }
+
+    public hasPermission(): boolean {
+        return this.permission;
+    }
+
 }
 
 @ObjCClass(CameraEventListenerDelegate)
@@ -119,22 +146,34 @@ class CameraEventListenerDelegateImpl extends NSObject implements CameraEventLis
 
     public onFaceImageCreatedWithCountTotalImagePath(count: number, total: number, imagePath: string): void {
         const owner = this.owner.get();
+        let imageName: any = imagePath.split('/')
+
+        imageName = imageName[imageName.length - 1]
+
+        const finalPath: string  = path.join(knownFolders.documents().path, imageName)
+
+        const imageSource: ImageSource = ImageSource.fromFileSync(finalPath)
+
         if (owner) {
             owner.notify({
-                eventName: "faceImageCreatedEvent",
+                eventName: 'faceImage',
                 object: owner,
                 count,
                 total,
-                imagePath
+                image: {
+                  path: finalPath,
+                  source: imageSource
+                }
             } as FaceImageCreatedEventData);
         }
     }
 
     public onFaceDetectedWithFaceDetected(faceDetected: boolean): void {
         const owner = this.owner.get();
+
         if (owner) {
             owner.notify({
-                eventName: "faceDetectedEvent",
+                eventName: 'faceDetected',
                 object: owner,
                 faceDetected
             } as FaceDetectedEventData);
@@ -143,9 +182,10 @@ class CameraEventListenerDelegateImpl extends NSObject implements CameraEventLis
 
     public onEndCapture(): void {
         const owner = this.owner.get();
+
         if (owner) {
             owner.notify({
-                eventName: "endCaptureEvent",
+                eventName: 'endCapture',
                 object: owner,
             } as EventData);
         }
@@ -153,31 +193,40 @@ class CameraEventListenerDelegateImpl extends NSObject implements CameraEventLis
 
     public onErrorWithError(error: string): void {
         const owner = this.owner.get();
+
         if (owner) {
             owner.notify({
-                eventName: "errorEvent",
+                eventName: 'status',
                 object: owner,
-                error
+                status: {
+                  type: 'error',
+                  status: error
+                }
             } as ErrorEventData);
         }
     }
 
     public onMessageWithMessage(message: string): void {
         const owner = this.owner.get();
+
         if (owner) {
             owner.notify({
-                eventName: "messageEvent",
+                eventName: 'status',
                 object: owner,
-                message
+                status: {
+                  type: 'message',
+                  status: message
+                }
             } as MessageEventData);
         }
     }
 
     public onPermissionDenied(): void {
         const owner = this.owner.get();
+
         if (owner) {
             owner.notify({
-                eventName: "permissionDeniedEvent",
+                eventName: 'permissionDenied',
                 object: owner,
             } as EventData);
         }
@@ -185,9 +234,10 @@ class CameraEventListenerDelegateImpl extends NSObject implements CameraEventLis
 
     public onBarcodeScannedWithContent(content: string): void {
         const owner = this.owner.get();
+
         if (owner) {
             owner.notify({
-                eventName: "barcodeScannedEvent",
+                eventName: 'barcodeScanned',
                 object: owner,
                 content
             } as BarcodeScannedEventData);
