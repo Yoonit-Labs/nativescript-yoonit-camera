@@ -10,13 +10,12 @@
         width="100%"
       >
         <YoonitCamera
-          id="yoonitCameraView"
-          @faceDetectedEvent="handleFaceDetected"
-          @faceImageCreatedEvent="handleFaceImageCreated"
-          @endCaptureEvent="handleEndCapture"
-          @barcodeScannedEvent="handleBarcodeScanned"
-          @messageEvent="handleMessage"
-          @errorEvent="handleError"
+          id="yooCamera"
+          @faceDetected="handleFaceDetected"
+          @faceImage="handleFaceImageCreated"
+          @endCapture="handleEndCapture"
+          @barcodeScanned="handleBarcodeScanned"
+          @status="handleStatus"
         />
       </GridLayout>
       <GridLayout
@@ -25,7 +24,7 @@
       >
         <FlexboxLayout flexDirection="column" justifyContent="flex-end">
           <Image :src="faceImagePath" width="200" height="200" v-if="captureType === 'face'" />
-          <TextField className="message" :text="qrCodeContent" v-if="captureType === 'barcode'" />
+          <TextField class="message" :text="qrCodeContent" v-if="captureType === 'barcode'" />
         </FlexboxLayout>
       </GridLayout>
       <GridLayout
@@ -68,94 +67,85 @@
 </template>
 
 <script>
-  import { isIOS } from 'tns-core-modules/platform';
-
-  import * as fileSystemModule from 'tns-core-modules/file-system';
-  import * as imageSourceModule from 'tns-core-modules/image-source';
-
   export default {
     data: () => ({
-      yoonitCameraView: null,
+      $yoo: null,
       faceImagePath: null,
       captureType: "none",
       cameraLens: "back cam",
+      showFaceDetectionBox: true,
       qrCodeContent: "",
     }),
 
     methods: {
       async onLoaded(args) {
-        this.showFaceDetectionBox = true;
+        this.$yoo = args.object.getViewById('yooCamera')
 
-        this.yoonitCameraView = args.object.getViewById('yoonitCameraView');
+        const permissionGranted = await this.$yoo.requestPermission()
 
-        const permissionGranted = await this.yoonitCameraView.requestCameraPermissions();
         if (permissionGranted) {
-          this.yoonitCameraView.startPreview();
+          this.$yoo.preview()
         }
       },
 
       handleFaceDetected({ faceDetected }) {
-        // console.log(`handleFaceDetected: ${faceDetected}`);
-
         if (!faceDetected) {
           this.faceImagePath = null;
         }
       },
 
-      handleFaceImageCreated({ count, total, imagePath }) {
-        if (total === 0) {
-          console.log(`handleFaceImageCreated: ${count} of ${total} - ${imagePath}`);
+      handleFaceImageCreated({
+        count,
+        total,
+        image: {
+          path,
+          source
+        }
+      }) {
+        if (total !== 0) {
+          console.log(`handleFaceImageCreated: [${count}] of [${total}] - ${path}`)
         } else {
-          console.log(`handleFaceImageCreated: [${count}] ${imagePath}`);
+          console.log(`handleFaceImageCreated: [${count}] ${path}`)
         }
 
-        if (isIOS) {
-          // For ios...
-          let imageName = imagePath.split('/');
-          imageName = imageName[imageName.length - 1];
-
-          let path = fileSystemModule.path.join(fileSystemModule.knownFolders.documents().path,
-            imageName);
-          this.faceImagePath = imageSourceModule.ImageSource.fromFileSync(path);
-        } else {
-          // For android...
-          this.faceImagePath = imageSourceModule.ImageSource.fromFileSync(imagePath);
-        }
+        this.faceImagePath = source
       },
 
       handleEndCapture() {
-        console.log(`handleEndCapture`);
+        console.log(`handleEndCapture`)
       },
 
       handleBarcodeScanned({ content }) {
-        console.log(`handleBarcodeScanned: ${content}`);
-        this.qrCodeContent = content;
+        console.log(`handleBarcodeScanned: ${content}`)
+
+        this.qrCodeContent = content
       },
 
-      handleMessage({ message }) {
-        console.log(`Message: ${message}`);
-      },
-
-      handleError({ error }) {
-        console.log(`handleError: ${error}`);
+      handleStatus({ status }) {
+        console.log(`Status: ${JSON.parse(status)}`)
       },
 
       handleToggleCameraLens() {
-        this.cameraLens = this.cameraLens === "front cam" ? "back cam" : "front cam";
-        const currentCameraLens = this.yoonitCameraView.getCameraLens();
-        console.log(`handleToggleCameraLens: ${currentCameraLens} change to ${this.cameraLens}`);
-        this.yoonitCameraView.toggleCameraLens();
+        this.cameraLens = this.cameraLens === 'front cam' ?
+          'back cam' :
+          'front cam'
+
+        const currentCameraLens = this.$yoo.getLens()
+
+        console.log(`handleToggleCameraLens: ${currentCameraLens} change to ${this.cameraLens}`)
+
+        this.$yoo.toggleLens()
       },
 
       handleStartCaptureType(captureType) {
-        this.captureType = captureType;
-        this.yoonitCameraView.startCaptureType(captureType);
+        this.captureType = captureType
+        this.$yoo.startCapture(captureType)
       },
 
       handleToggleFaceDetectionBox() {
-        this.showFaceDetectionBox = !this.showFaceDetectionBox;
-        console.log(`handleToggleFaceDetectionBox: ${this.showFaceDetectionBox}`);
-        this.yoonitCameraView.setFaceDetectionBox(this.showFaceDetectionBox);
+        this.showFaceDetectionBox = !this.showFaceDetectionBox
+        console.log(`handleToggleFaceDetectionBox: ${this.showFaceDetectionBox}`)
+        this.$yoo.setFaceDetectionBox(this.showFaceDetectionBox)
       }
     }
   }
