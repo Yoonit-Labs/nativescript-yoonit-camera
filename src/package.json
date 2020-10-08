@@ -1,13 +1,13 @@
 {
-	"name": "nativescript-yoonit-camera",
+	"name": "@yoonit/nativescript-camera",
 	"version": "1.0.0",
-	"description": "This module contains a custom view that shows a preview layer of the front camera and detects human faces in it and read qr code.",
-	"main": "yoonit-camera",
+	"description": "Yoonit Camera have a custom view that shows a preview layer of the front/back camera and detects human faces in it and read qr code.",
+	"main": "Yoonit.Camera",
 	"typings": "index.d.ts",
 	"nativescript": {
 		"platforms": {
-			"android": "1.0.0",
-			"ios": "1.0.0"
+			"android": "1.5.0",
+			"ios": "1.5.0"
 		}
 	},
 	"repository": {
@@ -16,20 +16,14 @@
 	},
 	"scripts": {
 		"tsc": "npm i && tsc",
-		"build": "npm run tsc && npm run build.native",
-		"build.native": "node scripts/build-native.js",
+		"build": "npm run tsc && npm run build:native",
+		"build:native": "node scripts/build-native.js",
 		"tslint": "cd .. && tslint \"**/*.ts\" --config tslint.json --exclude \"**/node_modules/**\"",
-		"ci.tslint": "npm i && tslint '**/*.ts' --config '../tslint.json' --exclude '**/node_modules/**' --exclude '**/platforms/**'",
-		"demo.ios": "npm i && cd ../demo && tns run ios",
-		"demo.android": "npm i && cd ../demo && tns run android",
-		"demo.reset": "cd ../demo && npx rimraf -- hooks node_modules platforms",
-		"demo-vue.ios": "npm i && cd ../demo-vue && tns run ios",
-		"demo-vue.android": "cd ../demo-vue && tns debug android --debug-brk",
-		"demo-vue.reset": "cd ../demo-vue && npx rimraf -- hooks node_modules platforms",
-		"demo-angular.ios": "npm i && cd ../demo-angular && tns run ios",
-		"demo-angular.android": "npm i && cd ../demo-angular && tns run android",
-		"demo-angular.reset": "cd ../demo-angular && npx rimraf -- hooks node_modules platforms",
-		"plugin.prepare": "npm run build && cd ../demo-vue && tns plugin add ../src && tns plugin remove nativescript-yoonit-camera && npm i && tns plugin add ../src",
+		"ci:tslint": "npm i && tslint '**/*.ts' --config '../tslint.json' --exclude '**/node_modules/**' --exclude '**/platforms/**'",
+		"demo:ios": "npm i && cd ../demo-vue && tns run ios",
+		"demo:android": "cd ../demo-vue && tns debug android --debug-brk",
+		"demo:reset": "cd ../demo-vue && npx rimraf -- hooks node_modules platforms",
+		"plugin:prepare": "npm run build && cd ../demo-vue && tns plugin add ../src && tns plugin remove nativescript-yoonit-camera && npm i && tns plugin add ../src",
 		"clean": "npm run demo.reset && npm run demo-vue.reset && npm run demo-angular.reset && npx rimraf -- node_modules && npm i"
 	},
 	"keywords": [
@@ -40,8 +34,10 @@
 		"iOS"
 	],
 	"author": {
-		"name": "CYBERLABS PRODUTOS E SERVIÇOS TECNOLÓGICOS"
+		"name": "Luigui Delyer, Haroldo Teruya, Victor Goulart & Márcio Bruffato @ Cyberlabs AI - 2020",
+		"email": "contato@cyberlabs.ai"
 	},
+	"license": "MIT",
 	"devDependencies": {
 		"tns-core-modules": "^6.0.0",
 		"tns-platform-declarations": "^6.0.0",
@@ -54,6 +50,5 @@
 	"dependencies": {
 		"nativescript-permissions": "^1.3.8",
 		"nativescript-camera": "^4.5.0"
-	},
-	"bootstrapper": "nativescript-plugin-seed"
+	}
 }

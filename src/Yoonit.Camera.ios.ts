@@ -5,7 +5,7 @@ import {
     FaceDetectedEventData,
     BarcodeScannedEventData
 } from '.';
-import { CameraBase } from './yoonit-camera.common';
+import { CameraBase } from './Yoonit.Camera.common';
 import { EventData } from "tns-core-modules/ui/content-view";
 import * as camera from "nativescript-camera";
 
