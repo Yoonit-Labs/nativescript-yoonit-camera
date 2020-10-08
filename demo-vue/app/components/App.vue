@@ -1,6 +1,6 @@
 <template>
   <Page @loaded="onLoaded">
-    <ActionBar title="Welcome to NativeScript-Vue!"/>
+    <ActionBar title="Yoonit Camera"/>
     <GridLayout
       height="100%"
       width="100%"
@@ -163,7 +163,7 @@
 
 <style scoped>
   ActionBar {
-    background-color: #53ba82;
+    background-color: #000000;
     color: #ffffff;
   }
 
@@ -174,8 +174,9 @@
     border-radius: 8;
     margin: 8 0 8 12;
   }
+
   .selected {
-    background-color: #84baa6;
+    background-color: #CCCCCC;
   }
 
   .message {

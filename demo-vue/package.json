@@ -2,9 +2,8 @@
   "name": "demo-vue",
   "version": "0.1.0",
   "description": "A native application built with NativeScript-Vue",
-  "license": "MIT",
   "nativescript": {
-    "id": "ai.cyberlabs.yoonit.vuedemo",
+    "id": "ai.cyberlabs.yoonit.camera",
     "templateVersion": "v2",
     "tns-android": {
       "version": "6.3.1"
@@ -14,10 +13,15 @@
     }
   },
   "dependencies": {
-    "nativescript-yoonit-camera": "file:../src",
+    "@yoonit/nativescript-camera": "file:../src",
     "nativescript-vue": "2.7.1",
     "tns-core-modules": "~6.3.0"
   },
+  "author": {
+    "name": "Luigui Delyer, Haroldo Teruya, Victor Goulart & Márcio Bruffato @ Cyberlabs AI - 2020",
+    "email": "contato@cyberlabs.ai"
+  },
+  "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
