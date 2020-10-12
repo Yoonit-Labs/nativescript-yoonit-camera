@@ -17,7 +17,6 @@ import {
 } from '.';
 import { CameraBase } from './Yoonit.Camera.common';
 import { EventData } from 'tns-core-modules/ui/content-view';
-import * as camera from 'nativescript-camera';
 import { ImageSource } from 'tns-core-modules/image-source';
 import { knownFolders, path } from 'tns-core-modules/file-system';
 
@@ -91,18 +90,44 @@ export class YoonitCamera extends CameraBase {
     }
 
     public requestPermission(explanation: string = ''): Promise<boolean> {
-        return new Promise((resolve, reject) => camera
-            .requestCameraPermissions()
-            .then(() => {
-              this.permission = true;
+        return new Promise((resolve, reject) => {
+            const cameraStatus = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo);
+            switch (cameraStatus) {
 
-              return resolve(true);
-            })
-            .catch(err => {
-              this.permission = false;
-              return reject(false);
-            })
-        );
+                // Not determined: Explicit user permission is required for media capture,
+                // but the user has not yet granted or denied such permission..
+                case 0: {
+                    AVCaptureDevice.requestAccessForMediaTypeCompletionHandler(AVMediaTypeVideo, (granted) => {
+                        if (granted) {
+                            this.permission = true;
+                            resolve(true);
+                        } else {
+                            this.permission = false;
+                            reject(false);
+                        }
+                    });
+                    break;
+                }
+
+                // Authorized: The user has explicitly granted permission for media capture,
+                // or explicit user permission is not necessary for the media type in question.
+                case 3: {
+                    this.permission = true;
+                    resolve(true);
+                    break;
+                }
+
+                // Restricted: the user is not allowed to access media capture devices.
+                case 1:
+
+                // Denied: The user has explicitly denied permission for media capture.
+                case 2: {
+                    this.permission = false;
+                    reject(false);
+                    break;
+                }
+            }
+        });
     }
 
     public hasPermission(): boolean {
