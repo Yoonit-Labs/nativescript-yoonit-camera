@@ -15,10 +15,10 @@ import {
     FaceDetectedEventData,
     BarcodeScannedEventData
 } from '.';
-import { CameraBase } from './Yoonit.Camera.common'
-import * as permissions from 'nativescript-permissions'
-import { EventData } from 'tns-core-modules/ui/content-view'
-import { ImageSource } from 'tns-core-modules/image-source'
+import { CameraBase } from './Yoonit.Camera.common';
+import * as permissions from 'nativescript-permissions';
+import { EventData } from 'tns-core-modules/ui/content-view';
+import { ImageSource } from 'tns-core-modules/image-source';
 
 const CAMERA = () => (android as any).Manifest.permission.CAMERA;
 
@@ -26,18 +26,12 @@ export class YoonitCamera extends CameraBase {
 
     nativeView: ai.cyberlabs.yoonit.camera.CameraView;
 
-    private captureListener: CaptureListener;
-
     /**
      * Creates new native button.
      */
     public createNativeView(): Object {
         this.nativeView = new ai.cyberlabs.yoonit.camera.CameraView(this._context);
-
-        initializeCaptureListener();
-        const captureListener = new CaptureListener(new WeakRef(this));
-        this.nativeView.setCameraEventListener(captureListener);
-        this.captureListener = captureListener;
+        this.nativeView.setCameraEventListener(CameraEventListener.initWithOwner(new WeakRef(this)));
 
         return this.nativeView;
     }
@@ -60,9 +54,9 @@ export class YoonitCamera extends CameraBase {
      */
     disposeNativeView(): void {
         this.nativeView.stopCapture();
+        this.nativeView.setCameraEventListener(null);
 
         // Remove reference from native view to this instance.
-        (<any>this.captureListener).owner = null;
         (<any>this.nativeView).owner = null;
 
         // If you want to recycle nativeView and have modified the nativeView
@@ -71,24 +65,8 @@ export class YoonitCamera extends CameraBase {
         super.disposeNativeView();
     }
 
-    public preview(): void {
-        this.nativeView.startPreview();
-    }
-
     public startCapture(captureType: string): void {
         this.nativeView.startCaptureType(captureType);
-    }
-
-    public stopCapture(): void {
-        this.nativeView.stopCapture();
-    }
-
-    public toggleLens(): void {
-        this.nativeView.toggleCameraLens();
-    }
-
-    public getLens(): number {
-        return this.nativeView.getCameraLens();
     }
 
     public setFaceNumberOfImages(faceNumberOfImages: number): void {
@@ -124,127 +102,112 @@ export class YoonitCamera extends CameraBase {
     }
 }
 
-// NOTE: CaptureListener is inside a function instead of directly in the module because we
-// want this file to be compatible with V8 snapshot. When V8 snapshot is created
-// JS is loaded into memory, compiled & saved as binary file which is later loaded by
-// Android runtime. Thus when snapshot is created we don't have Android runtime and
-// we don't have access to native types.
-interface CaptureListener extends java.lang.Object, ai.cyberlabs.yoonit.camera.interfaces.CameraEventListener {
-    /*tslint:disable-next-line no-misused-new*/
-    new(owner: WeakRef<YoonitCamera>): CaptureListener;
-}
+// Interfaces decorator with implemented interfaces on this class
+@Interfaces([ai.cyberlabs.yoonit.camera.interfaces.CameraEventListener])
+class CameraEventListener extends java.lang.Object implements ai.cyberlabs.yoonit.camera.interfaces.CameraEventListener {
 
-let CaptureListener: CaptureListener;
+    constructor(private owner: WeakRef<YoonitCamera>) {
+        super();
 
-function initializeCaptureListener(): void {
-    if (CaptureListener) {
-        return;
+        // Required by Android runtime when native class is extended through TypeScript.
+        return global.__native(this);
     }
 
-    // Interfaces decorator with implemented interfaces on this class
-    @Interfaces([ai.cyberlabs.yoonit.camera.interfaces.CameraEventListener])
-    class CaptureListenerImpl extends java.lang.Object implements ai.cyberlabs.yoonit.camera.interfaces.CameraEventListener {
+    public static initWithOwner(owner: WeakRef<YoonitCamera>): CameraEventListener {
+        return new CameraEventListener(owner);
+    }
 
-        constructor(private owner: WeakRef<YoonitCamera>) {
-            super();
-            // Required by Android runtime when native class is extended through TypeScript.
-            return global.__native(this);
-        }
+    public onFaceImageCreated(count: number, total: number, imagePath: string): void {
+        const owner = this.owner.get();
+        const imageSource: ImageSource = ImageSource.fromFileSync(imagePath);
 
-        public onFaceImageCreated(count: number, total: number, imagePath: string): void {
-            const owner = this.owner.get();
-            const imageSource: ImageSource = ImageSource.fromFileSync(imagePath);
-
-            if (owner) {
-                owner.notify({
-                    eventName: 'faceImage',
-                    object: owner,
-                    count,
-                    total,
-                    image: {
-                      path: imagePath,
-                      source: imageSource
-                    }
-                } as FaceImageCreatedEventData);
-            }
-        }
-
-        public onFaceDetected(faceDetected: boolean): void {
-            const owner = this.owner.get();
-
-            if (owner) {
-                owner.notify({
-                    eventName: 'faceDetected',
-                    object: owner,
-                    faceDetected
-                } as FaceDetectedEventData);
-            }
-        }
-
-        public onEndCapture(): void {
-            const owner = this.owner.get();
-
-            if (owner) {
-                owner.notify({
-                    eventName: 'endCapture',
-                    object: owner,
-                } as EventData);
-            }
-        }
-
-        public onBarcodeScanned(content: string): void {
-            const owner = this.owner.get();
-
-            if (owner) {
-                owner.notify({
-                    eventName: 'barcodeScanned',
-                    object: owner,
-                    content
-                } as BarcodeScannedEventData);
-            }
-        }
-
-        public onError(error: string): void {
-            const owner = this.owner.get();
-
-            if (owner) {
-                owner.notify({
-                    eventName: 'status',
-                    object: owner,
-                    status: {
-                      type: 'error',
-                      status: error
-                    }
-                } as ErrorEventData);
-            }
-        }
-
-        public onMessage(message: string): void {
-            const owner = this.owner.get();
-
-            if (owner) {
-                owner.notify({
-                    eventName: 'status',
-                    object: owner,
-                    status: {
-                      type: 'message',
-                      status: message
-                    }
-                } as MessageEventData);
-            }
-        }
-
-        public onPermissionDenied(): void {
-            const owner = this.owner.get();
-
-            if (owner) {
-                owner.notify({
-                    eventName: 'permissionDenied',
-                    object: owner,
-                } as EventData);
-            }
+        if (owner) {
+            owner.notify({
+                eventName: 'faceImage',
+                object: owner,
+                count,
+                total,
+                image: {
+                  path: imagePath,
+                  source: imageSource
+                }
+            } as FaceImageCreatedEventData);
         }
     }
 
-    CaptureListener = CaptureListenerImpl as any;
+    public onFaceDetected(faceDetected: boolean): void {
+        const owner = this.owner.get();
+
+        if (owner) {
+            owner.notify({
+                eventName: 'faceDetected',
+                object: owner,
+                faceDetected
+            } as FaceDetectedEventData);
+        }
+    }
+
+    public onEndCapture(): void {
+        const owner = this.owner.get();
+
+        if (owner) {
+            owner.notify({
+                eventName: 'endCapture',
+                object: owner,
+            } as EventData);
+        }
+    }
+
+    public onBarcodeScanned(content: string): void {
+        const owner = this.owner.get();
+
+        if (owner) {
+            owner.notify({
+                eventName: 'barcodeScanned',
+                object: owner,
+                content
+            } as BarcodeScannedEventData);
+        }
+    }
+
+    public onError(error: string): void {
+        const owner = this.owner.get();
+
+        if (owner) {
+            owner.notify({
+                eventName: 'status',
+                object: owner,
+                status: {
+                  type: 'error',
+                  status: error
+                }
+            } as ErrorEventData);
+        }
+    }
+
+    public onMessage(message: string): void {
+        const owner = this.owner.get();
+
+        if (owner) {
+            owner.notify({
+                eventName: 'status',
+                object: owner,
+                status: {
+                  type: 'message',
+                  status: message
+                }
+            } as MessageEventData);
+        }
+    }
+
+    public onPermissionDenied(): void {
+        const owner = this.owner.get();
+
+        if (owner) {
+            owner.notify({
+                eventName: 'permissionDenied',
+                object: owner,
+            } as EventData);
+        }
+    }
 }

@@ -14,27 +14,25 @@ import {
     FaceImageCreatedEventData,
     FaceDetectedEventData,
     BarcodeScannedEventData
-} from '.'
-import { CameraBase } from './Yoonit.Camera.common'
-import { EventData } from 'tns-core-modules/ui/content-view'
-import * as camera from 'nativescript-camera'
-import { ImageSource } from 'tns-core-modules/image-source'
-import { knownFolders, path } from 'tns-core-modules/file-system'
+} from '.';
+import { CameraBase } from './Yoonit.Camera.common';
+import { EventData } from 'tns-core-modules/ui/content-view';
+import * as camera from 'nativescript-camera';
+import { ImageSource } from 'tns-core-modules/image-source';
+import { knownFolders, path } from 'tns-core-modules/file-system';
 
 export class YoonitCamera extends CameraBase {
 
-    permission: boolean = false;
-
     nativeView: CameraView;
 
-    private cameraEventListenerDelegate: CameraEventListenerDelegateImpl;
+    private permission: boolean = false;
 
     /**
      * Creates new native button.
      */
     public createNativeView(): Object {
-        // Create new instance
         this.nativeView = CameraView.new();
+        this.nativeView.cameraEventListener = CameraEventListener.initWithOwner(new WeakRef(this));
 
         return this.nativeView;
     }
@@ -47,9 +45,6 @@ export class YoonitCamera extends CameraBase {
         // When nativeView is tapped we get the owning JS object through this field.
         (<any>this.nativeView).owner = this;
         super.initNativeView();
-
-        this.cameraEventListenerDelegate = CameraEventListenerDelegateImpl.initWithOwner(new WeakRef(this));
-        this.nativeView.cameraEventListener = this.cameraEventListenerDelegate;
     }
 
     /**
@@ -59,8 +54,8 @@ export class YoonitCamera extends CameraBase {
      * so that it could be reused later.
      */
     disposeNativeView(): void {
+        this.nativeView.stopCapture();
         this.nativeView.cameraEventListener = null;
-        this.cameraEventListenerDelegate = null;
 
         // Remove reference from native listener to this instance.
         (<any>this.nativeView).owner = null;
@@ -71,24 +66,8 @@ export class YoonitCamera extends CameraBase {
         super.disposeNativeView();
     }
 
-    public preview(): void {
-        this.nativeView.startPreview();
-    }
-
     public startCapture(captureType: string) {
         this.nativeView.startCaptureTypeWithCaptureType(captureType);
-    }
-
-    public stopCapture(): void {
-        this.nativeView.stopCapture();
-    }
-
-    public toggleLens() {
-        this.nativeView.toggleCameraLens();
-    }
-
-    public getLens(): number {
-        return this.nativeView.getCameraLens();
     }
 
     public setFaceNumberOfImages(faceNumberOfImages: number) {
@@ -115,14 +94,13 @@ export class YoonitCamera extends CameraBase {
         return new Promise((resolve, reject) => camera
             .requestCameraPermissions()
             .then(() => {
-              this.permission = true
+              this.permission = true;
 
-              return resolve(true)
+              return resolve(true);
             })
             .catch(err => {
-              this.permission = false
-
-              return reject(false)
+              this.permission = false;
+              return reject(false);
             })
         );
     }
@@ -134,25 +112,25 @@ export class YoonitCamera extends CameraBase {
 }
 
 @ObjCClass(CameraEventListenerDelegate)
-class CameraEventListenerDelegateImpl extends NSObject implements CameraEventListenerDelegate {
+class CameraEventListener extends NSObject implements CameraEventListenerDelegate {
 
-    public static initWithOwner(owner: WeakRef<YoonitCamera>): CameraEventListenerDelegateImpl {
-        const delegate = CameraEventListenerDelegateImpl.new() as CameraEventListenerDelegateImpl;
+    private owner: WeakRef<YoonitCamera>;
+
+    public static initWithOwner(owner: WeakRef<YoonitCamera>): CameraEventListener {
+        const delegate = CameraEventListener.new() as CameraEventListener;
         delegate.owner = owner;
         return delegate;
     }
 
-    private owner: WeakRef<YoonitCamera>;
-
     public onFaceImageCreatedWithCountTotalImagePath(count: number, total: number, imagePath: string): void {
         const owner = this.owner.get();
-        let imageName: any = imagePath.split('/')
+        let imageName: any = imagePath.split('/');
 
-        imageName = imageName[imageName.length - 1]
+        imageName = imageName[imageName.length - 1];
 
-        const finalPath: string  = path.join(knownFolders.documents().path, imageName)
+        const finalPath: string  = path.join(knownFolders.documents().path, imageName);
 
-        const imageSource: ImageSource = ImageSource.fromFileSync(finalPath)
+        const imageSource: ImageSource = ImageSource.fromFileSync(finalPath);
 
         if (owner) {
             owner.notify({
