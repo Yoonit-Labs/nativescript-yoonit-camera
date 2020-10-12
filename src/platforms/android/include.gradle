@@ -23,5 +23,5 @@ dependencies {
     implementation 'com.google.mlkit:face-detection:16.0.2'
     implementation 'com.google.mlkit:barcode-scanning:16.0.3'
 
-    implementation 'com.github.Yoonit-Labs:android-yoonit-camera:development-SNAPSHOT'
+    implementation 'com.github.Yoonit-Labs:android-yoonit-camera:1.0.0'
 }
