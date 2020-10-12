@@ -20,20 +20,34 @@ import {
 
 export abstract class CameraBase extends ContentView implements CameraDefinition {
 
-  public requestPermission(explanationText?: string): Promise<boolean> {
-    return new Promise((resolve, reject) => resolve());
+  public preview(): void {
+    this.nativeView.startPreview();
   }
-  public hasPermission(): boolean { return false; }
-  public preview(): void {}
+
+  public stopCapture(): void {
+    this.nativeView.stopCapture();
+  }
+
+  public toggleLens(): void {
+    this.nativeView.toggleCameraLens();
+  }
+
+  public getLens(): number {
+    return this.nativeView.getCameraLens();
+  }
+
   public startCapture(captureType: string): void {}
-  public stopCapture(): void {}
-  public toggleLens(): void {}
-  public getLens(): number { return 0; }
   public setFaceNumberOfImages(faceNumberOfImages: number): void {}
   public setFaceDetectionBox(faceDetectionBox: Boolean): void {}
   public setFaceTimeBetweenImages(faceTimeBetweenImages: number): void {}
   public setFacePaddingPercent(facePaddingPercent: number): void {}
   public setFaceImageSize(faceImageSize: number): void {}
+
+  public requestPermission(explanationText?: string): Promise<boolean> {
+    return new Promise((resolve, reject) => resolve());
+  }
+
+  public hasPermission(): boolean { return false; }
 }
 
 export interface CameraBase {
