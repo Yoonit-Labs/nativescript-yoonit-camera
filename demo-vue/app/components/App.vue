@@ -60,6 +60,16 @@
               horizontalAlignment="left"
               @tap="handleStartCaptureType('barcode')" />
           </StackLayout>
+          <FlexboxLayout>
+            <Label
+              v-if="captureType === 'face'"
+              text="Quantidade de captura de faces: "
+            />
+            <Label
+              v-if="captureType === 'face'"
+              :text="faceImagesCreated"
+            />
+          </FlexboxLayout>
         </StackLayout>
       </GridLayout>
     </GridLayout>
@@ -71,9 +81,10 @@
     data: () => ({
       $yoo: null,
       faceImagePath: null,
+      faceImagesCreated: "",
+      showFaceDetectionBox: true,
       captureType: "none",
       cameraLens: "back cam",
-      showFaceDetectionBox: true,
       qrCodeContent: "",
     }),
 
@@ -90,7 +101,7 @@
 
       handleFaceDetected({ faceDetected }) {
         if (!faceDetected) {
-          this.faceImagePath = null;
+          this.faceImagePath = null
         }
       },
 
@@ -102,10 +113,12 @@
           source
         }
       }) {
-        if (total !== 0) {
-          console.log(`handleFaceImageCreated: [${count}] of [${total}] - ${path}`)
-        } else {
+        if (total === 0) {
           console.log(`handleFaceImageCreated: [${count}] ${path}`)
+          this.faceImagesCreated = `${count}`
+        } else {
+          console.log(`handleFaceImageCreated: [${count}] of [${total}] - ${path}`)
+          this.faceImagesCreated = `${count} de ${total}`
         }
 
         this.faceImagePath = source
@@ -139,14 +152,17 @@
 
       handleStartCaptureType(captureType) {
         this.captureType = captureType
+
         this.$yoo.startCapture(captureType)
       },
 
       handleToggleFaceDetectionBox() {
         this.showFaceDetectionBox = !this.showFaceDetectionBox
+
         console.log(`handleToggleFaceDetectionBox: ${this.showFaceDetectionBox}`)
+
         this.$yoo.setFaceDetectionBox(this.showFaceDetectionBox)
-      }
+      },
     }
   }
 </script>
@@ -155,6 +171,10 @@
   ActionBar {
     background-color: #000000;
     color: #ffffff;
+  }
+
+  Label {
+    margin-left: 12;
   }
 
   Button {
