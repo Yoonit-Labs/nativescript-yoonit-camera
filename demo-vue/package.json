@@ -26,10 +26,10 @@
     "@babel/core": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "babel-loader": "^8.0.2",
-    "nativescript-dev-webpack": "^1.0.0",
+    "nativescript-dev-webpack": ">1.0.0",
     "nativescript-vue-template-compiler": "2.8.1",
     "nativescript-worker-loader": "^0.9.5",
-    "node-sass": "^4.9.2",
+    "node-sass": ">4.9.2",
     "typescript": "~3.5.3",
     "vue-loader": "^15.4.0"
   }
