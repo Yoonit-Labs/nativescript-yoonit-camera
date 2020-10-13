@@ -7,6 +7,6 @@
     "rimraf": "^2.5.0"
   },
   "dependencies": {
-    "inly": "^4.0.4"
+    "inly": ">4.0.4"
   }
 }
