@@ -8,8 +8,7 @@
 // | Victor Goulart & Márcio Bruffato @ Cyberlabs AI 2020            |
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
-import { ContentView, EventData } from 'tns-core-modules/ui/content-view'
-import { ImageSource } from 'tns-core-modules/image-source'
+import { ContentView, EventData } from 'tns-core-modules/ui/content-view';
 
 export interface FaceImageCreatedEventData extends EventData {
     count: number;
@@ -25,11 +24,7 @@ export interface BarcodeScannedEventData extends EventData {
     content: string;
 }
 
-export interface ErrorEventData extends EventData {
-    status: any;
-}
-
-export interface MessageEventData extends EventData {
+export interface StatusEventData extends EventData {
     status: any;
 }
 
@@ -53,6 +48,5 @@ export declare class Camera extends ContentView {
     on(event: endCapture, callback: () => void, thisArg?: any);
     on(event: barcodeScanned, callback: (args: BarCodeScannedEventData) => void, thisArg?: any);
     on(event: status, callback: (args: MessageEventData) => void, thisArg?: any);
-    on(event: error, callback: (args: ErrorEventData) => void, thisArg?: any);
     on(event: permissionDenied, callback: () => void, thisArg?: any);
 }
