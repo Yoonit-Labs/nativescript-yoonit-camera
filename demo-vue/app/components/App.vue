@@ -12,7 +12,7 @@
         <YoonitCamera
           id="yooCamera"
           @faceDetected="handleFaceDetected"
-          @faceImage="handleFaceImageCreated"
+          @faceImage="handleFaceImage"
           @endCapture="handleEndCapture"
           @barcodeScanned="handleBarcodeScanned"
           @status="handleStatus"
@@ -105,7 +105,7 @@
         }
       },
 
-      handleFaceImageCreated({
+      handleFaceImage({
         count,
         total,
         image: {
@@ -114,10 +114,10 @@
         }
       }) {
         if (total === 0) {
-          console.log(`handleFaceImageCreated: [${count}] ${path}`)
+          console.log(`handleFaceImage: [${count}] ${path}`)
           this.faceImagesCreated = `${count}`
         } else {
-          console.log(`handleFaceImageCreated: [${count}] of [${total}] - ${path}`)
+          console.log(`handleFaceImage: [${count}] of [${total}] - ${path}`)
           this.faceImagesCreated = `${count} de ${total}`
         }
 

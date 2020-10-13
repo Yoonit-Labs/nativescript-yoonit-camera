@@ -9,8 +9,7 @@
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 import {
-    MessageEventData,
-    ErrorEventData,
+    StatusEventData,
     FaceImageCreatedEventData,
     FaceDetectedEventData,
     BarcodeScannedEventData
@@ -181,7 +180,7 @@ class CameraEventListener extends java.lang.Object implements ai.cyberlabs.yooni
                   type: 'error',
                   status: error
                 }
-            } as ErrorEventData);
+            } as StatusEventData);
         }
     }
 
@@ -196,7 +195,7 @@ class CameraEventListener extends java.lang.Object implements ai.cyberlabs.yooni
                   type: 'message',
                   status: message
                 }
-            } as MessageEventData);
+            } as StatusEventData);
         }
     }
 
