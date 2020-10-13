@@ -21,13 +21,12 @@ All the functionalities that the `nativescript-yoonit-camera` provides is access
 <template>
   <Page @loaded="onLoaded">
     <YoonitCamera
-      id="yoonitCameraView"
-      @faceDetectedEvent="handleFaceDetected"
-      @faceImageCreatedEvent="handleFaceImageCreated"
-      @endCaptureEvent="handleEndCapture"
-      @barcodeScannedEvent="handleBarcodeScanned"
-      @messageEvent="handleMessage"
-      @errorEvent="handleError"
+      id="yooCamera"
+      @faceDetected="handleFaceDetected"
+      @faceImage="handleFaceImage"
+      @endCapture="handleEndCapture"
+      @barcodeScanned="handleBarcodeScanned"
+      @status="handleStatus"
     />
   </Page>
 </template>
@@ -36,7 +35,7 @@ All the functionalities that the `nativescript-yoonit-camera` provides is access
 Get the reference like this:
 
 ```javascript
-this.yoonitCameraView = args.object.getViewById('yoonitCameraView');
+this.$yoo = args.object.getViewById('yooCamera');
 
 ```
 
@@ -45,9 +44,9 @@ this.yoonitCameraView = args.object.getViewById('yoonitCameraView');
 Can request camera permission and start camera preview like this:
 
 ```javascript
-const permissionGranted = await this.yoonitCameraView.requestCameraPermissions();
+const permissionGranted = await this.$yoo.requestCameraPermissions();
 if (permissionGranted) {
-  this.yoonitCameraView.startPreview();
+  this.$yoo.preview();
 }
 ```
 
@@ -56,13 +55,13 @@ if (permissionGranted) {
 With camera preview, we can start capture detected face and generate images:
 
 ```javascript
-this.cameraView.startCaptureType("face")
+this.$yoo.startCapture("face")
 ```
 
-Add event `@faceImageCreatedEvent` (see [**Events**](#events)) to get the result:
+Add event `@faceImage` (see [**Events**](#events)) to get the result:
 
 ```javascript
-handleFaceImageCreated({ count, total, imagePath }) {
+handleFaceImage({ count, total, imagePath }) {
   // count: current face image index created
   // total: total face images to create
   // imagePath: face image path
@@ -74,34 +73,34 @@ handleFaceImageCreated({ count, total, imagePath }) {
 With camera preview, we can start scanning QR codes:
 
 ```javascript
-this.cameraView.startCaptureType("qrcode")
+this.$yoo.startCapture("barcode")
 ```
 
-Add event `@barcodeScannedEvent` (see [**Events**](#events)) to get the result:
+Add event `@barcodeScanned` (see [**Events**](#events)) to get the result:
 
 ```javascript
-barcodeScannedEvent({ content }) {
+barcodeScanned({ content }) {
   // content of the qr code read
 }
 ```
 
 ## API
 
-## Methods   
+## Methods
   
-| Function | Parameters | Return Type | Valid values | Description |
+| Function | Parameters | Valid values | Return Type | Description |
 |-|-|-|-|-|  
-| **`hasCameraPermission`** | - | boolean | - | Return if application has camera permission.
-| **`startPreview`** | - | void | - | Start camera preview if has permission.
-| **`startCaptureType`** | `captureType: string` | void | `none` default capture type. `face` for face recognition. `barcode` to read barcode content. | Set capture type none, face or barcode.
-| **`stopCapture`** | - | void | - | Stop any type of capture.
-| **`toggleCameraLens`** | - | void | - | Set camera lens facing front or back.
-| **`getCameraLens`** | - | number | - | Return `number` that represents lens face state: 0 for front 1 for back camera.  
-| **`setFaceNumberOfImages`** | `faceNumberOfImages: number` | void | Any positive `number` value | Default value is 0. For value 0 is saved infinity images. When saved images reached the "face number os images", the `onEndCapture` is triggered.
-| **`setFaceDetectionBox`** |`faceDetectionBox: boolean` | void | `true` or `false` | Set to show face detection box when face detected.   
-| **`setFaceTimeBetweenImages`** | `faceTimeBetweenImages: number` | void | Any positive `number` that represent time in milli seconds | Set saving face images time interval in milli seconds.  
-| **`setFacePaddingPercent`** | `facePaddingPercent: number` | void | Any positive `number` value | Set face image and bounding box padding in percent.  
-| **`setFaceImageSize`** | `faceImageSize: number` | void | Any positive `number` value | Set face image size to be saved.    
+| **`hasCameraPermission`** | - | - | boolean | Return if application has camera permission.
+| **`preview`** | - | - | void | Start camera preview if has permission.
+| **`startCapture`** | `captureType: string` | <ul><li>`"none"`: nothing to do;</li><li>`"face"`: face image capture;</li><li>`"barcode"`: read barcode;</li></ul> | void | Set capture type none, face or barcode.
+| **`stopCapture`** | - | - | void | Stop any type of capture.
+| **`toggleLens`** | - | - | void | Set camera lens facing front or back.
+| **`getLens`** | - | - | number | Return `number` that represents lens face state: 0 for front 1 for back camera.  
+| **`setFaceNumberOfImages`** | `faceNumberOfImages: number` | Any positive `number` value | void | Default value is 0. For value 0 is saved infinity images. When saved images reached the "face number os images", the `onEndCapture` is triggered.
+| **`setFaceDetectionBox`** |`faceDetectionBox: boolean` | `true` or `false` | void | Set to show face detection box when face detected.   
+| **`setFaceTimeBetweenImages`** | `faceTimeBetweenImages: number` | Any positive `number` that represent time in milli seconds. | void | Set saving face images time interval in milli seconds.  
+| **`setFacePaddingPercent`** | `facePaddingPercent: number` | Any positive `number` value. | void | Set face image and bounding box padding in percent.  
+| **`setFaceImageSize`** | `faceImageSize: number` | Any positive `number` value. | void | Set face image size to be saved.    
   
 <br/>  
   
@@ -109,10 +108,9 @@ barcodeScannedEvent({ content }) {
 
 | Event | Parameters | Description |
 |-|-|-|
-| faceImageCreatedEvent | `{ count: number, total: number, imagePath: string }` | Must have started capture type of face (see `startCaptureType`). Emitted when the face image file is created: <ul><li>count: current index</li><li>total: total to create</li><li>imagePath: the face image path</li><ul>
-| faceDetectedEvent | `{ faceDetected: boolean }` | Emitted `true` while the camera detects a face. Emitted `false` once when a face is no more detected    
-| endCaptureEvent | - | Emitted when the number of face image files created is equal of the number of images set (see the method `setFaceNumberOfImages`).   
-| barcodeScannedEvent | `{ content: string }` | Must have started capture type of barcode (see `startCaptureType`). Emitted when the camera scan a QR Code.   
-| errorEvent |`{ error: string }` | Emitted message error from native. Used more often for debug purpose.
-| messageEvent | `{ message: string }` | Emitted message from native. Used more often for debug purpose.   
-| permissionDeniedEvent | - | Emitted when try to `startPreview` but there is not camera permission.
+| faceImage | `{ count: number, total: number, imagePath: string }` | Must have started capture type of face (see `startCapture`). Emitted when the face image file is created: <ul><li>count: current index</li><li>total: total to create</li><li>imagePath: the face image path</li><ul>
+| faceDetected | `{ faceDetected: boolean }` | Emitted `true` while the camera detects a face. Emitted `false` once when a face is no more detected    
+| endCapture | - | Emitted when the number of face image files created is equal of the number of images set (see the method `setFaceNumberOfImages`).   
+| barcodeScanned | `{ content: string }` | Must have started capture type of barcode (see `startCapture`). Emitted when the camera scan a QR Code.   
+| status |`{ status: { type: "message" or "error", status: string } }` | Emitted a message of the type "message" or "error". Used more often for debug purpose.
+| permissionDeniedEvent | - | Emitted when try to `preview` but there is not camera permission.
