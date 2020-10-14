@@ -11,11 +11,11 @@
       >
         <YoonitCamera
           id="yooCamera"
-          @faceDetected="handleFaceDetected"
-          @faceImage="handleFaceImageCreated"
-          @endCapture="handleEndCapture"
-          @barcodeScanned="handleBarcodeScanned"
-          @status="handleStatus"
+          @faceDetected="doFaceDetected"
+          @faceImage="doFaceImage"
+          @endCapture="doEndCapture"
+          @qrCodeContent="doQRCodeContent"
+          @status="doStatus"
         />
       </GridLayout>
       <GridLayout
@@ -36,11 +36,11 @@
             <Button
               :text="cameraLens"
               horizontalAlignment="left"
-              @tap="handleToggleCameraLens" />
+              @tap="doToggleLens" />
             <Button
               text="TOGGLE BOX"
               horizontalAlignment="left"
-              @tap="handleToggleFaceDetectionBox" />
+              @tap="doFaceDetectionBox" />
           </StackLayout>
           <Label text="Tipos de Captura:" />
           <StackLayout orientation="horizontal">
@@ -48,17 +48,17 @@
               :class="captureType === 'none' ? 'selected' : ''"
               text="NONE"
               horizontalAlignment="left"
-              @tap='handleStartCaptureType("none")' />
+              @tap='doStartCapture("none")' />
             <Button
               :class="captureType === 'face' ? 'selected' : ''"
               text="FACE"
               horizontalAlignment="left"
-              @tap="handleStartCaptureType('face')" />
+              @tap="doStartCapture('face')" />
             <Button
               :class="captureType === 'barcode' ? 'selected' : ''"
               text="QRCODE"
               horizontalAlignment="left"
-              @tap="handleStartCaptureType('barcode')" />
+              @tap="doStartCapture('barcode')" />
           </StackLayout>
         </StackLayout>
       </GridLayout>
@@ -79,22 +79,26 @@
 
     methods: {
       async onLoaded(args) {
-        this.$yoo = args.object.getViewById('yooCamera')
+        this.$yoo = {
+          camera: null
+        }
 
-        const permissionGranted = await this.$yoo.requestPermission()
+        this.$yoo.camera = args.object.getViewById('yooCamera')
+
+        const permissionGranted = await this.$yoo.camera.requestPermission()
 
         if (permissionGranted) {
-          this.$yoo.preview()
+          this.$yoo.camera.preview()
         }
       },
 
-      handleFaceDetected({ faceDetected }) {
+      doFaceDetected({ faceDetected }) {
         if (!faceDetected) {
           this.faceImagePath = null;
         }
       },
 
-      handleFaceImageCreated({
+      doFaceImage({
         count,
         total,
         image: {
@@ -103,49 +107,49 @@
         }
       }) {
         if (total !== 0) {
-          console.log(`handleFaceImageCreated: [${count}] of [${total}] - ${path}`)
+          console.log(`doFaceImage: [${count}] of [${total}] - ${path}`)
         } else {
-          console.log(`handleFaceImageCreated: [${count}] ${path}`)
+          console.log(`doFaceImage: [${count}] ${path}`)
         }
 
         this.faceImagePath = source
       },
 
-      handleEndCapture() {
-        console.log(`handleEndCapture`)
+      doEndCapture() {
+        console.log(`doEndCapture`)
       },
 
-      handleBarcodeScanned({ content }) {
-        console.log(`handleBarcodeScanned: ${content}`)
+      doQRCodeContent({ content }) {
+        console.log(`doQRCodeContent: ${content}`)
 
         this.qrCodeContent = content
       },
 
-      handleStatus({ status }) {
+      doStatus({ status }) {
         console.log(`Status: ${JSON.parse(status)}`)
       },
 
-      handleToggleCameraLens() {
+      doToggleLens() {
         this.cameraLens = this.cameraLens === 'front cam' ?
           'back cam' :
           'front cam'
 
-        const currentCameraLens = this.$yoo.getLens()
+        const currentCameraLens = this.$yoo.camera.getLens()
 
-        console.log(`handleToggleCameraLens: ${currentCameraLens} change to ${this.cameraLens}`)
+        console.log(`doToggleLens: ${currentCameraLens} change to ${this.cameraLens}`)
 
-        this.$yoo.toggleLens()
+        this.$yoo.camera.toggleLens()
       },
 
-      handleStartCaptureType(captureType) {
+      doStartCapture(captureType) {
         this.captureType = captureType
-        this.$yoo.startCapture(captureType)
+        this.$yoo.camera.startCapture(captureType)
       },
 
-      handleToggleFaceDetectionBox() {
+      doFaceDetectionBox() {
         this.showFaceDetectionBox = !this.showFaceDetectionBox
-        console.log(`handleToggleFaceDetectionBox: ${this.showFaceDetectionBox}`)
-        this.$yoo.setFaceDetectionBox(this.showFaceDetectionBox)
+        console.log(`doFaceDetectionBox: ${this.showFaceDetectionBox}`)
+        this.$yoo.camera.setFaceDetectionBox(this.showFaceDetectionBox)
       }
     }
   }

@@ -51,7 +51,7 @@ export declare class Camera extends ContentView {
     on(event: faceImage, callback: (args: FaceImageCreated) => void, thisArg?: any);
     on(event: faceDetected, callback: (args: FaceDetectedEventData) => void, thisArg?: any);
     on(event: endCapture, callback: () => void, thisArg?: any);
-    on(event: barcodeScanned, callback: (args: BarCodeScannedEventData) => void, thisArg?: any);
+    on(event: qrCodeContent, callback: (args: BarCodeScannedEventData) => void, thisArg?: any);
     on(event: status, callback: (args: MessageEventData) => void, thisArg?: any);
     on(event: error, callback: (args: ErrorEventData) => void, thisArg?: any);
     on(event: permissionDenied, callback: () => void, thisArg?: any);
