@@ -162,7 +162,7 @@ class CameraEventListener extends java.lang.Object implements ai.cyberlabs.yooni
 
         if (owner) {
             owner.notify({
-                eventName: 'barcodeScanned',
+                eventName: 'qrCodeContent',
                 object: owner,
                 content
             } as BarcodeScannedEventData);

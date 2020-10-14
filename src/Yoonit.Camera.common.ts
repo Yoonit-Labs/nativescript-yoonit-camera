@@ -59,7 +59,7 @@ export interface CameraBase {
   on(event: "faceImage", callback: (args: FaceImageCreatedEventData) => void, thisArg?: any);
   on(event: "faceDetected", callback: (args: FaceDetectedEventData) => void, thisArg?: any);
   on(event: "endCapture", callback: () => void, thisArg?: any);
-  on(event: "barcodeScanned", callback: (args: BarcodeScannedEventData) => void, thisArg?: any);
+  on(event: "qrCodeContent", callback: (args: BarcodeScannedEventData) => void, thisArg?: any);
   on(event: "status", callback: (args: StatusEventData) => void, thisArg?: any);
   on(event: "permissionDenied", callback: () => void, thisArg?: any);
 }

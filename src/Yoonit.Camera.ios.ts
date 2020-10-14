@@ -239,7 +239,7 @@ class CameraEventListener extends NSObject implements CameraEventListenerDelegat
 
         if (owner) {
             owner.notify({
-                eventName: 'barcodeScanned',
+                eventName: 'qrCodeContent',
                 object: owner,
                 content
             } as BarcodeScannedEventData);
