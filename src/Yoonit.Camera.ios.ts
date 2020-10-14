@@ -9,8 +9,7 @@
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 import {
-    MessageEventData,
-    ErrorEventData,
+    StatusEventData,
     FaceImageCreatedEventData,
     FaceDetectedEventData,
     BarcodeScannedEventData
@@ -205,7 +204,7 @@ class CameraEventListener extends NSObject implements CameraEventListenerDelegat
                   type: 'error',
                   status: error
                 }
-            } as ErrorEventData);
+            } as StatusEventData);
         }
     }
 
@@ -220,7 +219,7 @@ class CameraEventListener extends NSObject implements CameraEventListenerDelegat
                   type: 'message',
                   status: message
                 }
-            } as MessageEventData);
+            } as StatusEventData);
         }
     }
 

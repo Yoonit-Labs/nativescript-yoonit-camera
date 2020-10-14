@@ -60,6 +60,16 @@
               horizontalAlignment="left"
               @tap="doStartCapture('barcode')" />
           </StackLayout>
+          <FlexboxLayout>
+            <Label
+              v-if="captureType === 'face'"
+              text="Quantidade de captura de faces: "
+            />
+            <Label
+              v-if="captureType === 'face'"
+              :text="faceImagesCreated"
+            />
+          </FlexboxLayout>
         </StackLayout>
       </GridLayout>
     </GridLayout>
@@ -71,9 +81,10 @@
     data: () => ({
       $yoo: null,
       faceImagePath: null,
+      faceImagesCreated: "",
+      showFaceDetectionBox: true,
       captureType: "none",
       cameraLens: "back cam",
-      showFaceDetectionBox: true,
       qrCodeContent: "",
     }),
 
@@ -94,7 +105,7 @@
 
       doFaceDetected({ faceDetected }) {
         if (!faceDetected) {
-          this.faceImagePath = null;
+          this.faceImagePath = null
         }
       },
 
@@ -106,10 +117,12 @@
           source
         }
       }) {
-        if (total !== 0) {
-          console.log(`doFaceImage: [${count}] of [${total}] - ${path}`)
-        } else {
+        if (total === 0) {
           console.log(`doFaceImage: [${count}] ${path}`)
+          this.faceImagesCreated = `${count}`
+        } else {
+          console.log(`doFaceImage: [${count}] of [${total}] - ${path}`)
+          this.faceImagesCreated = `${count} de ${total}`
         }
 
         this.faceImagePath = source
@@ -159,6 +172,10 @@
   ActionBar {
     background-color: #000000;
     color: #ffffff;
+  }
+
+  Label {
+    margin-left: 12;
   }
 
   Button {
