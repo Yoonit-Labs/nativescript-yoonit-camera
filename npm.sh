@@ -31,8 +31,10 @@ rm -rf src/node_modules
 rm -rf npm
 mkdir npm
 cp -fR src/* npm
+cp src/.npmignore npm/.npmignore
 cp README.md npm/README.md
 cd npm
+rm -rf scripts
 git init
 git remote add origin $GITURL
 git add .
@@ -42,5 +44,6 @@ npm publish --access public
 PACKAGE_VERSION=$(sed -n '/\"version\"/s/[^0-9.]//gp' package.json | tr -d '\n')
 git tag v$PACKAGE_VERSION
 git push --tags
+cd ..
 rm -rf npm
 pause

@@ -24,7 +24,7 @@
 		"demo:android": "cd ../demo-vue && tns debug android --debug-brk",
 		"demo:reset": "cd ../demo-vue && npx rimraf -- hooks node_modules platforms",
 		"plugin:prepare": "npm run build && cd ../demo-vue && tns plugin add ../src && tns plugin remove nativescript-yoonit-camera && npm i && tns plugin add ../src",
-		"clean": "npm run demo.reset && npm run demo-vue.reset && npm run demo-angular.reset && npx rimraf -- node_modules && npm i"
+		"clean": "npm run demo:reset && npx rimraf -- node_modules && npm i"
 	},
 	"keywords": [
 		"NativeScript",
