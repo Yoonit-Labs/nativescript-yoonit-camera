@@ -1,5 +1,3 @@
-.vscode
-.idea
 .DS_Store
 *.esm.json
 *.js
@@ -7,17 +5,10 @@
 *.js.map
 *.log
 src/*.d.ts
-!src/index.d.ts
-!src/references.d.ts
-!src/scripts/*.js
-!seed-tests/*.js
-seed-tests/seed-copy
-seed-tests/seed-copy-new-git-repo/**/*.*
 node_modules
-publish/src
-publish/package
-!demo-vue/babel.config.js
-!demo-vue/webpack.config.js
-!demo-vue/app/*.js
-package
 *.aar
+npm
+
+# Editor directories and files
+.idea
+.vscode
