@@ -1,6 +1,6 @@
 <img src="https://raw.githubusercontent.com/Yoonit-Labs/nativescript-yoonit-camera/development/logo_cyberlabs.png" width="300">
 
-# Nativescript Yoonit Camera
+# NativeScript Yoonit Camera
 
 ![Generic badge](https://img.shields.io/badge/version-v1.0.0-<COLOR>.svg) ![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)
 
@@ -15,6 +15,7 @@ A NativeScript plugin to provide:
 - Frame capture (Soon)
 - Face ROI (Soon)
 - QR Code scanning
+- Better props to setup the initialization your component
 
 ## Installation
 
@@ -31,7 +32,7 @@ All the functionalities that the `@yoonit/nativescript-camera` provides is acces
 `main.js`
 ```javascript
 import Vue from 'nativescript-vue'
-import YoonitCamera from '@yoonit/nativescript-camera/plugin'
+import YoonitCamera from '@yoonit/nativescript-camera/vue'
 
 Vue.use(YoonitCamera)
 ```
