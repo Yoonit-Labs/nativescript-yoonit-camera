@@ -1,7 +1,8 @@
 {
   "android": {
     "v8Flags": "--expose_gc",
-    "markingMode": "none"
+    "markingMode": "none",
+    "maxLogcatObjectSize": 102400
   },
   "main": "main",
   "name": "Yoonit Camera",
