@@ -26,13 +26,25 @@ npm i -s @yoonit/nativescript-camera
 
 All the functionalities that the `@yoonit/nativescript-camera` provides is accessed through the `YoonitCamera` component, that includes the camera preview. Below we have the basic usage code, for more details, your can see the [**Methods**](#methods), [**Events**](#events) or the [**Demo Vue**](https://github.com/Yoonit-Labs/nativescript-yoonit-camera/tree/development/demo-vue).
 
+
+#### VueJS Plugin
+`main.js`
+```javascript
+import Vue from 'nativescript-vue'
+import YoonitCamera from '@yoonit/nativescript-camera/plugin'
+
+Vue.use(YoonitCamera)
+```
+
+After that, you can access the camera object in your entire project using `this.$yoo.camera`
+
 #### Vue Component
 `App.vue`
 ```vue
 <template>
   <Page @loaded="onLoaded">
     <YoonitCamera
-      id="yooCamera"
+      ref="yooCamera"
       @faceDetected="doFaceDetected"
       @faceImage="doFaceImage"
       @endCapture="doEndCapture"
@@ -45,24 +57,17 @@ All the functionalities that the `@yoonit/nativescript-camera` provides is acces
 
 <script>
   export default {
-    data: () => ({
-      $yoo: null
-    }),
+    data: () => ({}),
 
     methods: {
       async onLoaded(args) {
-        this.$yoo = {
-          camera: null
-        }
-
         console.log('[YooCamera] Getting Camera view')
-        this.$yoo.camera = args.object.getViewById('yooCamera')
+        this.$yoo.camera.registerElement(this.$refs.yooCamera)
 
         console.log('[YooCamera] Getting permission')
-        const permissionGranted = await this.$yoo.camera.requestPermission()
-
-        if (permissionGranted) {
+        if (await this.$yoo.camera.requestPermission()) {
           console.log('[YooCamera] Permission granted, start preview')
+
           this.$yoo.camera.preview()
         }
       },
@@ -133,6 +138,7 @@ All the functionalities that the `@yoonit/nativescript-camera` provides is acces
 #### Methods  
 | Function | Parameters | Return Type | Valid values | Description |
 |-|-|-|-|-|  
+| **`requestPermission`** | - | promise | - | Ask to user to give the permission to access camera.
 | **`hasPermission`** | - | boolean | - | Return if application has camera permission.
 | **`preview`** | - | void | - | Start camera preview if has permission.
 | **`startCapture`** | `captureType: string` | void | `none` default capture type. `face` for face recognition. `barcode` to read barcode content. | Set capture type none, face or barcode.
