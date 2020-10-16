@@ -1,10 +1,10 @@
 .DS_Store
 *.esm.json
-*.js
+*.*.js
 !extractTGZ.js
 *.js.map
 *.log
-src/*.d.ts
+*.*.d.ts
 node_modules
 *.aar
 npm

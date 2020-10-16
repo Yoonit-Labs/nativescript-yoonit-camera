@@ -1,14 +1,11 @@
 import Vue from 'nativescript-vue'
 import App from './components/App'
+import YoonitCamera from '@yoonit/nativescript-camera/plugin'
 
 // Prints Vue logs when --env.production is *NOT* set while building
 Vue.config.silent = (TNS_ENV === 'production')
 
-Vue.registerElement(
-  'YoonitCamera',
-  () => require('@yoonit/nativescript-camera')
-    .YoonitCamera
-)
+Vue.use(YoonitCamera)
 
 new Vue({
   render: h =>

@@ -10,12 +10,13 @@
         width="100%"
       >
         <YoonitCamera
-          id="yooCamera"
+          ref="yooCamera"
           @faceDetected="doFaceDetected"
           @faceImage="doFaceImage"
           @endCapture="doEndCapture"
           @qrCodeContent="doQRCodeContent"
           @status="doStatus"
+          @permissionDenied="doPermissionDenied"
         />
       </GridLayout>
       <GridLayout
@@ -79,7 +80,6 @@
 <script>
   export default {
     data: () => ({
-      $yoo: null,
       faceImagePath: null,
       faceImagesCreated: "",
       showFaceDetectionBox: true,
@@ -90,15 +90,12 @@
 
     methods: {
       async onLoaded(args) {
-        this.$yoo = {
-          camera: null
-        }
+        console.log('[YooCamera] Getting Camera view')
+        this.$yoo.camera.registerElement(this.$refs.yooCamera)
 
-        this.$yoo.camera = args.object.getViewById('yooCamera')
-
-        const permissionGranted = await this.$yoo.camera.requestPermission()
-
-        if (permissionGranted) {
+        console.log('[YooCamera] Getting permission')
+        if (await this.$yoo.camera.requestPermission()) {
+          console.log('[YooCamera] Permission granted, start preview')
           this.$yoo.camera.preview()
         }
       },
@@ -118,10 +115,10 @@
         }
       }) {
         if (total === 0) {
-          console.log(`doFaceImage: [${count}] ${path}`)
+          console.log('[YooCamera] doFaceImage', `[${count}] of [${total}] - ${path}`)
           this.faceImagesCreated = `${count}`
         } else {
-          console.log(`doFaceImage: [${count}] of [${total}] - ${path}`)
+          console.log('[YooCamera] doFaceImage', `[${count}] ${path}`)
           this.faceImagesCreated = `${count} de ${total}`
         }
 
@@ -129,17 +126,17 @@
       },
 
       doEndCapture() {
-        console.log(`doEndCapture`)
+        console.log('[YooCamera] doEndCapture')
       },
 
       doQRCodeContent({ content }) {
-        console.log(`doQRCodeContent: ${content}`)
+        console.log('[YooCamera] doQRCodeContent', content)
 
         this.qrCodeContent = content
       },
 
       doStatus({ status }) {
-        console.log(`Status: ${JSON.parse(status)}`)
+        console.log('[YooCamera] doStatus', JSON.parse(status))
       },
 
       doToggleLens() {
@@ -149,20 +146,28 @@
 
         const currentCameraLens = this.$yoo.camera.getLens()
 
-        console.log(`doToggleLens: ${currentCameraLens} change to ${this.cameraLens}`)
+        console.log('[YooCamera] doToggleLens', currentCameraLens)
 
         this.$yoo.camera.toggleLens()
       },
 
       doStartCapture(captureType) {
+        console.log('[YooCamera] doStartCapture', captureType)
+
         this.captureType = captureType
         this.$yoo.camera.startCapture(captureType)
       },
 
       doFaceDetectionBox() {
         this.showFaceDetectionBox = !this.showFaceDetectionBox
-        console.log(`doFaceDetectionBox: ${this.showFaceDetectionBox}`)
+
+        console.log('[YooCamera] doFaceDetectionBox', status)
+
         this.$yoo.camera.setFaceDetectionBox(this.showFaceDetectionBox)
+      },
+
+      doPermissionDenied() {
+        console.log('[YooCamera] doPermissionDenied')
       }
     }
   }
