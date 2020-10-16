@@ -1,6 +1,6 @@
 {
 	"name": "@yoonit/nativescript-camera",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"description": "Yoonit Camera have a custom view that shows a preview layer of the front/back camera and detects human faces in it and read qr code.",
 	"main": "Yoonit.Camera",
 	"typings": "index.d.ts",
