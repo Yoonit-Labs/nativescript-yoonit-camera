@@ -2,7 +2,7 @@
 
 # NativeScript Yoonit Camera
 
-![Generic badge](https://img.shields.io/badge/version-v1.0.0-<COLOR>.svg) ![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)
+![Generic badge](https://img.shields.io/badge/version-v1.1.2-<COLOR>.svg) ![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)
 
 A NativeScript plugin to provide:
 - Modern Android Camera API (Camera X)
@@ -137,31 +137,33 @@ After that, you can access the camera object in your entire project using `this.
 ## API
 
 #### Methods  
-| Function | Parameters | Return Type | Valid values | Description |
-|-|-|-|-|-|  
-| **`requestPermission`** | - | promise | - | Ask to user to give the permission to access camera.
-| **`hasPermission`** | - | boolean | - | Return if application has camera permission.
-| **`preview`** | - | void | - | Start camera preview if has permission.
-| **`startCapture`** | `captureType: string` | void | `none` default capture type. `face` for face recognition. `barcode` to read barcode content. | Set capture type none, face or barcode.
-| **`stopCapture`** | - | void | - | Stop any type of capture.
-| **`toggleLens`** | - | void | - | Set camera lens facing front or back.
-| **`getLens`** | - | number | - | Return `number` that represents lens face state: 0 for front 1 for back camera.  
-| **`setFaceNumberOfImages`** | `faceNumberOfImages: number` | void | Any positive `number` value | Default value is 0. For value 0 is saved infinity images. When saved images reached the "face number os images", the `onEndCapture` is triggered.
-| **`setFaceDetectionBox`** |`faceDetectionBox: boolean` | void | `true` or `false` | Set to show face detection box when face detected.   
-| **`setFaceTimeBetweenImages`** | `faceTimeBetweenImages: number` | void | Any positive `number` that represent time in milli seconds | Set saving face images time interval in milli seconds.  
-| **`setFacePaddingPercent`** | `facePaddingPercent: number` | void | Any positive `number` value | Set face image and bounding box padding in percent.  
-| **`setFaceImageSize`** | `faceImageSize: number` | void | Any positive `number` value | Set face image size to be saved.    
+
+| Function                       | Parameters                      | Valid values                                                    | Return Type | Description
+|-                               | -                               | -                                                               | -           | -
+| **`requestPermission`**        | -                               | -                                                               | promise     | Ask to user to give the permission to access camera.
+| **`hasPermission`**            | -                               | -                                                               | boolean     | Return if application has camera permission.
+| **`preview`**                  | -                               | -                                                               | void        | Start camera preview if has permission.
+| **`startCapture`**             | `captureType: string`           | <ul><li>`"none"`</li><li>`"face"`</li><li>`"barcode"`</li></ul> | void        | Set capture type none, face or barcode.
+| **`stopCapture`**              | -                               | -                                                               | void        | Stop any type of capture.
+| **`toggleLens`**               | -                               | -                                                               | void        | Set camera lens facing front or back.
+| **`getLens`**                  | -                               | -                                                               | number      | Return `number` that represents lens face state: 0 for front 1 for back camera.  
+| **`setFaceNumberOfImages`**    | `faceNumberOfImages: number`    | Any positive `number` value                                     | void        | Default value is 0. For value 0 is saved infinity images. When saved images reached the "face number os images", the `onEndCapture` is triggered.
+| **`setFaceDetectionBox`**      |`faceDetectionBox: boolean`      | `true` or `false`                                               | void        | Set to show face detection box when face detected.   
+| **`setFaceTimeBetweenImages`** | `faceTimeBetweenImages: number` | Any positive `number` that represent time in milli seconds      | void        | Set saving face images time interval in milli seconds.  
+| **`setFacePaddingPercent`**    | `facePaddingPercent: number`    | Any positive `number` value                                     | void        | Set face image and bounding box padding in percent.  
+| **`setFaceImageSize`**         | `faceImageSize: number`         | Any positive `number` value                                     | void        | Set face image size to be saved.    
 
 
 #### Events  
-| Event | Parameters | Description |
-|-|-|-|
-| faceImage | `{ count: number, total: number, image: object = { path: string, source: blob } }` | Must have started capture type of face (see `startCapture`). Emitted when the face image file is created: <ul><li>count: current index</li><li>total: total to create</li><li>image.path: the face image path</li><li>image.source: the blob file</li><ul>
-| faceDetected | `{ faceDetected: boolean }` | Emitted `true` while the camera detects a face. Emitted `false` once when a face is no more detected    
-| endCapture | - | Emitted when the number of face image files created is equal of the number of images set (see the method `setFaceNumberOfImages`).   
-| qrCodeContent | `{ content: string }` | Must have started capture type of barcode (see `startCapture`). Emitted when the camera scan a QR Code.   
-| status |`{ type: 'error'/'message', status: string }` | Emitted message error from native. Used more often for debug purpose.   
-| permissionDenied | - | Emitted when try to `preview` but there is not camera permission.
+
+| Event            | Parameters                                                                         | Description 
+| -                | -                                                                                  | -
+| faceImage        | `{ count: number, total: number, image: object = { path: string, source: blob } }` | Must have started capture type of face. Emitted when the face image file is created: <ul><li>count: current index</li><li>total: total to create</li><li>image.path: the face image path</li><li>image.source: the blob file</li><ul>
+| faceDetected     | `{ x: number, y: number, width: number, height: number }`                          | Must have started capture type of face. Emit the detected face bounding box. Emit all parameters null if no more face detecting.    
+| endCapture       | -                                                                                  | Must have started capture type of face. Emitted when the number of face image files created is equal of the number of images set (see the method `setFaceNumberOfImages`).   
+| qrCodeContent    | `{ content: string }`                                                              | Must have started capture type of barcode (see `startCapture`). Emitted when the camera scan a QR Code.   
+| status           | `{ type: 'error'/'message', status: string }`                                      | Emit message error from native. Used more often for debug purpose.   
+| permissionDenied | -                                                                                  | Emit when try to `preview` but there is not camera permission.
 
 
 ## To contribute and make it better
