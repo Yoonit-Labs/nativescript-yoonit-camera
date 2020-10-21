@@ -134,15 +134,33 @@ class CameraEventListener extends java.lang.Object implements ai.cyberlabs.yooni
         }
     }
 
-    public onFaceDetected(faceDetected: boolean): void {
+    public onFaceDetected(x: number, y: number, width: number, height: number): void {
         const owner = this.owner.get();
 
         if (owner) {
             owner.notify({
                 eventName: 'faceDetected',
                 object: owner,
-                faceDetected
+                x,
+                y,
+                width,
+                height
             } as FaceDetectedEventData);
+        }
+    }
+
+    public onFaceUndetected(): void {
+        const owner = this.owner.get();
+
+        if (owner) {
+            owner.notify({
+                eventName: 'faceDetected',
+                object: owner,
+                x: null,
+                y: null,
+                width: null,
+                height: null
+            } as EventData);
         }
     }
 

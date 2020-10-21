@@ -17,7 +17,10 @@ export interface FaceImageCreatedEventData extends EventData {
 }
 
 export interface FaceDetectedEventData extends EventData {
-    faceDetected: boolean;
+    x: number;
+    y: number;
+    width: number;
+    height: number;
 }
 
 export interface BarcodeScannedEventData extends EventData {

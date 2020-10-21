@@ -170,15 +170,33 @@ class CameraEventListener extends NSObject implements CameraEventListenerDelegat
         }
     }
 
-    public onFaceDetectedWithFaceDetected(faceDetected: boolean): void {
+    public onFaceDetectedWithXYWidthHeight(x: number, y: number, width: number, height: number): void {
         const owner = this.owner.get();
 
         if (owner) {
             owner.notify({
                 eventName: 'faceDetected',
                 object: owner,
-                faceDetected
+                x,
+                y,
+                width,
+                height
             } as FaceDetectedEventData);
+        }
+    }
+
+    public onFaceUndetected(): void {
+        const owner = this.owner.get();
+
+        if (owner) {
+            owner.notify({
+                eventName: 'faceDetected',
+                object: owner,
+                x: null,
+                y: null,
+                width: null,
+                height: null
+            } as EventData);
         }
     }
 

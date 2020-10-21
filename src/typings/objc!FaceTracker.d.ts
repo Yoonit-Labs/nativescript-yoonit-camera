@@ -7,7 +7,9 @@ interface CameraEventListenerDelegate {
 
     onFaceImageCreatedWithCountTotalImagePath(count: number, total: number, imagePath: string): void;
 
-    onFaceDetectedWithFaceDetected(faceDetected: boolean): void;
+    onFaceDetectedWithXYWidthHeight(x: number, y: number, width: number, height: number): void;
+
+    onFaceUndetected(): void;
 
     onEndCapture(): void;
 
