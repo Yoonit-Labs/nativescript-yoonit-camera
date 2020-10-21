@@ -51,7 +51,7 @@ declare class CameraView extends UIView {
 
     setFaceDetectionBoxWithFaceDetectionBox(faceDetectionBox: boolean): void;
 
-    setFaceImageSizeWithFaceImageSize(faceImageSize: number): void;
+    setFaceImageSizeWithWidthHeight(width: number, height: number): void;
 
     setFaceNumberOfImagesWithFaceNumberOfImages(faceNumberOfImages: number): void;
 

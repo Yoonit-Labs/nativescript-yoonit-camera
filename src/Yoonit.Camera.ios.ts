@@ -84,8 +84,8 @@ export class YoonitCamera extends CameraBase {
         this.nativeView.setFacePaddingPercentWithFacePaddingPercent(facePaddingPercent);
     }
 
-    public setFaceImageSize(faceImageSize: number) {
-        this.nativeView.setFaceImageSizeWithFaceImageSize(faceImageSize);
+    public setFaceImageSize(width: number, height: number) {
+        this.nativeView.setFaceImageSizeWithWidthHeight(width, height);
     }
 
     public requestPermission(explanation: string = ''): Promise<boolean> {

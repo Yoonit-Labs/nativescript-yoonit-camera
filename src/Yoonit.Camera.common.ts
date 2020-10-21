@@ -45,7 +45,7 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
 
   public setFacePaddingPercent(facePaddingPercent: number): void {}
 
-  public setFaceImageSize(faceImageSize: number): void {}
+  public setFaceImageSize(width: number, height: number): void {}
 
   public requestPermission(explanationText?: string): Promise<boolean> {
     return new Promise((resolve, reject) => resolve());

@@ -38,7 +38,7 @@ declare module ai {
 					public setFaceDetectionBox(param0: Boolean): void;
 					public setFaceTimeBetweenImages(param0: number): void;
 					public setFacePaddingPercent(param0: number): void;
-					public setFaceImageSize(param0: number): void;
+					public setFaceImageSize(param0: number, param1: number): void;
 					public constructor(param0: globalAndroid.content.Context);
 				}
 				export module CameraView {
