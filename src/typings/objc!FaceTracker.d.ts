@@ -7,7 +7,9 @@ interface CameraEventListenerDelegate {
 
     onFaceImageCreatedWithCountTotalImagePath(count: number, total: number, imagePath: string): void;
 
-    onFaceDetectedWithFaceDetected(faceDetected: boolean): void;
+    onFaceDetectedWithXYWidthHeight(x: number, y: number, width: number, height: number): void;
+
+    onFaceUndetected(): void;
 
     onEndCapture(): void;
 
@@ -49,7 +51,7 @@ declare class CameraView extends UIView {
 
     setFaceDetectionBoxWithFaceDetectionBox(faceDetectionBox: boolean): void;
 
-    setFaceImageSizeWithFaceImageSize(faceImageSize: number): void;
+    setFaceImageSizeWithWidthHeight(width: number, height: number): void;
 
     setFaceNumberOfImagesWithFaceNumberOfImages(faceNumberOfImages: number): void;
 

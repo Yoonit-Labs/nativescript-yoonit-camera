@@ -17,7 +17,10 @@ export interface FaceImageCreatedEventData extends EventData {
 }
 
 export interface FaceDetectedEventData extends EventData {
-    faceDetected: boolean;
+    x: number;
+    y: number;
+    width: number;
+    height: number;
 }
 
 export interface BarcodeScannedEventData extends EventData {
@@ -40,7 +43,7 @@ export declare class Camera extends ContentView {
     setFaceDetectionBox(faceDetectionBox: boolean): void;
     setFaceTimeBetweenImages(faceTimeBetweenImages: number): void;
     setFacePaddingPercent(facePaddingPercent: number): void;
-    setFaceImageSize(faceImageSize: number): void;
+    setFaceImageSize(width: number, height: number): void;
 
     on(eventNames: string, callback: (data: EventData) => void, thisArg?: any);
     on(event: faceImage, callback: (args: FaceImageCreated) => void, thisArg?: any);

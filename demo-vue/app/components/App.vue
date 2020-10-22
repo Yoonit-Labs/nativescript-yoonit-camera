@@ -100,8 +100,9 @@
         }
       },
 
-      doFaceDetected({ faceDetected }) {
-        if (!faceDetected) {
+      doFaceDetected({ x, y, width, height }) {
+        console.log('[YooCamera] doFaceDetected', `(${x}, ${y}, ${width}, ${height})`)
+        if (!x || !y || !width || !height) {
           this.faceImagePath = null
         }
       },
