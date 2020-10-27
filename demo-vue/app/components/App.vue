@@ -162,7 +162,7 @@
       doFaceDetectionBox() {
         this.showFaceDetectionBox = !this.showFaceDetectionBox
 
-        console.log('[YooCamera] doFaceDetectionBox', status)
+        console.log('[YooCamera] doFaceDetectionBox')
 
         this.$yoo.camera.setFaceDetectionBox(this.showFaceDetectionBox)
       },
