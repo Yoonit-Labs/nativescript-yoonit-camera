@@ -16,6 +16,12 @@ export interface FaceImageCreatedEventData extends EventData {
     image: any;
 }
 
+export interface FrameImageCreatedEventData extends EventData {
+    count: number;
+    total: number;
+    image: any;
+}
+
 export interface FaceDetectedEventData extends EventData {
     x: number;
     y: number;
@@ -46,7 +52,8 @@ export declare class Camera extends ContentView {
     setFaceImageSize(width: number, height: number): void;
 
     on(eventNames: string, callback: (data: EventData) => void, thisArg?: any);
-    on(event: faceImage, callback: (args: FaceImageCreated) => void, thisArg?: any);
+    on(event: faceImage, callback: (args: FaceImageCreatedEventData) => void, thisArg?: any);
+    on(event: frameImage, callback: (args: FrameImageCreatedEventData) => void, thisArg?: any);
     on(event: faceDetected, callback: (args: FaceDetectedEventData) => void, thisArg?: any);
     on(event: endCapture, callback: () => void, thisArg?: any);
     on(event: qrCodeContent, callback: (args: BarCodeScannedEventData) => void, thisArg?: any);
