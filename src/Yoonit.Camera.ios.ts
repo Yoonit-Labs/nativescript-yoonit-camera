@@ -12,7 +12,8 @@ import {
     StatusEventData,
     FaceImageCreatedEventData,
     FaceDetectedEventData,
-    BarcodeScannedEventData
+    BarcodeScannedEventData,
+    FrameImageCreatedEventData
 } from '.';
 import { CameraBase } from './Yoonit.Camera.common';
 import { EventData } from 'tns-core-modules/ui/content-view';
@@ -88,6 +89,14 @@ export class YoonitCamera extends CameraBase {
         this.nativeView.setFaceImageSizeWithWidthHeight(width, height);
     }
 
+    public setFrameNumberOfImages(frameNumberOfImages: number) {
+        this.nativeView.setFrameNumberOfImagesWithFrameNumberOfImages(frameNumberOfImages);
+    }
+
+    public setFrameTimeBetweenImages(frameTimeBetweenImages: number) {
+        this.nativeView.setFrameTimeBetweenImagesWithFrameTimeBetweenImages(frameTimeBetweenImages);
+    }
+
     public requestPermission(explanation: string = ''): Promise<boolean> {
         return new Promise((resolve, reject) => {
             const cameraStatus = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo);
@@ -132,7 +141,6 @@ export class YoonitCamera extends CameraBase {
     public hasPermission(): boolean {
         return this.permission;
     }
-
 }
 
 @ObjCClass(CameraEventListenerDelegate)
@@ -167,6 +175,30 @@ class CameraEventListener extends NSObject implements CameraEventListenerDelegat
                   source: imageSource
                 }
             } as FaceImageCreatedEventData);
+        }
+    }
+
+    public onFrameImageCreatedWithCountTotalImagePath(count: number, total: number, imagePath: string): void {
+        const owner = this.owner.get();
+        let imageName: any = imagePath.split('/');
+
+        imageName = imageName[imageName.length - 1];
+
+        const finalPath: string  = path.join(knownFolders.documents().path, imageName);
+
+        const imageSource: ImageSource = ImageSource.fromFileSync(finalPath);
+
+        if (owner) {
+            owner.notify({
+                eventName: 'frameImage',
+                object: owner,
+                count,
+                total,
+                image: {
+                    path: finalPath,
+                    source: imageSource
+                }
+            } as FrameImageCreatedEventData);
         }
     }
 

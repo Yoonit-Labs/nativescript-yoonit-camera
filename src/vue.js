@@ -56,6 +56,8 @@ export default {
         setFaceTimeBetweenImages,
         setFacePaddingPercent,
         setFaceImageSize,
+        setFrameNumberOfImages,
+        setFrameTimeBetweenImages,
         requestPermission,
         hasPermission
       } = element.nativeView
@@ -75,7 +77,9 @@ export default {
         setFaceDetectionBox,
         setFaceTimeBetweenImages,
         setFacePaddingPercent,
-        setFaceImageSize
+        setFaceImageSize,
+        setFrameNumberOfImages,
+        setFrameTimeBetweenImages
       }
 
       return Vue.prototype.$yoo.camera

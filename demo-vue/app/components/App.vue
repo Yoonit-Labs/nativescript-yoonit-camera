@@ -12,7 +12,8 @@
         <YoonitCamera
           ref="yooCamera"
           @faceDetected="doFaceDetected"
-          @faceImage="doFaceImage"
+          @faceImage="doImageCreated"
+          @frameImage="doImageCreated"
           @endCapture="doEndCapture"
           @qrCodeContent="doQRCodeContent"
           @status="doStatus"
@@ -24,7 +25,7 @@
         width="100%"
       >
         <FlexboxLayout flexDirection="column" justifyContent="flex-end">
-          <Image :src="faceImagePath" width="200" height="200" v-if="captureType === 'face'" />
+          <Image :src="imagePath" width="200" height="200" v-if="captureType === 'face' || captureType === 'frame'" />
           <TextField class="message" :text="qrCodeContent" v-if="captureType === 'barcode'" />
         </FlexboxLayout>
       </GridLayout>
@@ -60,15 +61,20 @@
               text="QRCODE"
               horizontalAlignment="left"
               @tap="doStartCapture('barcode')" />
+            <Button
+                :class="captureType === 'frame' ? 'selected' : ''"
+                text="FRAME"
+                horizontalAlignment="left"
+                @tap="doStartCapture('frame')" />
           </StackLayout>
           <FlexboxLayout>
             <Label
-              v-if="captureType === 'face'"
-              text="Quantidade de captura de faces: "
+              v-if="captureType === 'face' || captureType === 'frame'"
+              text="Quantidade de captura de imagens: "
             />
             <Label
-              v-if="captureType === 'face'"
-              :text="faceImagesCreated"
+              v-if="captureType === 'face' || captureType === 'frame'"
+              :text="imageCreated"
             />
           </FlexboxLayout>
         </StackLayout>
@@ -80,8 +86,8 @@
 <script>
   export default {
     data: () => ({
-      faceImagePath: null,
-      faceImagesCreated: "",
+      imagePath: null,
+      imageCreated: "",
       showFaceDetectionBox: true,
       captureType: "none",
       cameraLens: "back cam",
@@ -103,11 +109,11 @@
       doFaceDetected({ x, y, width, height }) {
         console.log('[YooCamera] doFaceDetected', `(${x}, ${y}, ${width}, ${height})`)
         if (!x || !y || !width || !height) {
-          this.faceImagePath = null
+          this.imagePath = null
         }
       },
 
-      doFaceImage({
+      doImageCreated({
         count,
         total,
         image: {
@@ -116,14 +122,14 @@
         }
       }) {
         if (total === 0) {
-          console.log('[YooCamera] doFaceImage', `[${count}] of [${total}] - ${path}`)
-          this.faceImagesCreated = `${count}`
+          console.log('[YooCamera] doImageCreated', `[${count}] ${path}`)
+          this.imageCreated = `${count}`
         } else {
-          console.log('[YooCamera] doFaceImage', `[${count}] ${path}`)
-          this.faceImagesCreated = `${count} de ${total}`
+          console.log('[YooCamera] doImageCreated', `[${count}] of [${total}] - ${path}`)
+          this.imageCreated = `${count} de ${total}`
         }
 
-        this.faceImagePath = source
+        this.imagePath = source
       },
 
       doEndCapture() {

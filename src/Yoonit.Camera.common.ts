@@ -15,6 +15,7 @@ import {
   FaceImageCreatedEventData,
   FaceDetectedEventData,
   BarcodeScannedEventData,
+  FrameImageCreatedEventData,
 } from '.';
 
 export abstract class CameraBase extends ContentView implements CameraDefinition {
@@ -57,6 +58,7 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
 export interface CameraBase {
   on(eventNames: string, callback: (data: EventData) => void, thisArg?: any);
   on(event: "faceImage", callback: (args: FaceImageCreatedEventData) => void, thisArg?: any);
+  on(event: "frameImage", callback: (args: FrameImageCreatedEventData) => void, thisArg?: any);
   on(event: "faceDetected", callback: (args: FaceDetectedEventData) => void, thisArg?: any);
   on(event: "endCapture", callback: () => void, thisArg?: any);
   on(event: "qrCodeContent", callback: (args: BarcodeScannedEventData) => void, thisArg?: any);

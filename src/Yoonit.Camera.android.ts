@@ -12,7 +12,8 @@ import {
     StatusEventData,
     FaceImageCreatedEventData,
     FaceDetectedEventData,
-    BarcodeScannedEventData
+    BarcodeScannedEventData,
+    FrameImageCreatedEventData
 } from '.';
 import { CameraBase } from './Yoonit.Camera.common';
 import * as permissions from 'nativescript-permissions';
@@ -88,6 +89,14 @@ export class YoonitCamera extends CameraBase {
         this.nativeView.setFaceImageSize(width, height);
     }
 
+    public setFrameNumberOfImages(frameNumberOfImages: number): void {
+        this.nativeView.setFrameNumberOfImages(frameNumberOfImages);
+    }
+
+    public setFrameTimeBetweenImages(frameTimeBetweenImages: number): void {
+        this.nativeView.setFrameTimeBetweenImages(frameTimeBetweenImages);
+    }
+
     public requestPermission(explanation: string = ''): Promise<boolean> {
         return new Promise((resolve, reject) => permissions
             .requestPermission(CAMERA(), explanation)
@@ -131,6 +140,24 @@ class CameraEventListener extends java.lang.Object implements ai.cyberlabs.yooni
                   source: imageSource
                 }
             } as FaceImageCreatedEventData);
+        }
+    }
+
+    public onFrameImageCreated(count: number, total: number, imagePath: string): void {
+        const owner = this.owner.get();
+        const imageSource: ImageSource = ImageSource.fromFileSync(imagePath);
+
+        if (owner) {
+            owner.notify({
+                eventName: 'frameImage',
+                object: owner,
+                count,
+                total,
+                image: {
+                    path: imagePath,
+                    source: imageSource
+                }
+            } as FrameImageCreatedEventData);
         }
     }
 
