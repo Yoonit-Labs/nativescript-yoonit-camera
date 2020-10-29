@@ -20,6 +20,8 @@ interface CameraEventListenerDelegate {
     onPermissionDenied(): void;
 
     onBarcodeScannedWithContent(content: string): void;
+
+    onFrameImageCreatedWithCountTotalImagePath(count: number, total: number, imagePath: string): void;
 }
 
 declare var CameraEventListenerDelegate: {
@@ -58,6 +60,10 @@ declare class CameraView extends UIView {
     setFacePaddingPercentWithFacePaddingPercent(facePaddingPercent: number): void;
 
     setFaceTimeBetweenImagesWithFaceTimeBetweenImages(faceTimeBetweenImages: number): void;
+
+    setFrameNumberOfImagesWithFrameNumberOfImages(frameNumberOfImages: number): void;
+
+    setFrameTimeBetweenImagesWithFrameTimeBetweenImages(frameTimeBetweenImages: number): void;
 
     startCaptureTypeWithCaptureType(captureType: string): void;
 
