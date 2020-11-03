@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/Yoonit-Labs/nativescript-yoonit-camera/development/logo_cyberlabs.png" width="300">
+[<img src="https://raw.githubusercontent.com/Yoonit-Labs/nativescript-yoonit-camera/development/logo_cyberlabs.png" width="300">](https://cyberlabs.ai/)
 
 # NativeScript Yoonit Camera
 
@@ -17,7 +17,6 @@ A NativeScript plugin to provide:
 - Frame capture
 - Face ROI (Soon)
 - QR Code scanning
-- Better props to setup the initialization your component
 
 ## Installation
 
