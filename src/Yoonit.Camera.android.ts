@@ -114,6 +114,7 @@ export class YoonitCamera extends CameraBase {
 
 // Interfaces decorator with implemented interfaces on this class
 @Interfaces([ai.cyberlabs.yoonit.camera.interfaces.CameraEventListener])
+@NativeClass()
 class CameraEventListener extends java.lang.Object implements ai.cyberlabs.yoonit.camera.interfaces.CameraEventListener {
 
     constructor(private owner: WeakRef<YoonitCamera>) {
