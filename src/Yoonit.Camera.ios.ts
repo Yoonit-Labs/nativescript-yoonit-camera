@@ -147,6 +147,7 @@ export class YoonitCamera extends CameraBase {
 }
 
 @ObjCClass(CameraEventListenerDelegate)
+@NativeClass()
 class CameraEventListener extends NSObject implements CameraEventListenerDelegate {
 
     private owner: WeakRef<YoonitCamera>;
