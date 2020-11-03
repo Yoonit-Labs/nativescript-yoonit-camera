@@ -2,7 +2,9 @@
 
 # NativeScript Yoonit Camera
 
-![Generic badge](https://img.shields.io/badge/version-v1.2.0-<COLOR>.svg) ![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)
+![Version](https://img.shields.io/npm/v/@yoonit/nativescript-camera?color=lightgrey&style=for-the-badge&logo=npm) ![Downloads](https://img.shields.io/npm/dm/@yoonit/nativescript-camera?color=lightgrey&logo=npm&style=for-the-badge)
+
+![Android](https://img.shields.io/badge/Android-YES-lightgrey.svg?style=for-the-badge&logo=android) ![iOS](https://img.shields.io/badge/iOS-YES-lightgrey.svg?style=for-the-badge&logo=apple) ![MIT license](https://img.shields.io/npm/l/@yoonit/nativescript-camera?color=lightgrey&style=for-the-badge)
 
 A NativeScript plugin to provide:
 - Modern Android Camera API (Camera X)
@@ -159,7 +161,7 @@ After that, you can access the camera object in your entire project using `this.
 
 #### Events  
 
-| Event            | Parameters                                                                         | Description 
+| Event            | Parameters                                                                         | Description
 | -                | -                                                                                  | -
 | faceImage        | `{ count: number, total: number, image: object = { path: string, source: blob } }` | Must have started capture type of face. Emitted when the face image file is created: <ul><li>count: current index</li><li>total: total to create</li><li>image.path: the face image path</li><li>image.source: the blob file</li><ul>
 | frameImage       | `{ count: number, total: number, image: object = { path: string, source: blob } }` | Must have started capture type of frame. Emitted when the frame image file is created: <ul><li>count: current index</li><li>total: total to create</li><li>image.path: the frame image path</li><li>image.source: the blob file</li><ul>

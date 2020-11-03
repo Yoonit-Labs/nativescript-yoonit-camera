@@ -1,5 +1,5 @@
 {
-  "name": "@yoonit/nativescript-camera-demo",
+  "name": "@yoonit/nativescript-camera-demo-vue",
   "main": "app.js",
   "displayName": "Yoonit Camera",
   "version": "1.0.0",
