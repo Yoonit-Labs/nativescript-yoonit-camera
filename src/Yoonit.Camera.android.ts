@@ -9,16 +9,18 @@
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 import {
-    StatusEventData,
-    FaceImageCreatedEventData,
-    FaceDetectedEventData,
-    BarcodeScannedEventData,
-    FrameImageCreatedEventData
+  StatusEventData,
+  FaceImageCreatedEventData,
+  FaceDetectedEventData,
+  BarcodeScannedEventData,
+  FrameImageCreatedEventData
 } from '.';
 import { CameraBase } from './Yoonit.Camera.common';
 import * as permissions from 'nativescript-permissions';
-import { EventData } from 'tns-core-modules/ui/content-view';
-import { ImageSource } from 'tns-core-modules/image-source';
+import {
+  EventData,
+  ImageSource
+} from '@nativescript/core';
 
 const CAMERA = () => (android as any).Manifest.permission.CAMERA;
 
