@@ -28,9 +28,6 @@ export class YoonitCamera extends CameraBase {
 
     nativeView: ai.cyberlabs.yoonit.camera.CameraView;
 
-    /**
-     * Creates new native button.
-     */
     public createNativeView(): Object {
         this.nativeView = new ai.cyberlabs.yoonit.camera.CameraView(this._context);
         this.nativeView.setCameraEventListener(CameraEventListener.initWithOwner(new WeakRef(this)));
