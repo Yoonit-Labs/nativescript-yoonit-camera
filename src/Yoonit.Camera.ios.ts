@@ -92,6 +92,14 @@ export class YoonitCamera extends CameraBase {
         this.nativeView.setFaceImageSizeWithWidthHeight(width, height);
     }
 
+    public setFaceCaptureMinSize(faceCaptureMinSize: number): void {
+        this.nativeView.setFaceCaptureMinSizeWithFaceCaptureMinSize(faceCaptureMinSize);
+    }
+
+    public setFaceCaptureMaxSize(faceCaptureMaxSize: number): void {
+        this.nativeView.setFaceCaptureMaxSizeWithFaceCaptureMaxSize(faceCaptureMaxSize);
+    }
+
     public setFrameNumberOfImages(frameNumberOfImages: number) {
         this.nativeView.setFrameNumberOfImagesWithFrameNumberOfImages(frameNumberOfImages);
     }
