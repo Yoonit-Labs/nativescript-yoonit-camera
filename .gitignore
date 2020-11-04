@@ -1,6 +1,5 @@
 .DS_Store
 *.esm.json
-*.*.js
 !extractTGZ.js
 *.js.map
 *.log

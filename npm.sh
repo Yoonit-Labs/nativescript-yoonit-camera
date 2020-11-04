@@ -28,7 +28,10 @@ function pause(){
 GITURL=`git config remote.origin.url`
 git checkout development
 git pull
-rm -rf src/node_modules
+cd src
+npm run build
+rm -rf node_modules
+cd ..
 rm -rf npm
 mkdir npm
 cp -fR src/* npm

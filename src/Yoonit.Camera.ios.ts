@@ -9,16 +9,19 @@
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 import {
-    StatusEventData,
-    FaceImageCreatedEventData,
-    FaceDetectedEventData,
-    BarcodeScannedEventData,
-    FrameImageCreatedEventData
+  StatusEventData,
+  FaceImageCreatedEventData,
+  FaceDetectedEventData,
+  BarcodeScannedEventData,
+  FrameImageCreatedEventData
 } from '.';
 import { CameraBase } from './Yoonit.Camera.common';
-import { EventData } from 'tns-core-modules/ui/content-view';
-import { ImageSource } from 'tns-core-modules/image-source';
-import { knownFolders, path } from 'tns-core-modules/file-system';
+import {
+  EventData,
+  ImageSource,
+  knownFolders,
+  path
+} from '@nativescript/core';
 
 export class YoonitCamera extends CameraBase {
 
@@ -144,6 +147,7 @@ export class YoonitCamera extends CameraBase {
 }
 
 @ObjCClass(CameraEventListenerDelegate)
+@NativeClass()
 class CameraEventListener extends NSObject implements CameraEventListenerDelegate {
 
     private owner: WeakRef<YoonitCamera>;

@@ -8,7 +8,10 @@
 // | Victor Goulart & Márcio Bruffato @ Cyberlabs AI 2020            |
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
-import { ContentView, EventData } from 'tns-core-modules/ui/content-view';
+import {
+  ContentView,
+  EventData
+} from '@nativescript/core';
 
 export interface FaceImageCreatedEventData extends EventData {
     count: number;

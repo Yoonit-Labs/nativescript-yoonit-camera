@@ -9,16 +9,18 @@
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 import {
-    StatusEventData,
-    FaceImageCreatedEventData,
-    FaceDetectedEventData,
-    BarcodeScannedEventData,
-    FrameImageCreatedEventData
+  StatusEventData,
+  FaceImageCreatedEventData,
+  FaceDetectedEventData,
+  BarcodeScannedEventData,
+  FrameImageCreatedEventData
 } from '.';
 import { CameraBase } from './Yoonit.Camera.common';
 import * as permissions from 'nativescript-permissions';
-import { EventData } from 'tns-core-modules/ui/content-view';
-import { ImageSource } from 'tns-core-modules/image-source';
+import {
+  EventData,
+  ImageSource
+} from '@nativescript/core';
 
 const CAMERA = () => (android as any).Manifest.permission.CAMERA;
 
@@ -26,9 +28,6 @@ export class YoonitCamera extends CameraBase {
 
     nativeView: ai.cyberlabs.yoonit.camera.CameraView;
 
-    /**
-     * Creates new native button.
-     */
     public createNativeView(): Object {
         this.nativeView = new ai.cyberlabs.yoonit.camera.CameraView(this._context);
         this.nativeView.setCameraEventListener(CameraEventListener.initWithOwner(new WeakRef(this)));
@@ -112,6 +111,7 @@ export class YoonitCamera extends CameraBase {
 
 // Interfaces decorator with implemented interfaces on this class
 @Interfaces([ai.cyberlabs.yoonit.camera.interfaces.CameraEventListener])
+@NativeClass()
 class CameraEventListener extends java.lang.Object implements ai.cyberlabs.yoonit.camera.interfaces.CameraEventListener {
 
     constructor(private owner: WeakRef<YoonitCamera>) {

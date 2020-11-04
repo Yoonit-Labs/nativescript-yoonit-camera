@@ -89,8 +89,8 @@
       imagePath: null,
       imageCreated: "",
       showFaceDetectionBox: true,
-      captureType: "none",
-      cameraLens: "back cam",
+      captureType: "NONE",
+      cameraLens: "BACK CAM",
       qrCodeContent: "",
     }),
 
@@ -107,7 +107,7 @@
       },
 
       doFaceDetected({ x, y, width, height }) {
-        console.log('[YooCamera] doFaceDetected', `(${x}, ${y}, ${width}, ${height})`)
+        console.log('[YooCamera] doFaceDetected', `{x: ${x}, y: ${y}, width: ${width}, height: ${height}}`)
         if (!x || !y || !width || !height) {
           this.imagePath = null
         }
@@ -147,9 +147,9 @@
       },
 
       doToggleLens() {
-        this.cameraLens = this.cameraLens === 'front cam' ?
-          'back cam' :
-          'front cam'
+        this.cameraLens = this.cameraLens === 'FRONT CAM' ?
+          'BACK CAM' :
+          'FRONT CAM'
 
         const currentCameraLens = this.$yoo.camera.getLens()
 
