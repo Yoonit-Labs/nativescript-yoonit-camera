@@ -19,7 +19,8 @@ import { CameraBase } from './Yoonit.Camera.common';
 import * as permissions from 'nativescript-permissions';
 import {
   EventData,
-  ImageSource
+  ImageSource,
+  File
 } from '@nativescript/core';
 
 const CAMERA = () => (android as any).Manifest.permission.CAMERA;
@@ -53,7 +54,6 @@ export class YoonitCamera extends CameraBase {
      */
     disposeNativeView(): void {
         this.nativeView.stopCapture();
-        this.nativeView.setCameraEventListener(null);
 
         // Remove reference from native view to this instance.
         (<any>this.nativeView).owner = null;
@@ -125,9 +125,21 @@ class CameraEventListener extends java.lang.Object implements ai.cyberlabs.yooni
         return new CameraEventListener(owner);
     }
 
+    private imageProcessing(imagePath: string): object {
+      const source: ImageSource = ImageSource.fromFileSync(imagePath);
+      const imageFile = File.fromPath(imagePath);
+      const binary = imageFile.readSync();
+
+      return {
+        path: imagePath,
+        source,
+        binary
+      }
+    }
+
     public onFaceImageCreated(count: number, total: number, imagePath: string): void {
         const owner = this.owner.get();
-        const imageSource: ImageSource = ImageSource.fromFileSync(imagePath);
+        const image = this.imageProcessing(imagePath);
 
         if (owner) {
             owner.notify({
@@ -135,17 +147,14 @@ class CameraEventListener extends java.lang.Object implements ai.cyberlabs.yooni
                 object: owner,
                 count,
                 total,
-                image: {
-                  path: imagePath,
-                  source: imageSource
-                }
+                image
             } as FaceImageCreatedEventData);
         }
     }
 
     public onFrameImageCreated(count: number, total: number, imagePath: string): void {
         const owner = this.owner.get();
-        const imageSource: ImageSource = ImageSource.fromFileSync(imagePath);
+        const image = this.imageProcessing(imagePath);
 
         if (owner) {
             owner.notify({
@@ -153,10 +162,7 @@ class CameraEventListener extends java.lang.Object implements ai.cyberlabs.yooni
                 object: owner,
                 count,
                 total,
-                image: {
-                    path: imagePath,
-                    source: imageSource
-                }
+                image
             } as FrameImageCreatedEventData);
         }
     }
