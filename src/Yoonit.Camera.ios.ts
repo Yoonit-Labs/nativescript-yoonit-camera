@@ -20,7 +20,8 @@ import {
   EventData,
   ImageSource,
   knownFolders,
-  path
+  path,
+  File
 } from '@nativescript/core';
 
 export class YoonitCamera extends CameraBase {
@@ -120,14 +121,6 @@ export class YoonitCamera extends CameraBase {
                     break;
                 }
 
-                // Authorized: The user has explicitly granted permission for media capture,
-                // or explicit user permission is not necessary for the media type in question.
-                case 3: {
-                    this.permission = true;
-                    resolve(true);
-                    break;
-                }
-
                 // Restricted: the user is not allowed to access media capture devices.
                 case 1:
 
@@ -135,6 +128,14 @@ export class YoonitCamera extends CameraBase {
                 case 2: {
                     this.permission = false;
                     reject(false);
+                    break;
+                }
+
+                // Authorized: The user has explicitly granted permission for media capture,
+                // or explicit user permission is not necessary for the media type in question.
+                case 3: {
+                    this.permission = true;
+                    resolve(true);
                     break;
                 }
             }
@@ -158,15 +159,26 @@ class CameraEventListener extends NSObject implements CameraEventListenerDelegat
         return delegate;
     }
 
+    private imageProcessing(imagePath: string): object {
+      let imageName: any = imagePath.split('/');
+
+      imageName = imageName[imageName.length - 1];
+
+      const finalPath: string  = path.join(knownFolders.documents().path, imageName);
+      const source: ImageSource = ImageSource.fromFileSync(finalPath);
+      const imageFile = File.fromPath(imagePath);
+      const binary = imageFile.readSync();
+
+      return {
+        path: imagePath,
+        source,
+        binary
+      }
+    }
+
     public onFaceImageCreatedWithCountTotalImagePath(count: number, total: number, imagePath: string): void {
         const owner = this.owner.get();
-        let imageName: any = imagePath.split('/');
-
-        imageName = imageName[imageName.length - 1];
-
-        const finalPath: string  = path.join(knownFolders.documents().path, imageName);
-
-        const imageSource: ImageSource = ImageSource.fromFileSync(finalPath);
+        const image = this.imageProcessing(imagePath);
 
         if (owner) {
             owner.notify({
@@ -174,23 +186,14 @@ class CameraEventListener extends NSObject implements CameraEventListenerDelegat
                 object: owner,
                 count,
                 total,
-                image: {
-                  path: finalPath,
-                  source: imageSource
-                }
+                image
             } as FaceImageCreatedEventData);
         }
     }
 
     public onFrameImageCreatedWithCountTotalImagePath(count: number, total: number, imagePath: string): void {
         const owner = this.owner.get();
-        let imageName: any = imagePath.split('/');
-
-        imageName = imageName[imageName.length - 1];
-
-        const finalPath: string  = path.join(knownFolders.documents().path, imageName);
-
-        const imageSource: ImageSource = ImageSource.fromFileSync(finalPath);
+        const image = this.imageProcessing(imagePath);
 
         if (owner) {
             owner.notify({
@@ -198,10 +201,7 @@ class CameraEventListener extends NSObject implements CameraEventListenerDelegat
                 object: owner,
                 count,
                 total,
-                image: {
-                    path: finalPath,
-                    source: imageSource
-                }
+                image
             } as FrameImageCreatedEventData);
         }
     }
