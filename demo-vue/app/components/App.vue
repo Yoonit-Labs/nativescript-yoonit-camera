@@ -143,7 +143,7 @@
       },
 
       doStatus({ status }) {
-        console.log('[YooCamera] doStatus', JSON.parse(status))
+        console.log('[YooCamera] doStatus', status)
       },
 
       doToggleLens() {
