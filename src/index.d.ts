@@ -53,6 +53,10 @@ export declare class Camera extends ContentView {
     setFaceTimeBetweenImages(faceTimeBetweenImages: number): void;
     setFacePaddingPercent(facePaddingPercent: number): void;
     setFaceImageSize(width: number, height: number): void;
+    setFaceCaptureMinSize(faceCaptureMinSize: number): void;
+    setFaceCaptureMaxSize(faceCaptureMaxSize: number): void;
+    setFrameNumberOfImages(frameNumberOfImages: number): void;
+    setFrameTimeBetweenImages(frameTimeBetweenImages: number): void;
 
     on(eventNames: string, callback: (data: EventData) => void, thisArg?: any);
     on(event: faceImage, callback: (args: FaceImageCreatedEventData) => void, thisArg?: any);

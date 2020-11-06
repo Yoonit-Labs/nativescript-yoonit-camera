@@ -56,6 +56,8 @@ export default {
         setFaceTimeBetweenImages,
         setFacePaddingPercent,
         setFaceImageSize,
+        setFaceCaptureMinSize,
+        setFaceCaptureMaxSize,
         setFrameNumberOfImages,
         setFrameTimeBetweenImages,
         requestPermission,
@@ -78,6 +80,8 @@ export default {
         setFaceTimeBetweenImages,
         setFacePaddingPercent,
         setFaceImageSize,
+        setFaceCaptureMinSize,
+        setFaceCaptureMaxSize,
         setFrameNumberOfImages,
         setFrameTimeBetweenImages
       }

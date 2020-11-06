@@ -51,6 +51,14 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
 
   public setFaceImageSize(width: number, height: number): void {}
 
+  public setFaceCaptureMinSize(faceCaptureMinSize: number): void {}
+
+  public setFaceCaptureMaxSize(faceCaptureMaxSize: number): void {}
+
+  public setFrameNumberOfImages(frameNumberOfImages: number): void {}
+
+  public setFrameTimeBetweenImages(frameTimeBetweenImages: number): void {}
+
   public requestPermission(explanationText?: string): Promise<boolean> {
     return new Promise((resolve, reject) => resolve());
   }

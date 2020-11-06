@@ -65,6 +65,10 @@ declare class CameraView extends UIView {
 
     setFrameTimeBetweenImagesWithFrameTimeBetweenImages(frameTimeBetweenImages: number): void;
 
+    setFaceCaptureMinSizeWithFaceCaptureMinSize(faceCaptureMinSize: number): void;
+
+    setFaceCaptureMaxSizeWithFaceCaptureMaxSize(faceCaptureMaxSize: number): void;
+
     startCaptureTypeWithCaptureType(captureType: string): void;
 
     startPreview(): void;
