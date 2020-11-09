@@ -168,20 +168,24 @@ class CameraEventListener extends NSObject implements CameraEventListenerDelegat
     }
 
     private imageProcessing(imagePath: string): object {
-      let imageName: any = imagePath.split('/');
 
+      let imageName: any = imagePath.split('/');
       imageName = imageName[imageName.length - 1];
 
-      const finalPath: string  = path.join(knownFolders.documents().path, imageName);
+      const finalPath: string  = path
+          .join(knownFolders.documents().path, imageName)
+          .replace('file://', '');
+
       const source: ImageSource = ImageSource.fromFileSync(finalPath);
-      const imageFile = File.fromPath(imagePath);
+
+      const imageFile = File.fromPath(finalPath);
       const binary = imageFile.readSync();
 
       return {
-        path: imagePath,
+        path: finalPath,
         source,
         binary
-      }
+      };
     }
 
     public onFaceImageCreatedWithCountTotalImagePath(count: number, total: number, imagePath: string): void {
