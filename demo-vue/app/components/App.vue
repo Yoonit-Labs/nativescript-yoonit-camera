@@ -84,6 +84,8 @@
 </template>
 
 <script>
+  const application = require("tns-core-modules/application");
+
   export default {
     data: () => ({
       imagePath: null,
@@ -96,6 +98,14 @@
 
     methods: {
       async onLoaded(args) {
+
+        application.on(application.suspendEvent, () => {
+          console.log('[YooCamera] stopCapture')
+          this.$yoo.camera.stopCapture()
+        });
+
+        application.on(application.resumeEvent, () => this.doStartCapture('face'));
+
         console.log('[YooCamera] Getting Camera view')
         this.$yoo.camera.registerElement(this.$refs.yooCamera)
 
@@ -103,6 +113,9 @@
         if (await this.$yoo.camera.requestPermission()) {
           console.log('[YooCamera] Permission granted, start preview')
           this.$yoo.camera.preview()
+
+          // Workaround to start capture face on Android. Android need some time to start preview.
+          setTimeout(() => this.doStartCapture('face'), 500)
         }
       },
 
