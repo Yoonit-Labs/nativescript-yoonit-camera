@@ -93,18 +93,11 @@
       showFaceDetectionBox: true,
       captureType: "NONE",
       cameraLens: "BACK CAM",
-      qrCodeContent: "",
+      qrCodeContent: ""
     }),
 
     methods: {
       async onLoaded(args) {
-
-        application.on(application.suspendEvent, () => {
-          console.log('[YooCamera] stopCapture')
-          this.$yoo.camera.stopCapture()
-        });
-
-        application.on(application.resumeEvent, () => this.doStartCapture('face'));
 
         console.log('[YooCamera] Getting Camera view')
         this.$yoo.camera.registerElement(this.$refs.yooCamera)
@@ -112,10 +105,15 @@
         console.log('[YooCamera] Getting permission')
         if (await this.$yoo.camera.requestPermission()) {
           console.log('[YooCamera] Permission granted, start preview')
+          this.$yoo.camera.stopCapture()
+          console.log('[YooCamera] stopCapture')
           this.$yoo.camera.preview()
 
           // Workaround to start capture face on Android. Android need some time to start preview.
-          setTimeout(() => this.doStartCapture('face'), 500)
+          setTimeout(() => {
+            this.doStartCapture('face')
+            console.log('[YooCamera] startCapture')
+          }, 500)
         }
       },
 
