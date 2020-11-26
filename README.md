@@ -158,7 +158,7 @@ After that, you can access the camera object in your entire project using `this.
 | **`setFaceCaptureMaxSize`**     | `faceCaptureMaxSize: Float`      | Value between `0` and `1`. Represents the percentage.                             | void        | Set the maximum face capture related by percentage with the screen width.
 | **`setFrameNumberOfImages`**    | `frameNumberOfImages: number`    | Any positive `number` value                                                       | void        | Default value is 0. For value 0 is saved infinity images. When saved images reached the "frame number os images", the `onEndCapture` is triggered.
 | **`setFrameTimeBetweenImages`** | `frameTimeBetweenImages: number` | Any positive `number` that represent time in milli seconds                        | void        | Set saving frame images time interval in milli seconds.
-
+| **`setFaceSaveImages`**         | `faceSaveImages: Boolean`        | `true` or `false`                                                                 | void        | Set to enable/disable face save images when capturing faces.
 
 #### Events  
 
