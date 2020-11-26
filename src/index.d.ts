@@ -50,6 +50,7 @@ export declare class Camera extends ContentView {
     getLens(): number;
     setFaceNumberOfImages(faceNumberOfImages: number): void;
     setFaceDetectionBox(faceDetectionBox: boolean): void;
+    setFaceSaveImages(faceSaveImages: Boolean): void;
     setFaceTimeBetweenImages(faceTimeBetweenImages: number): void;
     setFacePaddingPercent(facePaddingPercent: number): void;
     setFaceImageSize(width: number, height: number): void;

@@ -27,6 +27,7 @@ declare module ai {
 				export class CameraView {
 					public static class: java.lang.Class<ai.cyberlabs.yoonit.camera.CameraView>;
 					public constructor(param0: globalAndroid.content.Context, param1: globalAndroid.util.AttributeSet);
+					public constructor(param0: globalAndroid.content.Context);
 					public start(param0: ai.cyberlabs.yoonit.camera.CaptureOptions): void;
 					public startPreview(): void;
 					public startCaptureType(param0: string): void;
@@ -35,7 +36,8 @@ declare module ai {
 					public getCameraLens(): number;
 					public setCameraEventListener(param0: ai.cyberlabs.yoonit.camera.interfaces.CameraEventListener): void;
 					public setFaceNumberOfImages(param0: number): void;
-					public setFaceDetectionBox(param0: Boolean): void;
+					public setFaceDetectionBox(param0: boolean): void;
+					public setFaceSaveImages(param0: boolean): void;
 					public setFaceTimeBetweenImages(param0: number): void;
 					public setFacePaddingPercent(param0: number): void;
 					public setFaceImageSize(param0: number, param1: number): void;
@@ -43,34 +45,11 @@ declare module ai {
 					public setFaceCaptureMaxSize(param0: number): void;
 					public setFrameNumberOfImages(param0: number): void;
 					public setFrameTimeBetweenImages(param0: number): void;
-					public constructor(param0: globalAndroid.content.Context);
-				}
-				export module CameraView {
-					export class DetectorCallback {
-						public static class: java.lang.Class<ai.cyberlabs.yoonit.camera.CameraView.DetectorCallback>;
-						public handleMessage(param0: globalAndroid.os.Message): boolean;
-					}
 				}
 			}
 		}
 	}
 }
-
-declare module ai {
-	export module cyberlabs {
-		export module yoonit {
-			export module camera {
-				export class CameraGraphicView extends ai.cyberlabs.yoonit.camera.CameraGraphicView {
-					public static class: java.lang.Class<ai.cyberlabs.yoonit.camera.CameraGraphicView>;
-					public draw(param0: globalAndroid.graphics.Canvas): void;
-					public drawBoundingBox(param0: globqalAndroid.graphics.RectF);
-					public clear();
-				}
-			}
-		}
-	}
-}
-
 
 declare module ai {
 	export module cyberlabs {
