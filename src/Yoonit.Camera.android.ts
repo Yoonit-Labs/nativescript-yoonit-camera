@@ -64,6 +64,18 @@ export class YoonitCamera extends CameraBase {
         super.disposeNativeView();
     }
 
+    public requestPermission(explanation: string = ''): Promise<boolean> {
+        return new Promise((resolve, reject) => permissions
+            .requestPermission(CAMERA(), explanation)
+            .then(() => resolve(true))
+            .catch(err => reject(false))
+        );
+    }
+
+    public hasPermission(): boolean {
+        return permissions.hasPermission(CAMERA());
+    }
+
     public startCapture(captureType: string): void {
         this.nativeView.startCaptureType(captureType);
     }
@@ -108,16 +120,21 @@ export class YoonitCamera extends CameraBase {
         this.nativeView.setFrameTimeBetweenImages(frameTimeBetweenImages);
     }
 
-    public requestPermission(explanation: string = ''): Promise<boolean> {
-        return new Promise((resolve, reject) => permissions
-            .requestPermission(CAMERA(), explanation)
-            .then(() => resolve(true))
-            .catch(err => reject(false))
-        );
+    public setFaceROIEnable(faceROIEnable: boolean): void {
+        this.nativeView.setFaceROIEnable(faceROIEnable);
     }
 
-    public hasPermission(): boolean {
-        return permissions.hasPermission(CAMERA());
+    public setFaceROIOffset(
+        topOffset: number,
+        rightOffset: number,
+        bottomOffset: number,
+        leftOffset: number
+    ): void {
+        this.nativeView.setFaceROIOffset(topOffset, rightOffset, bottomOffset, leftOffset);
+    }
+
+    public setFaceROIMinSize(minimumSize: boolean): void {
+        this.nativeView.setFaceROIMinSize(minimumSize);
     }
 }
 
