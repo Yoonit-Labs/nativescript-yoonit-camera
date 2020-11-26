@@ -49,7 +49,15 @@ declare class CameraView extends UIView {
 
     cameraEventListener: CameraEventListenerDelegate;
 
+    startPreview(): void;
+
+    startCaptureTypeWithCaptureType(captureType: string): void;
+
+    stopCapture(): void;
+
     getCameraLens(): number;
+
+    toggleCameraLens(): void;
 
     setFaceDetectionBoxWithFaceDetectionBox(faceDetectionBox: boolean): void;
 
@@ -71,11 +79,14 @@ declare class CameraView extends UIView {
 
     setFaceCaptureMaxSizeWithFaceCaptureMaxSize(faceCaptureMaxSize: number): void;
 
-    startCaptureTypeWithCaptureType(captureType: string): void;
+    setFaceROIEnableWithFaceROIEnable(faceROIEnable: boolean): void;
 
-    startPreview(): void;
+    setFaceROIOffsetWithTopOffsetRightOffsetBottomOffsetLeftOffset(
+        topOffset: number,
+        rightOffset: number,
+        bottomOffset: number,
+        leftOffset: number
+    ): void;
 
-    stopCapture(): void;
-
-    toggleCameraLens(): void;
+    setFaceROIMinSizeWithMinimumSize(minimumSize: boolean): void;
 }
