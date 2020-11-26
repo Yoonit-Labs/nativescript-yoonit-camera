@@ -50,4 +50,13 @@ git tag v$PACKAGE_VERSION
 git push --tags
 cd ..
 rm -rf npm
+rm -rf src/Yoonit.Camera.android.js
+rm -rf src/Yoonit.Camera.android.d.ts
+rm -rf src/Yoonit.Camera.android.js.map
+rm -rf src/Yoonit.Camera.ios.js
+rm -rf src/Yoonit.Camera.ios.d.ts
+rm -rf src/Yoonit.Camera.ios.js.map
+rm -rf src/Yoonit.Camera.common.js
+rm -rf src/Yoonit.Camera.common.d.ts
+rm -rf src/Yoonit.Camera.common.js.map
 pause
