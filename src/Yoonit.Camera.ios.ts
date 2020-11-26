@@ -81,6 +81,10 @@ export class YoonitCamera extends CameraBase {
         this.nativeView.setFaceDetectionBoxWithFaceDetectionBox(faceDetectionBox);
     }
 
+    public setFaceSaveImages(faceSaveImages: boolean) {
+        this.nativeView.setFaceSaveImagesWithFaceSaveImages(faceSaveImages);
+    }
+
     public setFaceTimeBetweenImages(faceTimeBetweenImages: number) {
         this.nativeView.setFaceTimeBetweenImagesWithFaceTimeBetweenImages(faceTimeBetweenImages);
     }

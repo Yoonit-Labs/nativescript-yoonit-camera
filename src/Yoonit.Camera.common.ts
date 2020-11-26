@@ -45,6 +45,8 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
 
   public setFaceDetectionBox(faceDetectionBox: Boolean): void {}
 
+  public setFaceSaveImages(faceSaveImages: boolean): void {}
+
   public setFaceTimeBetweenImages(faceTimeBetweenImages: number): void {}
 
   public setFacePaddingPercent(facePaddingPercent: number): void {}

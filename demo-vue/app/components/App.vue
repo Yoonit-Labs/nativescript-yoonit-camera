@@ -25,7 +25,7 @@
         width="100%"
       >
         <FlexboxLayout flexDirection="column" justifyContent="flex-end">
-          <Image :src="imagePath" width="200" height="200" v-if="captureType === 'face' || captureType === 'frame'" />
+          <Image :src="imagePath" width="200" height="200" v-if="faceSaveImages && (captureType === 'face' || captureType === 'frame')" />
           <TextField class="message" :text="qrCodeContent" v-if="captureType === 'barcode'" />
         </FlexboxLayout>
       </GridLayout>
@@ -43,6 +43,10 @@
               text="TOGGLE BOX"
               horizontalAlignment="left"
               @tap="doFaceDetectionBox" />
+            <Button
+              text="TOGGLE SAVE"
+              horizontalAlignment="left"
+              @tap="doFaceSaveImages" />
           </StackLayout>
           <Label text="Tipos de Captura:" />
           <StackLayout orientation="horizontal">
@@ -91,6 +95,7 @@
       imagePath: null,
       imageCreated: "",
       showFaceDetectionBox: true,
+      faceSaveImages: false,
       captureType: "NONE",
       cameraLens: "BACK CAM",
       qrCodeContent: ""
@@ -182,6 +187,14 @@
         console.log('[YooCamera] doFaceDetectionBox')
 
         this.$yoo.camera.setFaceDetectionBox(this.showFaceDetectionBox)
+      },
+
+      doFaceSaveImages() {
+        this.faceSaveImages = !this.faceSaveImages
+
+        console.log('[YooCamera] doFaceSaveImages')
+
+        this.$yoo.camera.setFaceSaveImages(this.faceSaveImages)
       },
 
       doPermissionDenied() {

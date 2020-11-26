@@ -76,6 +76,10 @@ export class YoonitCamera extends CameraBase {
         this.nativeView.setFaceDetectionBox(faceDetectionBox);
     }
 
+    public setFaceSaveImages(faceSaveImages: boolean): void {
+        this.nativeView.setFaceSaveImages(faceSaveImages);
+    }
+
     public setFaceTimeBetweenImages(faceTimeBetweenImages: number): void {
         this.nativeView.setFaceTimeBetweenImages(faceTimeBetweenImages);
     }
@@ -142,7 +146,7 @@ class CameraEventListener extends java.lang.Object implements ai.cyberlabs.yooni
         path: imagePath,
         source,
         binary
-      }
+      };
     }
 
     public onFaceImageCreated(count: number, total: number, imagePath: string): void {
