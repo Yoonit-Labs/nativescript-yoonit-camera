@@ -69,6 +69,51 @@ export class YoonitCamera extends CameraBase {
         super.disposeNativeView();
     }
 
+    public requestPermission(explanation: string = ''): Promise<boolean> {
+        return new Promise((resolve, reject) => {
+            const cameraStatus = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo);
+            switch (cameraStatus) {
+
+                // Not determined: Explicit user permission is required for media capture,
+                // but the user has not yet granted or denied such permission..
+                case 0: {
+                    AVCaptureDevice.requestAccessForMediaTypeCompletionHandler(AVMediaTypeVideo, (granted) => {
+                        if (granted) {
+                            this.permission = true;
+                            resolve(true);
+                        } else {
+                            this.permission = false;
+                            reject(false);
+                        }
+                    });
+                    break;
+                }
+
+                // Restricted: the user is not allowed to access media capture devices.
+                case 1:
+
+                // Denied: The user has explicitly denied permission for media capture.
+                case 2: {
+                    this.permission = false;
+                    reject(false);
+                    break;
+                }
+
+                // Authorized: The user has explicitly granted permission for media capture,
+                // or explicit user permission is not necessary for the media type in question.
+                case 3: {
+                    this.permission = true;
+                    resolve(true);
+                    break;
+                }
+            }
+        });
+    }
+
+    public hasPermission(): boolean {
+        return this.permission;
+    }
+
     public startCapture(captureType: string) {
         this.nativeView.startCaptureTypeWithCaptureType(captureType);
     }
@@ -113,49 +158,26 @@ export class YoonitCamera extends CameraBase {
         this.nativeView.setFrameTimeBetweenImagesWithFrameTimeBetweenImages(frameTimeBetweenImages);
     }
 
-    public requestPermission(explanation: string = ''): Promise<boolean> {
-        return new Promise((resolve, reject) => {
-            const cameraStatus = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo);
-            switch (cameraStatus) {
-
-                // Not determined: Explicit user permission is required for media capture,
-                // but the user has not yet granted or denied such permission..
-                case 0: {
-                    AVCaptureDevice.requestAccessForMediaTypeCompletionHandler(AVMediaTypeVideo, (granted) => {
-                        if (granted) {
-                            this.permission = true;
-                            resolve(true);
-                        } else {
-                            this.permission = false;
-                            reject(false);
-                        }
-                    });
-                    break;
-                }
-
-                // Restricted: the user is not allowed to access media capture devices.
-                case 1:
-
-                // Denied: The user has explicitly denied permission for media capture.
-                case 2: {
-                    this.permission = false;
-                    reject(false);
-                    break;
-                }
-
-                // Authorized: The user has explicitly granted permission for media capture,
-                // or explicit user permission is not necessary for the media type in question.
-                case 3: {
-                    this.permission = true;
-                    resolve(true);
-                    break;
-                }
-            }
-        });
+    public setFaceROIEnable(faceROIEnable: boolean): void {
+        this.nativeView.setFaceROIEnableWithFaceROIEnable(faceROIEnable);
     }
 
-    public hasPermission(): boolean {
-        return this.permission;
+    public setFaceROIOffset(
+        topOffset: number,
+        rightOffset: number,
+        bottomOffset: number,
+        leftOffset: number
+    ): void {
+        this.nativeView.setFaceROIOffsetWithTopOffsetRightOffsetBottomOffsetLeftOffset(
+            topOffset,
+            rightOffset,
+            bottomOffset,
+            leftOffset
+        );
+    }
+
+    public setFaceROIMinSize(minimumSize: boolean): void {
+        this.nativeView.setFaceROIMinSizeWithMinimumSize(minimumSize);
     }
 }
 

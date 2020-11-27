@@ -23,12 +23,22 @@ import {
 
 export abstract class CameraBase extends ContentView implements CameraDefinition {
 
+  public requestPermission(explanationText?: string): Promise<boolean> {
+    return new Promise((resolve, reject) => resolve());
+  }
+
+  public hasPermission(): boolean { return false; }
+
   public preview(): void {
     this.nativeView.startPreview();
   }
 
   public stopCapture(): void {
     this.nativeView.stopCapture();
+  }
+
+  public setLens(lens: number): void {
+    this.getLens() !== lens && this.toggleLens();
   }
 
   public toggleLens(): void {
@@ -61,11 +71,16 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
 
   public setFrameTimeBetweenImages(frameTimeBetweenImages: number): void {}
 
-  public requestPermission(explanationText?: string): Promise<boolean> {
-    return new Promise((resolve, reject) => resolve());
-  }
+  public setFaceROIEnable(faceROIEnable: boolean): void {}
 
-  public hasPermission(): boolean { return false; }
+  public setFaceROIOffset(
+      topOffset: number,
+      rightOffset: number,
+      bottomOffset: number,
+      leftOffset: number
+  ): void {}
+
+  public setFaceROIMinSize(minimumSize: boolean): void {}
 }
 
 export interface CameraBase {

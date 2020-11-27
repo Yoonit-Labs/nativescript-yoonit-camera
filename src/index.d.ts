@@ -46,6 +46,7 @@ export declare class Camera extends ContentView {
     preview(): void;
     startCapture(captureType: string): void;
     stopCapture(): void;
+    setLens(lens: number): void;
     toggleLens(): void;
     getLens(): number;
     setFaceNumberOfImages(faceNumberOfImages: number): void;
@@ -58,6 +59,14 @@ export declare class Camera extends ContentView {
     setFaceCaptureMaxSize(faceCaptureMaxSize: number): void;
     setFrameNumberOfImages(frameNumberOfImages: number): void;
     setFrameTimeBetweenImages(frameTimeBetweenImages: number): void;
+    setFaceROIEnable(faceROIEnable: boolean): void;
+    setFaceROIOffset(
+        topOffset: number,
+        rightOffset: number,
+        bottomOffset: number,
+        leftOffset: number
+    ): void;
+    setFaceROIMinSize(minimumSize: boolean): void;
 
     on(eventNames: string, callback: (data: EventData) => void, thisArg?: any);
     on(event: faceImage, callback: (args: FaceImageCreatedEventData) => void, thisArg?: any);

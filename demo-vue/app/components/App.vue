@@ -118,6 +118,9 @@
           setTimeout(() => {
             this.doStartCapture('face')
             console.log('[YooCamera] startCapture')
+
+            this.$yoo.camera.setFaceROIEnable(true);
+            this.$yoo.camera.setFaceROIOffset(0.1, 0.1, 0.3, 0.1);
           }, 500)
         }
       },

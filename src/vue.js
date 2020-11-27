@@ -46,8 +46,11 @@ export default {
 
       const {
         nativeView,
+        requestPermission,
+        hasPermission,
         preview,
         stopCapture,
+        setLens,
         toggleLens,
         getLens,
         startCapture,
@@ -61,8 +64,9 @@ export default {
         setFaceCaptureMaxSize,
         setFrameNumberOfImages,
         setFrameTimeBetweenImages,
-        requestPermission,
-        hasPermission
+        setFaceROIEnable,
+        setFaceROIOffset,
+        setFaceROIMinSize,
       } = element.nativeView
 
       Vue.prototype.$yoo.camera = {
@@ -74,6 +78,7 @@ export default {
         preview,
         startCapture,
         stopCapture,
+        setLens,
         toggleLens,
         getLens,
         setFaceNumberOfImages,
@@ -85,7 +90,10 @@ export default {
         setFaceCaptureMinSize,
         setFaceCaptureMaxSize,
         setFrameNumberOfImages,
-        setFrameTimeBetweenImages
+        setFrameTimeBetweenImages,
+        setFaceROIEnable,
+        setFaceROIOffset,
+        setFaceROIMinSize,
       }
 
       return Vue.prototype.$yoo.camera

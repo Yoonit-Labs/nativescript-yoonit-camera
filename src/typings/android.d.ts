@@ -45,6 +45,14 @@ declare module ai {
 					public setFaceCaptureMaxSize(param0: number): void;
 					public setFrameNumberOfImages(param0: number): void;
 					public setFrameTimeBetweenImages(param0: number): void;
+					public setFaceROIEnable(faceROIEnable: boolean): void;
+					public setFaceROIOffset(
+						topOffset: number,
+						rightOffset: number,
+						bottomOffset: number,
+						leftOffset: number
+					): void;
+					public setFaceROIMinSize(minimumSize: boolean): void;
 				}
 			}
 		}
