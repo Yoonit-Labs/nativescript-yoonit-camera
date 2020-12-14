@@ -1,9 +1,9 @@
 /// <reference path="android-declarations.d.ts"/>
 
-declare module ai {
-	export module cyberlabs {
-		export module yoonit {
-			export module camera {
+declare namespace ai {
+	export namespace cyberlabs {
+		export namespace yoonit {
+			export namespace camera {
 				export class BuildConfig {
 					public static class: java.lang.Class<ai.cyberlabs.yoonit.camera.BuildConfig>;
 					public static DEBUG: boolean;
@@ -15,70 +15,56 @@ declare module ai {
 					public static VERSION_NAME: string;
 					public constructor();
 				}
-			}
-		}
-	}
-}
-
-declare module ai {
-	export module cyberlabs {
-		export module yoonit {
-			export module camera {
 				export class CameraView {
 					public static class: java.lang.Class<ai.cyberlabs.yoonit.camera.CameraView>;
 					public constructor(param0: globalAndroid.content.Context, param1: globalAndroid.util.AttributeSet);
 					public constructor(param0: globalAndroid.content.Context);
-					public start(param0: ai.cyberlabs.yoonit.camera.CaptureOptions): void;
+					public setCameraEventListener(param0: ai.cyberlabs.yoonit.camera.interfaces.CameraEventListener): void;
 					public startPreview(): void;
 					public startCaptureType(param0: string): void;
 					public stopCapture(): void;
 					public toggleCameraLens(): void;
 					public getCameraLens(): number;
-					public setCameraEventListener(param0: ai.cyberlabs.yoonit.camera.interfaces.CameraEventListener): void;
-					public setFaceNumberOfImages(param0: number): void;
+					public setNumberOfImages(param0: number): void;
+					public setTimeBetweenImages(param0: number): void;
+					public setOutputImageWidth(param0: number): void;
+					public setOutputImageHeight(param0: number): void;
+					public setSaveImageCaptured(param0: boolean): void;
 					public setFaceDetectionBox(param0: boolean): void;
-					public setFaceSaveImages(param0: boolean): void;
-					public setFaceTimeBetweenImages(param0: number): void;
 					public setFacePaddingPercent(param0: number): void;
-					public setFaceImageSize(param0: number, param1: number): void;
 					public setFaceCaptureMinSize(param0: number): void;
 					public setFaceCaptureMaxSize(param0: number): void;
-					public setFrameNumberOfImages(param0: number): void;
-					public setFrameTimeBetweenImages(param0: number): void;
-					public setFaceROIEnable(faceROIEnable: boolean): void;
-					public setFaceROIOffset(
-						topOffset: number,
-						rightOffset: number,
-						bottomOffset: number,
-						leftOffset: number
-					): void;
-					public setFaceROIMinSize(minimumSize: boolean): void;
+					public setFaceROIEnable(param0: boolean): void;
+					public setFaceROITopOffset(param0: number): void;
+					public setFaceROIRightOffset(param0: number): void;
+					public setFaceROIBottomOffset(param0: number): void;
+					public setFaceROILeftOffset(param0: number): void;
+					public setFaceROIMinSize(param0: number): void;
 				}
-			}
-		}
-	}
-}
-
-declare module ai {
-	export module cyberlabs {
-		export module yoonit {
-			export module camera {
-				export module interfaces {
+				export namespace interfaces {
 					export class CameraEventListener {
 						public static class: java.lang.Class<ai.cyberlabs.yoonit.camera.interfaces.CameraEventListener>;
-						public onFaceImageCreated(param0: number, param1: number, param2: string): void;
-						public onFrameImageCreated(param0: number, param1: number, param2: string): void;
-						public onFaceDetected(param0: number, param1: number, param2: number, param3: number): void;
+						public onImageCaptured(
+							param0: string,
+							param1: number,
+							param2: number,
+							param3: string
+						): void;
+						public onFaceDetected(
+							param0: number,
+							param1: number,
+							param2: number,
+							param3: number
+						): void;
 						public onFaceUndetected(): void;
 						public onEndCapture(): void;
 						public onError(param0: string): void;
 						public onMessage(param0: string): void;
 						public onPermissionDenied(): void;
-						public onBarcodeScanned(param0: string);
+						public onQRCodeScanned(param0: string);
 					}
 				}
 			}
 		}
 	}
 }
-
