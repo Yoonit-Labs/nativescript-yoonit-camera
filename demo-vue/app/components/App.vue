@@ -11,9 +11,16 @@
       >
         <YoonitCamera
           ref="yooCamera"
+          :initialLens="cameraLens"
+          :captureType="captureType"
+          :numberOfImages="numberOfImages"
+          :timeBetweenImages="timeBetweenImages"
+          :saveImageCaptured="saveImageCaptured"
+          :faceDetectionBox="faceDetectionBox"
+          :faceROI="faceROI"
+
           @faceDetected="doFaceDetected"
-          @faceImage="doImageCreated"
-          @frameImage="doImageCreated"
+          @imageCaptured="doImageCaptured"
           @endCapture="doEndCapture"
           @qrCodeContent="doQRCodeContent"
           @status="doStatus"
@@ -24,9 +31,21 @@
         height="100%"
         width="100%"
       >
-        <FlexboxLayout flexDirection="column" justifyContent="flex-end">
-          <Image :src="imagePath" width="200" height="200" v-if="faceSaveImages && (captureType === 'face' || captureType === 'frame')" />
-          <TextField class="message" :text="qrCodeContent" v-if="captureType === 'barcode'" />
+        <FlexboxLayout
+          flexDirection="column"
+          justifyContent="flex-end"
+        >
+          <Image
+            :src="imagePath"
+            width="200"
+            height="200"
+            v-if="saveImageCaptured && (captureType === 'face' || captureType === 'frame')"
+          />
+          <TextField
+            class="message"
+            :text="qrCodeContent"
+            v-if="captureType === 'qrcode'"
+          />
         </FlexboxLayout>
       </GridLayout>
       <GridLayout
@@ -36,17 +55,17 @@
         <StackLayout>
           <StackLayout orientation="horizontal">
             <Button
-              :text="cameraLens"
+              :text="cameraLens === 'back' ? 'BACK CAM' : 'FRONT CAM'"
               horizontalAlignment="left"
-              @tap="doToggleLens" />
+              @tap="cameraLens = cameraLens === 'back' ? 'front' : 'back';" />
             <Button
               text="TOGGLE BOX"
               horizontalAlignment="left"
-              @tap="doFaceDetectionBox" />
+              @tap="faceDetectionBox = !faceDetectionBox" />
             <Button
               text="TOGGLE SAVE"
               horizontalAlignment="left"
-              @tap="doFaceSaveImages" />
+              @tap="saveImageCaptured = !saveImageCaptured" />
           </StackLayout>
           <Label text="Tipos de Captura:" />
           <StackLayout orientation="horizontal">
@@ -54,22 +73,22 @@
               :class="captureType === 'none' ? 'selected' : ''"
               text="NONE"
               horizontalAlignment="left"
-              @tap='doStartCapture("none")' />
+              @tap='captureType ="none"' />
             <Button
               :class="captureType === 'face' ? 'selected' : ''"
               text="FACE"
               horizontalAlignment="left"
-              @tap="doStartCapture('face')" />
+              @tap="captureType = 'face'" />
             <Button
-              :class="captureType === 'barcode' ? 'selected' : ''"
+              :class="captureType === 'qrcode' ? 'selected' : ''"
               text="QRCODE"
               horizontalAlignment="left"
-              @tap="doStartCapture('barcode')" />
+              @tap="captureType = 'qrcode'" />
             <Button
-                :class="captureType === 'frame' ? 'selected' : ''"
-                text="FRAME"
-                horizontalAlignment="left"
-                @tap="doStartCapture('frame')" />
+              :class="captureType === 'frame' ? 'selected' : ''"
+              text="FRAME"
+              horizontalAlignment="left"
+              @tap="captureType = 'frame'" />
           </StackLayout>
           <FlexboxLayout>
             <Label
@@ -78,7 +97,7 @@
             />
             <Label
               v-if="captureType === 'face' || captureType === 'frame'"
-              :text="imageCreated"
+              :text="imageInformationCaptured"
             />
           </FlexboxLayout>
         </StackLayout>
@@ -88,51 +107,49 @@
 </template>
 
 <script>
-  const application = require("tns-core-modules/application");
-
   export default {
     data: () => ({
+      cameraLens: 'front',
+      captureType: 'none',
+      numberOfImages: 0,
+      timeBetweenImages: 1000,
+      outputImageWidth: 200,
+      outputImageHeight: 200,
+      saveImageCaptured: false,
+      faceDetectionBox: true,
+      faceROI: true,
       imagePath: null,
-      imageCreated: "",
-      showFaceDetectionBox: true,
-      faceSaveImages: false,
-      captureType: "NONE",
-      cameraLens: "BACK CAM",
+      imageInformationCaptured: "",
       qrCodeContent: ""
     }),
 
     methods: {
-      async onLoaded(args) {
+      async onLoaded() {
 
         console.log('[YooCamera] Getting Camera view')
         this.$yoo.camera.registerElement(this.$refs.yooCamera)
 
         console.log('[YooCamera] Getting permission')
         if (await this.$yoo.camera.requestPermission()) {
+
           console.log('[YooCamera] Permission granted, start preview')
-          this.$yoo.camera.stopCapture()
-          console.log('[YooCamera] stopCapture')
           this.$yoo.camera.preview()
-
-          // Workaround to start capture face on Android. Android need some time to start preview.
-          setTimeout(() => {
-            this.doStartCapture('face')
-            console.log('[YooCamera] startCapture')
-
-            this.$yoo.camera.setFaceROIEnable(true);
-            this.$yoo.camera.setFaceROIOffset(0.1, 0.1, 0.3, 0.1);
-          }, 500)
         }
       },
 
       doFaceDetected({ x, y, width, height }) {
-        console.log('[YooCamera] doFaceDetected', `{x: ${x}, y: ${y}, width: ${width}, height: ${height}}`)
+        console.log(
+          '[YooCamera] doFaceDetected',
+          `{x: ${x}, y: ${y}, width: ${width}, height: ${height}}`
+        )
+
         if (!x || !y || !width || !height) {
           this.imagePath = null
         }
       },
 
-      doImageCreated({
+      doImageCaptured({
+        type,
         count,
         total,
         image: {
@@ -141,68 +158,20 @@
         }
       }) {
         if (total === 0) {
-          console.log('[YooCamera] doImageCreated', `[${count}] ${path}`)
-          this.imageCreated = `${count}`
+          console.log('[YooCamera] doImageCaptured', `${type}: [${count}] ${path}`)
+          this.imageInformationCaptured = `${count}`
         } else {
-          console.log('[YooCamera] doImageCreated', `[${count}] of [${total}] - ${path}`)
-          this.imageCreated = `${count} de ${total}`
+          console.log('[YooCamera] doImageCaptured', `${type}: [${count}] of [${total}] - ${path}`)
+          this.imageInformationCaptured = `${count} de ${total}`
         }
 
         this.imagePath = source
       },
 
-      doEndCapture() {
-        console.log('[YooCamera] doEndCapture')
-      },
-
-      doQRCodeContent({ content }) {
-        console.log('[YooCamera] doQRCodeContent', content)
-
-        this.qrCodeContent = content
-      },
-
-      doStatus({ status }) {
-        console.log('[YooCamera] doStatus', status)
-      },
-
-      doToggleLens() {
-        this.cameraLens = this.cameraLens === 'FRONT CAM' ?
-          'BACK CAM' :
-          'FRONT CAM'
-
-        const currentCameraLens = this.$yoo.camera.getLens()
-
-        console.log('[YooCamera] doToggleLens', currentCameraLens)
-
-        this.$yoo.camera.toggleLens()
-      },
-
-      doStartCapture(captureType) {
-        console.log('[YooCamera] doStartCapture', captureType)
-
-        this.captureType = captureType
-        this.$yoo.camera.startCapture(captureType)
-      },
-
-      doFaceDetectionBox() {
-        this.showFaceDetectionBox = !this.showFaceDetectionBox
-
-        console.log('[YooCamera] doFaceDetectionBox')
-
-        this.$yoo.camera.setFaceDetectionBox(this.showFaceDetectionBox)
-      },
-
-      doFaceSaveImages() {
-        this.faceSaveImages = !this.faceSaveImages
-
-        console.log('[YooCamera] doFaceSaveImages')
-
-        this.$yoo.camera.setFaceSaveImages(this.faceSaveImages)
-      },
-
-      doPermissionDenied() {
-        console.log('[YooCamera] doPermissionDenied')
-      }
+      doEndCapture: () => console.log('[YooCamera] doEndCapture'),
+      doQRCodeContent: ({ content }) => this.qrCodeContent = content,
+      doStatus: ({ status }) => console.log('[YooCamera] doStatus', status),
+      doPermissionDenied: () => console.log('[YooCamera] doPermissionDenied'),
     }
   }
 </script>
