@@ -46,9 +46,14 @@ After that, you can access the camera object in your entire project using `this.
   <Page @loaded="onLoaded">
     <YoonitCamera
       ref="yooCamera"
+      initialLens="front"
+      captureType="face"
+      numberOfImages=10
+      timeBetweenImages=500
+      saveImageCaptured=true
+      faceDetectionBox=true
       @faceDetected="doFaceDetected"
-      @faceImage="doImageCreated"
-      @frameImage="doImageCreated"
+      @imageCaptured="doImageCaptured"
       @endCapture="doEndCapture"
       @qrCodeContent="doQRCodeContent"
       @status="doStatus"
@@ -62,23 +67,28 @@ After that, you can access the camera object in your entire project using `this.
     data: () => ({}),
 
     methods: {
-      async onLoaded(args) {
+      async onLoaded() {
+
         console.log('[YooCamera] Getting Camera view')
         this.$yoo.camera.registerElement(this.$refs.yooCamera)
 
         console.log('[YooCamera] Getting permission')
         if (await this.$yoo.camera.requestPermission()) {
+          
           console.log('[YooCamera] Permission granted, start preview')
-
           this.$yoo.camera.preview()
         }
       },
 
-      doFaceDetected({ faceDetected }) {
-        console.log('[YooCamera] faceDetected', faceDetected)
+      doFaceDetected({ x, y, width, height }) {
+        console.log('[YooCamera] doFaceDetected', `{x: ${x}, y: ${y}, width: ${width}, height: ${height}}`)
+        if (!x || !y || !width || !height) {
+          this.imagePath = null
+        }
       },
 
-      doImageCreated({
+      doImageCaptured({
+        type,
         count,
         total,
         image: {
@@ -87,12 +97,14 @@ After that, you can access the camera object in your entire project using `this.
         }
       }) {
         if (total === 0) {
-          console.log('[YooCamera] doFaceImage', `[${count}] ${path}`)
+          console.log('[YooCamera] doImageCreated', `${type}: [${count}] ${path}`)
+          this.imageCreated = `${count}`
         } else {
-          console.log('[YooCamera] doFaceImage', `[${count}] of [${total}] - ${path}`)
+          console.log('[YooCamera] doImageCreated', `${type}: [${count}] of [${total}] - ${path}`)
+          this.imageCreated = `${count} de ${total}`
         }
 
-        console.log('[YooCamera] doFaceImage', path, source)
+        this.imagePath = source
       },
 
       doEndCapture() {
@@ -104,27 +116,7 @@ After that, you can access the camera object in your entire project using `this.
       },
 
       doStatus({ status }) {
-        console.log('[YooCamera] doStatus', JSON.parse(status))
-      },
-
-      doToggleLens() {
-        const currentCameraLens = this.$yoo.camera.getLens()
-
-        console.log('[YooCamera] doToggleLens', currentCameraLens)
-
-        this.$yoo.camera.toggleLens()
-      },
-
-      doStartCapture(captureType) {
-        console.log('[YooCamera] doStartCapture', captureType)
-
-        this.$yoo.camera.startCapture(captureType)
-      },
-
-      doFaceDetectionBox(status) {
-        console.log('[YooCamera] doFaceDetectionBox', status)
-
-        this.$yoo.camera.setFaceDetectionBox(status)
+        console.log('[YooCamera] doStatus', status)
       },
 
       doPermissionDenied() {
@@ -137,72 +129,76 @@ After that, you can access the camera object in your entire project using `this.
 
 ## API
 
+### Props
+
+| Props                 | Input/Format                            | Default value | Description |
+| -                     | -                                       | -             | - |                                 
+| `initialLens`         | `"front" | "back"`                      | `"front"`     | The camera lens when component initiated. |
+| `captureType`         | `"none" | "front" | "frame" | "qrcode"` | `"none"`      | The capture type of the camera. |
+| `numberOfImages`      | number                                  | `0`           | The number of images to be captured. |
+| `timeBetweenImages`   | number                                  | `1000`        | The time interval in milliseconds to capture between images. |
+| `outputImageWidth`    | `NNpx`                                  | `"200px"`     | The output image width in pixels to be captured. |
+| `outputImageHeight`   | `NNpx`                                  | `"200px"`     | The output image height in pixels to be captured. |
+| `faceMinSize`         | `NN%`                                   | `"0%"`        | The face minimum size percentage to be captured. |
+| `faceMaxSize`         | `NN%`                                   | `"100%"`      | The face maximum size percentage to be captured. |
+| `faceDetectionBox`    | boolean                                 | `false`       | The indicator to show/hide the face detection box. |
+| `saveImageCaptured`   | boolean                                 | `false`       | The indicator to enable/disabled when an image captured. |
+| `faceROI`             | boolean                                 | `false`       | The indicator to enable.disable the region of interest. |
+| `faceROITopOffset`    | `NN%`                                   | `"0%"`        | The "top" offset percentage region of interest. |
+| `faceROIRightOffset`  | `NN%`                                   | `"0%"`        | The "right" offset percentage region of interest. |
+| `faceROIBottomOffset` | `NN%`                                   | `"0%"`        | The "bottom" offset percentage region of interest. |
+| `faceROILeftOffset`   | `NN%`                                   | `"0%"`        | The "left" offset percentage region of interest. |
+| `faceROIMinSize`      | `NN%`                                   | `"0%"`        | The minimum face related with the ROI. |
+
 #### Methods
 
-| Function                        | Parameters                                                                        | Valid values                                                                      | Return Type | Description
-| -                               | -                                                                                 | -                                                                                 | -           | -
-| **`requestPermission`**         | -                                                                                 | -                                                                                 | promise     | Ask to user to give the permission to access camera.
-| **`hasPermission`**             | -                                                                                 | -                                                                                 | boolean     | Return if application has camera permission.
-| **`preview`**                   | -                                                                                 | -                                                                                 | void        | Start camera preview if has permission.
-| **`startCapture`**              | `captureType: string`                                                             | <ul><li>`"none"`</li><li>`"face"`</li><li>`"barcode"`</li><li>`"frame"`</li></ul> | void        | Set capture type none, face, barcode or frame.
-| **`stopCapture`**               | -                                                                                 | -                                                                                 | void        | Stop any type of capture.
-| **`toggleLens`**                | -                                                                                 | -                                                                                 | void        | Set camera lens facing front or back.
-| **`getLens`**                   | -                                                                                 | -                                                                                 | number      | Return `number` that represents lens face state: 0 for front 1 for back camera.  
-| **`setFaceNumberOfImages`**     | `faceNumberOfImages: number`                                                      | Any positive `number` value                                                       | void        | Default value is 0. For value 0 is saved infinity images. When saved images reached the "face number os images", the `onEndCapture` is triggered.
-| **`setFaceDetectionBox`**       | `faceDetectionBox: boolean`                                                       | `true` or `false`                                                                 | void        | Set to show face detection box when face detected.   
-| **`setFaceTimeBetweenImages`**  | `faceTimeBetweenImages: number`                                                   | Any positive `number` that represent time in milli seconds                        | void        | Set saving face images time interval in milli seconds.  
-| **`setFacePaddingPercent`**     | `facePaddingPercent: number`                                                      | Any positive `number` value                                                       | void        | Set face image and bounding box padding in percent.  
-| **`setFaceImageSize`**          | `faceImageSize: number`                                                           | Any positive `number` value                                                       | void        | Set face image size to be saved.
-| **`setFaceCaptureMinSize`**     | `faceCaptureMinSize: number`                                                      | Value between `0` and `1`. Represents the percentage.                             | void        | Set the minimum face capture related by percentage with the screen width.
-| **`setFaceCaptureMaxSize`**     | `faceCaptureMaxSize: number`                                                      | Value between `0` and `1`. Represents the percentage.                             | void        | Set the maximum face capture related by percentage with the screen width.
-| **`setFrameNumberOfImages`**    | `frameNumberOfImages: number`                                                     | Any positive `number` value                                                       | void        | Default value is 0. For value 0 is saved infinity images. When saved images reached the "frame number os images", the `onEndCapture` is triggered.
-| **`setFrameTimeBetweenImages`** | `frameTimeBetweenImages: number`                                                  | Any positive `number` that represent time in milli seconds                        | void        | Set saving frame images time interval in milli seconds.
-| **`setFaceSaveImages`**         | `faceSaveImages: boolean`                                                         | `true` or `false`                                                                 | void        | Set to enable/disable face save images when capturing faces.
-| **`setFaceROIEnable`**          | `faceROIEnable: boolean`                                                          | `true` or `false`                                                                 | void        | Enable/disable face region of interest capture.
-| **`setFaceROIOffset`**          | `topOffset: number, rightOffset: number,bottomOffset: number, leftOffset: number` | Values between `0` and `1`. Represents the percentage.                            | void        | <ul><li>topOffset: "Above" the face detected.</li><li>rightOffset: "Right" of the face detected.</li><li>bottomOffset: "Bottom" of the face detected.</li><li>leftOffset: "Left" of the face detected.</li></ul>
-| **`setFaceROIMinSize`**         | `minimumSize: number`                                                             | Values between `0` and `1`. Represents the percentage.                            | void        | Set the minimum face size related with the region of interest.
+| Function                   | Parameters             | Valid values                                                                      | Return Type | Description
+| -                          | -                      | -                                                                                 | -           | -
+| **requestPermission**      | -                      | -                                                                                 | promise     | Ask the user to give the permission to access camera.
+| **hasPermission**          | -                      | -                                                                                 | boolean     | Return if application has camera permission.
+| **preview**                | -                      | -                                                                                 | void        | Start camera preview if has permission.
+| **startCapture**           | `type: string`         | <ul><li>`"none"`</li><li>`"face"`</li><li>`"qrcode"`</li><li>`"frame"`</li></ul>  | void        | Set capture type none, face, qrcode or frame.
+| **stopCapture**            | -                      | -                                                                                 | void        | Stop any type of capture.
+| **setLens**                | `lens: string`         | `"front" | "back"`                                                                | void        | Set the camera lens facing: front or back.
+| **toggleLens**             | -                      | -                                                                                 | void        | Toggle camera lens facing front or back.
+| **getLens**                | -                      | -                                                                                 | number      | Return `number` that represents lens face state: 0 for front 1 for back camera.  
+| **setNumberOfImages**      | `numberOfImages: Int`  | Any positive `Int` value                                                          | void        | Default value is 0. For value 0 is saved infinity images. When saved images reached the "number os images", the `onEndCapture` is triggered.
+| **setTimeBetweenImages**   | `milliseconds: number` | Any positive number that represent time in milli seconds                          | void        | Set saving face/frame images time interval in milli seconds.
+| **setOutputImageWidth**    | `width: string`        | Value format must be in `NNpx`                                                    | void        | Set face image width to be created in pixels.
+| **setOutputImageHeight**   | `height: string`       | Value format must be in `NNpx`                                                    | void        | Set face image height to be created in pixels.
+| **setSaveImageCaptured**   | `enable: boolean`      | `true` or `false`                                                                 | void        | Set to enable/disable save image when capturing face and frame.
+| **setFaceDetectionBox**    | `enable: boolean`      | `true` or `false`                                                                 | void        | Set to show a detection box when face detected.   
+| **setFacePaddingPercent**  | `percentage: string`   | Value format must be in `NN%`                                                     | void        | Set face image and bounding box padding in percent.  
+| **setFaceCaptureMinSize**  | `percentage: string`   | Value format must be in `NN%`                                                     | void        | Set the minimum face capture based on the screen.
+| **setFaceCaptureMaxSize**  | `percentage: string`   | Value format must be in `NN%`                                                     | void        | Set the maximum face capture based on the screen.
+| **setFaceROIEnable**       | `enable: boolean`      | `true` or `false`                                                                 | void        | Enable/disable face region of interest capture.
+| **setFaceROITopOffset**    | `percentage: string`   | Value format must be in `NN%`                                                     | void        | Distance in percentage of the top face bounding box with the top of the camera preview. 
+| **setFaceROIRightOffset**  | `percentage: string`   | Value format must be in `NN%`                                                     | void        | Distance in percentage of the right face bounding box with the right of the camera preview.
+| **setFaceROIBottomOffset** | `percentage: string`   | Value format must be in `NN%`                                                     | void        | Distance in percentage of the bottom face bounding box with the bottom of the camera preview.
+| **setFaceROILeftOffset**   | `percentage: string`   | Value format must be in `NN%`                                                     | void        | Distance in percentage of the left face bounding box with the left of the camera preview.
+| **setFaceROIMinSize**      | `percentage: string`   | Value format must be in `NN%`                                                     | void        | Set the minimum face size related with the region of interest.
 
 #### Events  
 
-| Event            | Parameters                                                                         | Description
-| -                | -                                                                                  | -
-| faceImage        | `{ count: number, total: number, image: object = { path: string, source: blob } }` | Must have started capture type of face. Emitted when the face image file is created: <ul><li>count: current index</li><li>total: total to create</li><li>image.path: the face image path</li><li>image.source: the blob file</li><ul>
-| frameImage       | `{ count: number, total: number, image: object = { path: string, source: blob } }` | Must have started capture type of frame. Emitted when the frame image file is created: <ul><li>count: current index</li><li>total: total to create</li><li>image.path: the frame image path</li><li>image.source: the blob file</li><ul>
-| faceDetected     | `{ x: number, y: number, width: number, height: number }`                          | Must have started capture type of face. Emit the detected face bounding box. Emit all parameters null if no more face detecting.    
-| endCapture       | -                                                                                  | Must have started capture type of face or frame. Emitted when the number of face or frame image files created is equal of the number of images set (see the method `setFaceNumberOfImages` for face and `setFrameNumberOfImages`for frame).   
-| qrCodeContent    | `{ content: string }`                                                              | Must have started capture type of barcode (see `startCapture`). Emitted when the camera scan a QR Code.   
-| status           | `{ type: 'error'/'message', status: string }`                                      | Emit message error from native. Used more often for debug purpose.   
-| permissionDenied | -                                                                                  | Emit when try to `preview` but there is not camera permission.
-
-### KeyError
-
-Pre-define key error constants used by the `onError`event.
-
-| KeyError                          | Description
-| -                                 | -
-| NOT_STARTED_PREVIEW               | Tried to start a process that depends on to start the camera preview.
-| INVALID_CAPTURE_TYPE              | Tried to start a non-existent capture type.
-| INVALID_FACE_NUMBER_OF_IMAGES     | Tried to input invalid face number of images to capture. 
-| INVALID_FACE_TIME_BETWEEN_IMAGES  | Tried to input invalid face time interval to capture face.
-| INVALID_FACE_PADDING_PERCENT      | Tried to input invalid face padding percent.
-| INVALID_FACE_IMAGE_SIZE           | Tried to input invalid image width or height.
-| INVALID_FACE_CAPTURE_MIN_SIZE     | Tried to input invalid face capture minimum size. 
-| INVALID_FACE_CAPTURE_MAX_SIZE     | Tried to input invalid face capture maximum size.
-| INVALID_FRAME_NUMBER_OF_IMAGES    | Tried to input invalid frame number of images to capture.
-| INVALID_FRAME_TIME_BETWEEN_IMAGES | Tried to input invalid frame time interval to capture face.
-| INVALID_FACE_ROI_OFFSET           | Tried to input invalid face region of interest offset.
-| INVALID_FACE_ROI_MIN_SIZE         | Tried to input invalid face region of interest minimum size.
+| Event            | Parameters                                                                                       | Description
+| -                | -                                                                                                | -
+| imageCaptured    | `{ type: string, count: number, total: number, image: object = { path: string, source: blob } }` | Must have started capture type of face/frame. Emitted when the face image file saved: <ul><li>type: "face" | "frame"</li>li>count: current index</li><li>total: total to create</li><li>image.path: the face/frame image path</li><li>image.source: the blob file</li><ul>
+| faceDetected     | `{ x: number, y: number, width: number, height: number }`                                        | Must have started capture type of face. Emit the detected face bounding box. Emit all parameters null if no more face detecting.    
+| endCapture       | -                                                                                                | Must have started capture type of face/frame. Emitted when the number of image files created is equal of the number of images set (see the method `setNumberOfImages`).   
+| qrCodeContent    | `{ content: string }`                                                                            | Must have started capture type of qrcode (see `startCapture`). Emitted when the camera read a QR Code.   
+| status           | `{ type: 'error'/'message', status: string }`                                                    | Emit message error from native. Used more often for debug purpose.   
+| permissionDenied | -                                                                                                | Emit when try to `preview` but there is not camera permission.
 
 ### Message
 
-Pre-define message constants used by the `onMessage` event.
+Pre-define message constants used by the `status` event.
 
 | Message                           | Description
 | -                                 | -
-| INVALID_CAPTURE_FACE_MIN_SIZE     | Face width percentage in relation of the screen width is less than the setted (`setFaceCaptureMinSize`).
-| INVALID_CAPTURE_FACE_MAX_SIZE     | Face width percentage in relation of the screen width is more than the setted (`setFaceCaptureMaxSize`).
-| INVALID_CAPTURE_FACE_OUT_OF_ROI   | Face bounding box is out of the setted region of interest (`setFaceROIOffset`).
-| INVALID_CAPTURE_FACE_ROI_MIN_SIZE | Face width percentage in relation of the screen width is less than the setted (`setFaceROIMinSize`).
+| INVALID_CAPTURE_FACE_MIN_SIZE     | Face width percentage in relation of the screen width is less than the set (`setFaceCaptureMinSize`).
+| INVALID_CAPTURE_FACE_MAX_SIZE     | Face width percentage in relation of the screen width is more than the set (`setFaceCaptureMaxSize`).
+| INVALID_CAPTURE_FACE_OUT_OF_ROI   | Face bounding box is out of the set region of interest (`setFaceROIOffset`).
+| INVALID_CAPTURE_FACE_ROI_MIN_SIZE | Face width percentage in relation of the screen width is less than the set (`setFaceROIMinSize`).
 
 ## To contribute and make it better
 
