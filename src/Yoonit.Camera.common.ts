@@ -9,87 +9,168 @@
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 import {
-  ContentView,
-  EventData
+    ContentView,
+    EventData,
 } from '@nativescript/core';
 import {
-  Camera as CameraDefinition,
-  StatusEventData,
-  FaceImageCreatedEventData,
-  FaceDetectedEventData,
-  BarcodeScannedEventData,
-  FrameImageCreatedEventData,
+    Camera as CameraDefinition,
+    StatusEventData,
+    ImageCapturedEventData,
+    FaceDetectedEventData,
+    QRCodeScannedEventData,
 } from '.';
+import Validator from "./helpers/Validator";
+const {
+    ValidateProps,
+    Required,
+    RegexNumber,
+    RegexPX,
+    PercentageToNumber,
+    RegexPercentage,
+    NumberToPixel,
+} = Validator;
 
 export abstract class CameraBase extends ContentView implements CameraDefinition {
 
-  public requestPermission(explanationText?: string): Promise<boolean> {
-    return new Promise((resolve, reject) => resolve());
-  }
+    public set initialLens(value: string) { this.setLens(value); }
+    public set captureType(value: string) { this.startCapture(value); }
+    public set numberOfImages(value: number) { this.setNumberOfImages(value); }
+    public set timeBetweenImages(value: number) { this.setTimeBetweenImages(value); }
+    public set outputImageWidth(value: number) { this.setOutputImageWidth(value); }
+    public set outputImageHeight(value: number) { this.setOutputImageHeight(value); }
+    public set faceMinSize(value: string) { this.setFaceCaptureMinSize(value); }
+    public set faceMaxSize(value: string) { this.setFaceCaptureMaxSize(value); }
+    public set faceDetectionBox(value: boolean) { this.setFaceDetectionBox(value); }
+    public set saveImageCaptured(value: boolean) { this.setSaveImageCaptured(value); }
+    public set faceROI(value: boolean) { this.setFaceROIEnable(value); }
+    public set faceROITopOffset(value: string) { this.setFaceROITopOffset(value); }
+    public set faceROIRightOffset(value: string) { this.setFaceROIRightOffset(value); }
+    public set faceROIBottomOffset(value: string) { this.setFaceROIBottomOffset(value); }
+    public set faceROILeftOffset(value: string) { this.setFaceROILeftOffset(value); }
+    public set faceROIMinSize(value: string) { this.setFaceROIMinSize(value); }
 
-  public hasPermission(): boolean { return false; }
+    public requestPermission(explanationText?: string): Promise<boolean> {
+        return new Promise((resolve, reject) => resolve());
+    }
+    public hasPermission(): boolean { return false; }
 
-  public preview(): void {
-    this.nativeView.startPreview();
-  }
+    @ValidateProps('lens', ['front', 'back'])
+    public setLens(@Required lens: string): void {
+        this.getLens() !== lens && this.toggleLens();
+    }
 
-  public stopCapture(): void {
-    this.nativeView.stopCapture();
-  }
+    public preview(): void {
+        this.nativeView.startPreview();
+    }
 
-  public setLens(lens: number): void {
-    this.getLens() !== lens && this.toggleLens();
-  }
+    public stopCapture(): void {
+        this.nativeView.stopCapture();
+    }
 
-  public toggleLens(): void {
-    this.nativeView.toggleCameraLens();
-  }
+    public toggleLens(): void {
+        this.nativeView.toggleCameraLens();
+    }
 
-  public getLens(): number {
-    return this.nativeView.getCameraLens();
-  }
+    public getLens(): string {
+        return this.nativeView.getCameraLens() === 0 ? 'front' : 'back';
+    }
 
-  public startCapture(captureType: string): void {}
+    @ValidateProps('captureType', ['face', 'qrcode', 'frame', 'none'])
+    public startCapture(@Required type: string): void {
+        this.nativeView.startCaptureType(type);
+    }
 
-  public setFaceNumberOfImages(faceNumberOfImages: number): void {}
+    @ValidateProps('numberOfImages', RegexNumber)
+    public setNumberOfImages(@Required numberOfImages: number): void {
+        this.nativeView.setNumberOfImages(numberOfImages);
+    }
 
-  public setFaceDetectionBox(faceDetectionBox: Boolean): void {}
+    @ValidateProps('timeBetweenImages', RegexNumber)
+    public setTimeBetweenImages(@Required milliseconds: number): void {
+        this.nativeView.setTimeBetweenImages(milliseconds);
+    }
 
-  public setFaceSaveImages(faceSaveImages: boolean): void {}
+    @ValidateProps('outputImageWidth', RegexPX)
+    @NumberToPixel
+    public setOutputImageWidth(@Required width): void {
+        this.nativeView.setOutputImageWidth(width);
+    }
 
-  public setFaceTimeBetweenImages(faceTimeBetweenImages: number): void {}
+    @ValidateProps('outputImageHeight', RegexPX)
+    @NumberToPixel
+    public setOutputImageHeight(@Required height): void {
+        this.nativeView.setOutputImageHeight(height);
+    }
 
-  public setFacePaddingPercent(facePaddingPercent: number): void {}
+    @ValidateProps('faceDetectionBox', [false, true])
+    public setFaceDetectionBox(@Required enable: boolean): void {
+        this.nativeView.setFaceDetectionBox(enable);
+    }
 
-  public setFaceImageSize(width: number, height: number): void {}
+    @PercentageToNumber
+    public setFacePaddingPercent(@Required percentage): void {
+        this.nativeView.setFacePaddingPercent(percentage);
+    }
 
-  public setFaceCaptureMinSize(faceCaptureMinSize: number): void {}
+    @ValidateProps('faceMinSize', RegexPercentage)
+    @PercentageToNumber
+    public setFaceCaptureMinSize(@Required percentage): void {
+        this.nativeView.setFaceCaptureMinSize(percentage);
+    }
 
-  public setFaceCaptureMaxSize(faceCaptureMaxSize: number): void {}
+    @ValidateProps('faceMaxSize', RegexPercentage)
+    @PercentageToNumber
+    public setFaceCaptureMaxSize(@Required percentage): void {
+        this.nativeView.setFaceCaptureMaxSize(percentage);
+    }
 
-  public setFrameNumberOfImages(frameNumberOfImages: number): void {}
+    @ValidateProps('saveImageCaptured', [false, true])
+    public setSaveImageCaptured(@Required enable: boolean): void {
+        this.nativeView.setSaveImageCaptured(enable);
+    }
 
-  public setFrameTimeBetweenImages(frameTimeBetweenImages: number): void {}
+    @ValidateProps('faceROI', [false, true])
+    public setFaceROIEnable(@Required enable: boolean): void {
+        this.nativeView.setFaceROIEnable(enable);
+    }
 
-  public setFaceROIEnable(faceROIEnable: boolean): void {}
+    @ValidateProps('faceROITopOffset', RegexPercentage)
+    @PercentageToNumber
+    public setFaceROITopOffset(@Required percentage): void {
+        this.nativeView.setFaceROITopOffset(percentage);
+    }
 
-  public setFaceROIOffset(
-      topOffset: number,
-      rightOffset: number,
-      bottomOffset: number,
-      leftOffset: number
-  ): void {}
+    @ValidateProps('faceROIRightOffset', RegexPercentage)
+    @PercentageToNumber
+    public setFaceROIRightOffset(@Required percentage): void {
+        this.nativeView.setFaceROIRightOffset(percentage);
+    }
 
-  public setFaceROIMinSize(minimumSize: boolean): void {}
+    @ValidateProps('faceROIBottomOffset', RegexPercentage)
+    @PercentageToNumber
+    public setFaceROIBottomOffset(@Required percentage): void {
+        this.nativeView.setFaceROIBottomOffset(percentage);
+    }
+
+    @ValidateProps('faceROILeftOffset', RegexPercentage)
+    @PercentageToNumber
+    public setFaceROILeftOffset(@Required percentage): void {
+        this.nativeView.setFaceROILeftOffset(percentage);
+    }
+
+    @ValidateProps('faceROIMinSize', RegexPercentage)
+    @PercentageToNumber
+    public setFaceROIMinSize(@Required percentage): void {
+        this.nativeView.setFaceROIMinSize(percentage);
+    }
 }
 
 export interface CameraBase {
-  on(eventNames: string, callback: (data: EventData) => void, thisArg?: any);
-  on(event: "faceImage", callback: (args: FaceImageCreatedEventData) => void, thisArg?: any);
-  on(event: "frameImage", callback: (args: FrameImageCreatedEventData) => void, thisArg?: any);
-  on(event: "faceDetected", callback: (args: FaceDetectedEventData) => void, thisArg?: any);
-  on(event: "endCapture", callback: () => void, thisArg?: any);
-  on(event: "qrCodeContent", callback: (args: BarcodeScannedEventData) => void, thisArg?: any);
-  on(event: "status", callback: (args: StatusEventData) => void, thisArg?: any);
-  on(event: "permissionDenied", callback: () => void, thisArg?: any);
+    on(eventNames: string, callback: (data: EventData) => void, thisArg?: any);
+    on(event: "imageCaptured", callback: (args: ImageCapturedEventData) => void, thisArg?: any);
+    on(event: "faceDetected", callback: (args: FaceDetectedEventData) => void, thisArg?: any);
+    on(event: "endCapture", callback: () => void, thisArg?: any);
+    on(event: "qrCodeContent", callback: (args: QRCodeScannedEventData) => void, thisArg?: any);
+    on(event: "status", callback: (args: StatusEventData) => void, thisArg?: any);
+    on(event: "permissionDenied", callback: () => void, thisArg?: any);
 }

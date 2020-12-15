@@ -9,19 +9,18 @@
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 import {
-  StatusEventData,
-  FaceImageCreatedEventData,
-  FaceDetectedEventData,
-  BarcodeScannedEventData,
-  FrameImageCreatedEventData
+    StatusEventData,
+    ImageCapturedEventData,
+    FaceDetectedEventData,
+    QRCodeScannedEventData,
 } from '.';
 import { CameraBase } from './Yoonit.Camera.common';
 import {
-  EventData,
-  ImageSource,
-  knownFolders,
-  path,
-  File
+    EventData,
+    ImageSource,
+    knownFolders,
+    path,
+    File
 } from '@nativescript/core';
 
 export class YoonitCamera extends CameraBase {
@@ -113,72 +112,6 @@ export class YoonitCamera extends CameraBase {
     public hasPermission(): boolean {
         return this.permission;
     }
-
-    public startCapture(captureType: string) {
-        this.nativeView.startCaptureTypeWithCaptureType(captureType);
-    }
-
-    public setFaceNumberOfImages(faceNumberOfImages: number) {
-        this.nativeView.setFaceNumberOfImagesWithFaceNumberOfImages(faceNumberOfImages);
-    }
-
-    public setFaceDetectionBox(faceDetectionBox: boolean) {
-        this.nativeView.setFaceDetectionBoxWithFaceDetectionBox(faceDetectionBox);
-    }
-
-    public setFaceSaveImages(faceSaveImages: boolean) {
-        this.nativeView.setFaceSaveImagesWithFaceSaveImages(faceSaveImages);
-    }
-
-    public setFaceTimeBetweenImages(faceTimeBetweenImages: number) {
-        this.nativeView.setFaceTimeBetweenImagesWithFaceTimeBetweenImages(faceTimeBetweenImages);
-    }
-
-    public setFacePaddingPercent(facePaddingPercent: number) {
-        this.nativeView.setFacePaddingPercentWithFacePaddingPercent(facePaddingPercent);
-    }
-
-    public setFaceImageSize(width: number, height: number) {
-        this.nativeView.setFaceImageSizeWithWidthHeight(width, height);
-    }
-
-    public setFaceCaptureMinSize(faceCaptureMinSize: number): void {
-        this.nativeView.setFaceCaptureMinSizeWithFaceCaptureMinSize(faceCaptureMinSize);
-    }
-
-    public setFaceCaptureMaxSize(faceCaptureMaxSize: number): void {
-        this.nativeView.setFaceCaptureMaxSizeWithFaceCaptureMaxSize(faceCaptureMaxSize);
-    }
-
-    public setFrameNumberOfImages(frameNumberOfImages: number) {
-        this.nativeView.setFrameNumberOfImagesWithFrameNumberOfImages(frameNumberOfImages);
-    }
-
-    public setFrameTimeBetweenImages(frameTimeBetweenImages: number) {
-        this.nativeView.setFrameTimeBetweenImagesWithFrameTimeBetweenImages(frameTimeBetweenImages);
-    }
-
-    public setFaceROIEnable(faceROIEnable: boolean): void {
-        this.nativeView.setFaceROIEnableWithFaceROIEnable(faceROIEnable);
-    }
-
-    public setFaceROIOffset(
-        topOffset: number,
-        rightOffset: number,
-        bottomOffset: number,
-        leftOffset: number
-    ): void {
-        this.nativeView.setFaceROIOffsetWithTopOffsetRightOffsetBottomOffsetLeftOffset(
-            topOffset,
-            rightOffset,
-            bottomOffset,
-            leftOffset
-        );
-    }
-
-    public setFaceROIMinSize(minimumSize: boolean): void {
-        this.nativeView.setFaceROIMinSizeWithMinimumSize(minimumSize);
-    }
 }
 
 @ObjCClass(CameraEventListenerDelegate)
@@ -203,7 +136,6 @@ class CameraEventListener extends NSObject implements CameraEventListenerDelegat
           .replace('file://', '');
 
       const source: ImageSource = ImageSource.fromFileSync(finalPath);
-
       const imageFile = File.fromPath(finalPath);
       const binary = imageFile.readSync();
 
@@ -214,37 +146,35 @@ class CameraEventListener extends NSObject implements CameraEventListenerDelegat
       };
     }
 
-    public onFaceImageCreatedWithCountTotalImagePath(count: number, total: number, imagePath: string): void {
+    public onImageCaptured(
+        type: string,
+        count: number,
+        total: number,
+        imagePath: string
+    ): void {
+
         const owner = this.owner.get();
         const image = this.imageProcessing(imagePath);
 
         if (owner) {
             owner.notify({
-                eventName: 'faceImage',
+                eventName: 'imageCaptured',
                 object: owner,
+                type,
                 count,
                 total,
                 image
-            } as FaceImageCreatedEventData);
+            } as ImageCapturedEventData);
         }
     }
 
-    public onFrameImageCreatedWithCountTotalImagePath(count: number, total: number, imagePath: string): void {
-        const owner = this.owner.get();
-        const image = this.imageProcessing(imagePath);
+    public onFaceDetected(
+        x: number,
+        y: number,
+        width: number,
+        height: number
+    ): void {
 
-        if (owner) {
-            owner.notify({
-                eventName: 'frameImage',
-                object: owner,
-                count,
-                total,
-                image
-            } as FrameImageCreatedEventData);
-        }
-    }
-
-    public onFaceDetectedWithXYWidthHeight(x: number, y: number, width: number, height: number): void {
         const owner = this.owner.get();
 
         if (owner) {
@@ -285,7 +215,19 @@ class CameraEventListener extends NSObject implements CameraEventListenerDelegat
         }
     }
 
-    public onErrorWithError(error: string): void {
+    public onQRCodeScanned(content: string): void {
+        const owner = this.owner.get();
+
+        if (owner) {
+            owner.notify({
+                eventName: 'qrCodeContent',
+                object: owner,
+                content
+            } as QRCodeScannedEventData);
+        }
+    }
+
+    public onError(error: string): void {
         const owner = this.owner.get();
 
         if (owner) {
@@ -300,7 +242,7 @@ class CameraEventListener extends NSObject implements CameraEventListenerDelegat
         }
     }
 
-    public onMessageWithMessage(message: string): void {
+    public onMessage(message: string): void {
         const owner = this.owner.get();
 
         if (owner) {
@@ -323,18 +265,6 @@ class CameraEventListener extends NSObject implements CameraEventListenerDelegat
                 eventName: 'permissionDenied',
                 object: owner,
             } as EventData);
-        }
-    }
-
-    public onBarcodeScannedWithContent(content: string): void {
-        const owner = this.owner.get();
-
-        if (owner) {
-            owner.notify({
-                eventName: 'qrCodeContent',
-                object: owner,
-                content
-            } as BarcodeScannedEventData);
         }
     }
 }

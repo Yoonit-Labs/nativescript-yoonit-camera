@@ -9,18 +9,17 @@
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 import {
-  StatusEventData,
-  FaceImageCreatedEventData,
-  FaceDetectedEventData,
-  BarcodeScannedEventData,
-  FrameImageCreatedEventData
+    StatusEventData,
+    ImageCapturedEventData,
+    FaceDetectedEventData,
+    QRCodeScannedEventData,
 } from '.';
 import { CameraBase } from './Yoonit.Camera.common';
 import * as permissions from 'nativescript-permissions';
 import {
-  EventData,
-  ImageSource,
-  File
+    EventData,
+    ImageSource,
+    File
 } from '@nativescript/core';
 
 const CAMERA = () => (android as any).Manifest.permission.CAMERA;
@@ -75,70 +74,8 @@ export class YoonitCamera extends CameraBase {
     public hasPermission(): boolean {
         return permissions.hasPermission(CAMERA());
     }
-
-    public startCapture(captureType: string): void {
-        this.nativeView.startCaptureType(captureType);
-    }
-
-    public setFaceNumberOfImages(faceNumberOfImages: number): void {
-        this.nativeView.setFaceNumberOfImages(faceNumberOfImages);
-    }
-
-    public setFaceDetectionBox(faceDetectionBox: boolean): void {
-        this.nativeView.setFaceDetectionBox(faceDetectionBox);
-    }
-
-    public setFaceSaveImages(faceSaveImages: boolean): void {
-        this.nativeView.setFaceSaveImages(faceSaveImages);
-    }
-
-    public setFaceTimeBetweenImages(faceTimeBetweenImages: number): void {
-        this.nativeView.setFaceTimeBetweenImages(faceTimeBetweenImages);
-    }
-
-    public setFacePaddingPercent(facePaddingPercent: number): void {
-        this.nativeView.setFacePaddingPercent(facePaddingPercent);
-    }
-
-    public setFaceImageSize(width: number, height: number): void {
-        this.nativeView.setFaceImageSize(width, height);
-    }
-
-    public setFaceCaptureMinSize(faceCaptureMinSize: number): void {
-        this.nativeView.setFaceCaptureMinSize(faceCaptureMinSize);
-    }
-
-    public setFaceCaptureMaxSize(faceCaptureMaxSize: number): void {
-        this.nativeView.setFaceCaptureMaxSize(faceCaptureMaxSize);
-    }
-
-    public setFrameNumberOfImages(frameNumberOfImages: number): void {
-        this.nativeView.setFrameNumberOfImages(frameNumberOfImages);
-    }
-
-    public setFrameTimeBetweenImages(frameTimeBetweenImages: number): void {
-        this.nativeView.setFrameTimeBetweenImages(frameTimeBetweenImages);
-    }
-
-    public setFaceROIEnable(faceROIEnable: boolean): void {
-        this.nativeView.setFaceROIEnable(faceROIEnable);
-    }
-
-    public setFaceROIOffset(
-        topOffset: number,
-        rightOffset: number,
-        bottomOffset: number,
-        leftOffset: number
-    ): void {
-        this.nativeView.setFaceROIOffset(topOffset, rightOffset, bottomOffset, leftOffset);
-    }
-
-    public setFaceROIMinSize(minimumSize: boolean): void {
-        this.nativeView.setFaceROIMinSize(minimumSize);
-    }
 }
 
-// Interfaces decorator with implemented interfaces on this class
 @Interfaces([ai.cyberlabs.yoonit.camera.interfaces.CameraEventListener])
 @NativeClass()
 class CameraEventListener extends java.lang.Object implements ai.cyberlabs.yoonit.camera.interfaces.CameraEventListener {
@@ -166,37 +103,35 @@ class CameraEventListener extends java.lang.Object implements ai.cyberlabs.yooni
       };
     }
 
-    public onFaceImageCreated(count: number, total: number, imagePath: string): void {
+    public onImageCaptured(
+        type: string,
+        count: number,
+        total: number,
+        imagePath: string
+    ): void {
+
         const owner = this.owner.get();
         const image = this.imageProcessing(imagePath);
 
         if (owner) {
             owner.notify({
-                eventName: 'faceImage',
+                eventName: 'imageCaptured',
                 object: owner,
+                type,
                 count,
                 total,
                 image
-            } as FaceImageCreatedEventData);
+            } as ImageCapturedEventData);
         }
     }
 
-    public onFrameImageCreated(count: number, total: number, imagePath: string): void {
-        const owner = this.owner.get();
-        const image = this.imageProcessing(imagePath);
+    public onFaceDetected(
+        x: number,
+        y: number,
+        width: number,
+        height: number
+    ): void {
 
-        if (owner) {
-            owner.notify({
-                eventName: 'frameImage',
-                object: owner,
-                count,
-                total,
-                image
-            } as FrameImageCreatedEventData);
-        }
-    }
-
-    public onFaceDetected(x: number, y: number, width: number, height: number): void {
         const owner = this.owner.get();
 
         if (owner) {
@@ -237,7 +172,7 @@ class CameraEventListener extends java.lang.Object implements ai.cyberlabs.yooni
         }
     }
 
-    public onBarcodeScanned(content: string): void {
+    public onQRCodeScanned(content: string): void {
         const owner = this.owner.get();
 
         if (owner) {
@@ -245,7 +180,7 @@ class CameraEventListener extends java.lang.Object implements ai.cyberlabs.yooni
                 eventName: 'qrCodeContent',
                 object: owner,
                 content
-            } as BarcodeScannedEventData);
+            } as QRCodeScannedEventData);
         }
     }
 

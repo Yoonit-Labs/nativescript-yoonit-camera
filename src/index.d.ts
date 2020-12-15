@@ -13,13 +13,8 @@ import {
   EventData
 } from '@nativescript/core';
 
-export interface FaceImageCreatedEventData extends EventData {
-    count: number;
-    total: number;
-    image: any;
-}
-
-export interface FrameImageCreatedEventData extends EventData {
+export interface ImageCapturedEventData extends EventData {
+    type: string;
     count: number;
     total: number;
     image: any;
@@ -32,7 +27,7 @@ export interface FaceDetectedEventData extends EventData {
     height: number;
 }
 
-export interface BarcodeScannedEventData extends EventData {
+export interface QRCodeScannedEventData extends EventData {
     content: string;
 }
 
@@ -44,36 +39,32 @@ export declare class Camera extends ContentView {
     requestPermission(explanationText?: string): Promise<boolean>;
     hasPermission(): boolean;
     preview(): void;
-    startCapture(captureType: string): void;
     stopCapture(): void;
-    setLens(lens: number): void;
+    setLens(lens: string): void;
     toggleLens(): void;
-    getLens(): number;
-    setFaceNumberOfImages(faceNumberOfImages: number): void;
-    setFaceDetectionBox(faceDetectionBox: boolean): void;
-    setFaceSaveImages(faceSaveImages: Boolean): void;
-    setFaceTimeBetweenImages(faceTimeBetweenImages: number): void;
-    setFacePaddingPercent(facePaddingPercent: number): void;
-    setFaceImageSize(width: number, height: number): void;
-    setFaceCaptureMinSize(faceCaptureMinSize: number): void;
-    setFaceCaptureMaxSize(faceCaptureMaxSize: number): void;
-    setFrameNumberOfImages(frameNumberOfImages: number): void;
-    setFrameTimeBetweenImages(frameTimeBetweenImages: number): void;
-    setFaceROIEnable(faceROIEnable: boolean): void;
-    setFaceROIOffset(
-        topOffset: number,
-        rightOffset: number,
-        bottomOffset: number,
-        leftOffset: number
-    ): void;
-    setFaceROIMinSize(minimumSize: boolean): void;
+    getLens(): string;
+    startCapture(type: string): void;
+    setNumberOfImages(numberOfImages: number): void;
+    setTimeBetweenImages(milliseconds: number): void;
+    setFacePaddingPercent(percentage: string): void;
+    setOutputImageWidth(percentage: number): void;
+    setOutputImageHeight(percentage: number): void;
+    setFaceCaptureMinSize(percentage: string): void;
+    setFaceCaptureMaxSize(percentage: string): void;
+    setFaceDetectionBox(enable: boolean): void;
+    setSaveImageCaptured(enable: boolean): void;
+    setFaceROIEnable(enable: boolean): void;
+    setFaceROITopOffset(percentage): void;
+    setFaceROIRightOffset(percentage): void;
+    setFaceROIBottomOffset(percentage): void;
+    setFaceROILeftOffset(percentage): void;
+    setFaceROIMinSize(percentage: string): void;
 
     on(eventNames: string, callback: (data: EventData) => void, thisArg?: any);
-    on(event: faceImage, callback: (args: FaceImageCreatedEventData) => void, thisArg?: any);
-    on(event: frameImage, callback: (args: FrameImageCreatedEventData) => void, thisArg?: any);
+    on(event: imageCaptured, callback: (args: ImageCapturedEventData) => void, thisArg?: any);
     on(event: faceDetected, callback: (args: FaceDetectedEventData) => void, thisArg?: any);
     on(event: endCapture, callback: () => void, thisArg?: any);
-    on(event: qrCodeContent, callback: (args: BarCodeScannedEventData) => void, thisArg?: any);
+    on(event: qrCodeContent, callback: (args: QRCodeScannedEventData) => void, thisArg?: any);
     on(event: status, callback: (args: MessageEventData) => void, thisArg?: any);
     on(event: permissionDenied, callback: () => void, thisArg?: any);
 }
