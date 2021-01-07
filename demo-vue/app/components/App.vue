@@ -11,14 +11,13 @@
       >
         <YoonitCamera
           ref="yooCamera"
-          :initialLens="cameraLens"
+          :lens="cameraLens"
           :captureType="captureType"
           :numberOfImages="numberOfImages"
           :timeBetweenImages="timeBetweenImages"
           :saveImageCaptured="saveImageCaptured"
           :faceDetectionBox="faceDetectionBox"
           :faceROI="faceROI"
-
           @faceDetected="doFaceDetected"
           @imageCaptured="doImageCaptured"
           @endCapture="doEndCapture"
@@ -57,7 +56,7 @@
             <Button
               :text="cameraLens === 'back' ? 'BACK CAM' : 'FRONT CAM'"
               horizontalAlignment="left"
-              @tap="cameraLens = cameraLens === 'back' ? 'front' : 'back';" />
+              @tap="doToggleCameraLens" />
             <Button
               text="TOGGLE BOX"
               horizontalAlignment="left"
@@ -110,14 +109,12 @@
   export default {
     data: () => ({
       cameraLens: 'front',
-      captureType: 'none',
+      captureType: 'face',
       numberOfImages: 0,
-      timeBetweenImages: 1000,
-      outputImageWidth: 200,
-      outputImageHeight: 200,
-      saveImageCaptured: false,
+      timeBetweenImages: 500,
+      saveImageCaptured: true,
       faceDetectionBox: true,
-      faceROI: true,
+      faceROI: false,
       imagePath: null,
       imageInformationCaptured: "",
       qrCodeContent: ""
@@ -168,10 +165,29 @@
         this.imagePath = source
       },
 
-      doEndCapture: () => console.log('[YooCamera] doEndCapture'),
-      doQRCodeContent: ({ content }) => this.qrCodeContent = content,
-      doStatus: ({ status }) => console.log('[YooCamera] doStatus', status),
-      doPermissionDenied: () => console.log('[YooCamera] doPermissionDenied'),
+      doToggleCameraLens() {
+        console.log('[YooCamera] doToggleCameraLens');
+
+        this.cameraLens = this.cameraLens === 'back' ? 'front' : 'back';
+      },
+
+      doEndCapture() {
+        console.log('[YooCamera] doEndCapture');
+      },
+
+      doQRCodeContent({ content }) {
+        console.log('[YooCamera] doQRCodeContent', content);
+
+        this.qrCodeContent = content;
+      },
+
+      doStatus({ status }) {
+        console.log('[YooCamera] doStatus', status);
+      },
+
+      doPermissionDenied() {
+        console.log('[YooCamera] doPermissionDenied');
+      },
     }
   }
 </script>

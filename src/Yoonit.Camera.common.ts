@@ -125,7 +125,6 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
 
     @ValidateProps('lens', ['front', 'back'])
     public setCameraLens(@Required lens: string): void {
-        console.log("1 " + lens);
         this.nativeView.setCameraLens(lens);
     }
 
