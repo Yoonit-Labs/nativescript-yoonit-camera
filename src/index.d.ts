@@ -40,8 +40,8 @@ export declare class Camera extends ContentView {
     hasPermission(): boolean;
     preview(): void;
     stopCapture(): void;
-    setLens(lens: string): void;
     toggleLens(): void;
+    setCameraLens(lens: string): void;
     getLens(): string;
     startCapture(type: string): void;
     setNumberOfImages(numberOfImages: number): void;
