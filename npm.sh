@@ -59,4 +59,7 @@ rm -rf src/Yoonit.Camera.ios.js.map
 rm -rf src/Yoonit.Camera.common.js
 rm -rf src/Yoonit.Camera.common.d.ts
 rm -rf src/Yoonit.Camera.common.js.map
+rm -rf src/helpers/Validator.js
+rm -rf src/helpers/Validator.d.ts
+rm -rf src/helpers/Validator.js.map
 pause
