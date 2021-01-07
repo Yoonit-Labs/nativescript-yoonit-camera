@@ -7,6 +7,7 @@ class Validator {
     static RegexPercentage: RegExp = /(^(([0-9])?([0-9])?|0)(\.[0-9]{0,2})?.\%$)/ig;
     static RegexNumber: RegExp = /[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$/ig;
     static RegexPX: RegExp = /[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)+(px)$/ig;
+    static PropMap: Array<{ name: string, value: any }> = [];
 
     private static getErrorMessage(
         propName: String,
@@ -116,8 +117,14 @@ class Validator {
                         );
 
                         if (errorMessage !== null) {
-                            console.error("ValidateProps", errorMessage);
                             throw new Error(errorMessage);
+                        }
+
+                        if (Validator.PropMap !== null) {
+                            Validator.PropMap.push({
+                                name: propertyName,
+                                value: arguments[parameterIndex]
+                            });
                         }
                     }
                 }
