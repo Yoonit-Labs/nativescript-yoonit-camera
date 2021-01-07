@@ -24,7 +24,8 @@ declare namespace ai {
 					public startCaptureType(param0: string): void;
 					public stopCapture(): void;
 					public toggleCameraLens(): void;
-					public getCameraLens(): number;
+					public setCameraLens(param0: string): void;
+					public getCameraLens(): string;
 					public setNumberOfImages(param0: number): void;
 					public setTimeBetweenImages(param0: number): void;
 					public setOutputImageWidth(param0: number): void;

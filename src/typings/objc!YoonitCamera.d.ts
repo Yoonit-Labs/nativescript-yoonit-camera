@@ -19,7 +19,8 @@ declare class CameraView extends UIView {
     startCaptureType(captureType: string): void;
     stopCapture(): void;
     toggleCameraLens(): void;
-    getCameraLens(): number;
+    setCameraLens(cameraLens: string): void;
+    getCameraLens(): string;
     setNumberOfImages(numberOfImages: number): void;
     setTimeBetweenImages(timeBetweenImages: number): void;
     setOutputImageWidth(width: number): void;
