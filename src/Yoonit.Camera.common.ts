@@ -20,6 +20,7 @@ import {
     QRCodeScannedEventData,
 } from '.';
 import Validator from "./helpers/Validator";
+
 const {
     ValidateProps,
     Required,
@@ -32,31 +33,82 @@ const {
 
 export abstract class CameraBase extends ContentView implements CameraDefinition {
 
-    public set initialLens(value: string) { this.setLens(value); }
-    public set captureType(value: string) { this.startCapture(value); }
-    public set numberOfImages(value: number) { this.setNumberOfImages(value); }
-    public set timeBetweenImages(value: number) { this.setTimeBetweenImages(value); }
-    public set outputImageWidth(value: number) { this.setOutputImageWidth(value); }
-    public set outputImageHeight(value: number) { this.setOutputImageHeight(value); }
-    public set faceMinSize(value: string) { this.setFaceCaptureMinSize(value); }
-    public set faceMaxSize(value: string) { this.setFaceCaptureMaxSize(value); }
-    public set faceDetectionBox(value: boolean) { this.setFaceDetectionBox(value); }
-    public set saveImageCaptured(value: boolean) { this.setSaveImageCaptured(value); }
-    public set faceROI(value: boolean) { this.setFaceROIEnable(value); }
-    public set faceROITopOffset(value: string) { this.setFaceROITopOffset(value); }
-    public set faceROIRightOffset(value: string) { this.setFaceROIRightOffset(value); }
-    public set faceROIBottomOffset(value: string) { this.setFaceROIBottomOffset(value); }
-    public set faceROILeftOffset(value: string) { this.setFaceROILeftOffset(value); }
-    public set faceROIMinSize(value: string) { this.setFaceROIMinSize(value); }
+    // PROPERTIES ================================================================
+    // ===========================================================================
+
+    public set lens(value: string) {
+        this.setCameraLens(value);
+    }
+
+    public set captureType(value: string) {
+        this.startCapture(value);
+    }
+
+    public set numberOfImages(value: number) {
+        this.setNumberOfImages(value);
+    }
+
+    public set timeBetweenImages(value: number) {
+        this.setTimeBetweenImages(value);
+    }
+
+    public set outputImageWidth(value: number) {
+        this.setOutputImageWidth(value);
+    }
+
+    public set outputImageHeight(value: number) {
+        this.setOutputImageHeight(value);
+    }
+
+    public set faceMinSize(value: string) {
+        this.setFaceCaptureMinSize(value);
+    }
+
+    public set faceMaxSize(value: string) {
+        this.setFaceCaptureMaxSize(value);
+    }
+
+    public set faceDetectionBox(value: boolean) {
+        this.setFaceDetectionBox(value);
+    }
+
+    public set saveImageCaptured(value: boolean) {
+        this.setSaveImageCaptured(value);
+    }
+
+    public set faceROI(value: boolean) {
+        this.setFaceROIEnable(value);
+    }
+
+    public set faceROITopOffset(value: string) {
+        this.setFaceROITopOffset(value);
+    }
+
+    public set faceROIRightOffset(value: string) {
+        this.setFaceROIRightOffset(value);
+    }
+
+    public set faceROIBottomOffset(value: string) {
+        this.setFaceROIBottomOffset(value);
+    }
+
+    public set faceROILeftOffset(value: string) {
+        this.setFaceROILeftOffset(value);
+    }
+
+    public set faceROIMinSize(value: string) {
+        this.setFaceROIMinSize(value);
+    }
+
+    // METHODS ===================================================================
+    // ===========================================================================
 
     public requestPermission(explanationText?: string): Promise<boolean> {
         return new Promise((resolve, reject) => resolve());
     }
-    public hasPermission(): boolean { return false; }
 
-    @ValidateProps('lens', ['front', 'back'])
-    public setLens(@Required lens: string): void {
-        this.getLens() !== lens && this.toggleLens();
+    public hasPermission(): boolean {
+        return false;
     }
 
     public preview(): void {
@@ -71,12 +123,21 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
         this.nativeView.toggleCameraLens();
     }
 
+    @ValidateProps('lens', ['front', 'back'])
+    public setCameraLens(@Required lens: string): void {
+        this.nativeView.setCameraLens(lens);
+    }
+
     public getLens(): string {
-        return this.nativeView.getCameraLens() === 0 ? 'front' : 'back';
+        return this.nativeView.getCameraLens();
+    }
+
+    public startCapture(type: string): void {
+        this.startCaptureType(type);
     }
 
     @ValidateProps('captureType', ['face', 'qrcode', 'frame', 'none'])
-    public startCapture(@Required type: string): void {
+    public startCaptureType(@Required type: string): void {
         this.nativeView.startCaptureType(type);
     }
 

@@ -21,6 +21,7 @@ import {
     ImageSource,
     File
 } from '@nativescript/core';
+import Validator from "./helpers/Validator";
 
 const CAMERA = () => (android as any).Manifest.permission.CAMERA;
 
@@ -43,6 +44,13 @@ export class YoonitCamera extends CameraBase {
         // When nativeView is tapped we get the owning JS object through this field.
         (<any>this.nativeView).owner = this;
         super.initNativeView();
+
+        Validator.PropMap.forEach((prop) => {
+            if (this.nativeView[prop.name]) {
+                this.nativeView[prop.name](prop.value);
+            }
+        });
+        Validator.PropMap = null;
     }
 
     /**

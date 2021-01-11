@@ -14,8 +14,7 @@ export default {
   install (Vue) {
     Vue.registerElement(
       'YoonitCamera',
-      () => require('./Yoonit.Camera')
-        .YoonitCamera
+      () => YoonitCamera
     )
 
     Vue.prototype.$yoo = {
@@ -50,8 +49,8 @@ export default {
         hasPermission,
         preview,
         stopCapture,
-        setLens,
         toggleLens,
+        setCameraLens,
         getLens,
         startCapture,
         setNumberOfImages,
@@ -79,8 +78,8 @@ export default {
         hasPermission,
         preview,
         stopCapture,
-        setLens,
         toggleLens,
+        setCameraLens,
         getLens,
         startCapture,
         setNumberOfImages,
