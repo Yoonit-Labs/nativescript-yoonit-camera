@@ -1,0 +1,53 @@
+import { ContentView, EventData } from '@nativescript/core';
+import { Camera as CameraDefinition, StatusEventData, ImageCapturedEventData, FaceDetectedEventData, QRCodeScannedEventData } from '.';
+export declare abstract class CameraBase extends ContentView implements CameraDefinition {
+    set lens(value: string);
+    set captureType(value: string);
+    set numberOfImages(value: number);
+    set timeBetweenImages(value: number);
+    set outputImageWidth(value: number);
+    set outputImageHeight(value: number);
+    set faceMinSize(value: string);
+    set faceMaxSize(value: string);
+    set faceDetectionBox(value: boolean);
+    set saveImageCaptured(value: boolean);
+    set faceROI(value: boolean);
+    set faceROITopOffset(value: string);
+    set faceROIRightOffset(value: string);
+    set faceROIBottomOffset(value: string);
+    set faceROILeftOffset(value: string);
+    set faceROIMinSize(value: string);
+    requestPermission(explanationText?: string): Promise<boolean>;
+    hasPermission(): boolean;
+    preview(): void;
+    stopCapture(): void;
+    toggleLens(): void;
+    setCameraLens(lens: string): void;
+    getLens(): string;
+    startCapture(type: string): void;
+    startCaptureType(type: string): void;
+    setNumberOfImages(numberOfImages: number): void;
+    setTimeBetweenImages(milliseconds: number): void;
+    setOutputImageWidth(width: any): void;
+    setOutputImageHeight(height: any): void;
+    setFaceDetectionBox(enable: boolean): void;
+    setFacePaddingPercent(percentage: any): void;
+    setFaceCaptureMinSize(percentage: any): void;
+    setFaceCaptureMaxSize(percentage: any): void;
+    setSaveImageCaptured(enable: boolean): void;
+    setFaceROIEnable(enable: boolean): void;
+    setFaceROITopOffset(percentage: any): void;
+    setFaceROIRightOffset(percentage: any): void;
+    setFaceROIBottomOffset(percentage: any): void;
+    setFaceROILeftOffset(percentage: any): void;
+    setFaceROIMinSize(percentage: any): void;
+}
+export interface CameraBase {
+    on(eventNames: string, callback: (data: EventData) => void, thisArg?: any): any;
+    on(event: "imageCaptured", callback: (args: ImageCapturedEventData) => void, thisArg?: any): any;
+    on(event: "faceDetected", callback: (args: FaceDetectedEventData) => void, thisArg?: any): any;
+    on(event: "endCapture", callback: () => void, thisArg?: any): any;
+    on(event: "qrCodeContent", callback: (args: QRCodeScannedEventData) => void, thisArg?: any): any;
+    on(event: "status", callback: (args: StatusEventData) => void, thisArg?: any): any;
+    on(event: "permissionDenied", callback: () => void, thisArg?: any): any;
+}
