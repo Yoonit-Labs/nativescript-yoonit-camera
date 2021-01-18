@@ -54,7 +54,7 @@ export class YoonitCamera extends CameraBase {
                 this.nativeView[prop.name](prop.value);
             }
         });
-        Validator.PropMap = null;
+        Validator.PropMap = [];
     }
 
     /**
