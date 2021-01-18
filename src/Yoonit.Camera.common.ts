@@ -60,6 +60,14 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
         this.setImageCaptureHeight(value);
     }
 
+    public set imageCapture(value: boolean) {
+        this.setImageCapture(value);
+    }
+
+    public set colorEncoding(value: string) {
+        this.setImageCaptureColorEncoding(value)
+    }
+
     public set faceMinSize(value: string) {
         this.setFaceCaptureMinSize(value);
     }
@@ -72,9 +80,6 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
         this.setFaceDetectionBox(value);
     }
 
-    public set imageCapture(value: boolean) {
-        this.setImageCapture(value);
-    }
 
     public set faceROI(value: boolean) {
         this.setFaceROIEnable(value);
@@ -163,6 +168,14 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
         this.nativeView.setOutputImageHeight(height);
     }
 
+    @ValidateProps('imageCapture', [false, true])
+    public setImageCapture(@Required enable: boolean): void {
+        this.nativeView.setSaveImageCaptured(enable);
+    }
+
+    @ValidateProps('setImageCaptureColorEncoding', ['RGB', 'YUV'])
+    public setImageCaptureColorEncoding(@Required colorEncoding: string): void {}
+
     @ValidateProps('faceDetectionBox', [false, true])
     public setFaceDetectionBox(@Required enable: boolean): void {
         this.nativeView.setFaceDetectionBox(enable);
@@ -183,11 +196,6 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
     @PercentageToNumber
     public setFaceCaptureMaxSize(@Required percentage): void {
         this.nativeView.setFaceCaptureMaxSize(percentage);
-    }
-
-    @ValidateProps('imageCapture', [false, true])
-    public setImageCapture(@Required enable: boolean): void {
-        this.nativeView.setSaveImageCaptured(enable);
     }
 
     @ValidateProps('faceROI', [false, true])
