@@ -50,7 +50,7 @@ After that, you can access the camera object in your entire project using `this.
       captureType="face"
       imageCaptureAmount=10
       imageCaptureInterval=500
-      setImageCapture=true
+      imageCapture=true
       faceDetectionBox=true
       @faceDetected="doFaceDetected"
       @imageCaptured="doImageCaptured"
@@ -164,7 +164,7 @@ After that, you can access the camera object in your entire project using `this.
 | setCameraLens                  | `lens: string`           | `"front"` or `"back"`                                                             | void        | Set camera to use "front" or "back" lens. Default value is "front".
 | getLens                        | -                        | -                                                                                 | string      | Return "front" or "back".  
 | setImageCaptureAmount          | `amount: Int`            | Any positive `Int` value                                                          | void        | Default value is 0. For value 0 is saved infinity images. When saved images reached the "number os images", the `onEndCapture` is triggered.
-| setmageCaptureInterval         | `interval: number`       | Any positive number that represent time in milli seconds                          | void        | Set saving face/frame images time interval in milli seconds.
+| setImageCaptureInterval        | `interval: number`       | Any positive number that represent time in milli seconds                          | void        | Set saving face/frame images time interval in milli seconds.
 | setImageCaptureWidth           | `width: string`          | Value format must be in `NNpx`                                                    | void        | Set face image width to be created in pixels.
 | setImageCaptureHeight          | `height: string`         | Value format must be in `NNpx`                                                    | void        | Set face image height to be created in pixels.
 | setImageCapture                | `enable: boolean`        | `true` or `false`                                                                 | void        | Set to enable/disable save image when capturing face and frame.
