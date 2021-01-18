@@ -82,6 +82,10 @@ export class YoonitCamera extends CameraBase {
     public hasPermission(): boolean {
         return permissions.hasPermission(CAMERA());
     }
+
+    public setImageCaptureColorEncoding(colorEncoding: string) {
+        this.nativeView.setColorEncodingCapture(colorEncoding)
+    }
 }
 
 @Interfaces([ai.cyberlabs.yoonit.camera.interfaces.CameraEventListener])

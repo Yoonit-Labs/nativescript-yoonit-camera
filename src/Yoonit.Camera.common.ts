@@ -76,10 +76,6 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
         this.setImageCapture(value);
     }
 
-    public set imageCaptureColorEncoding(value: string) {
-        this.setImageCaptureColorEncoding(value);
-    }
-
     public set faceROI(value: boolean) {
         this.setFaceROIEnable(value);
     }
@@ -192,11 +188,6 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
     @ValidateProps('imageCapture', [false, true])
     public setImageCapture(@Required enable: boolean): void {
         this.nativeView.setSaveImageCaptured(enable);
-    }
-
-    @ValidateProps('imageCaptureColorEncoding', ["RGB", "YUV"])
-    public setImageCaptureColorEncoding(colorEncoding: string) {
-        this.nativeView.setColorEncodingCapture(colorEncoding)
     }
 
     @ValidateProps('faceROI', [false, true])
