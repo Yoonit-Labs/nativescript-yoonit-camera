@@ -50,7 +50,7 @@ After that, you can access the camera object in your entire project using `this.
       captureType="face"
       imageCaptureAmount=10
       imageCaptureInterval=500
-      saveImageCaptured=true
+      setImageCapture=true
       faceDetectionBox=true
       @faceDetected="doFaceDetected"
       @imageCaptured="doImageCaptured"
