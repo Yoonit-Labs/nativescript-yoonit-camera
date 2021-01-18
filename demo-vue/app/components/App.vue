@@ -13,9 +13,9 @@
           ref="yooCamera"
           :lens="cameraLens"
           :captureType="captureType"
-          :numberOfImages="numberOfImages"
-          :timeBetweenImages="timeBetweenImages"
-          :saveImageCaptured="saveImageCaptured"
+          :imageCaptureAmount="imageCaptureAmount"
+          :imageCaptureInterval="imageCaptureInterval"
+          :imageCapture="imageCapture"
           :faceDetectionBox="faceDetectionBox"
           :faceROI="faceROI"
           @faceDetected="doFaceDetected"
@@ -38,7 +38,7 @@
             :src="imagePath"
             width="200"
             height="200"
-            v-if="saveImageCaptured && (captureType === 'face' || captureType === 'frame')"
+            v-if="imageCapture && (captureType === 'face' || captureType === 'frame')"
           />
           <TextField
             class="message"
@@ -64,7 +64,7 @@
             <Button
               text="TOGGLE SAVE"
               horizontalAlignment="left"
-              @tap="saveImageCaptured = !saveImageCaptured" />
+              @tap="imageCapture = !imageCapture" />
           </StackLayout>
           <Label text="Tipos de Captura:" />
           <StackLayout orientation="horizontal">
@@ -110,9 +110,9 @@
     data: () => ({
       cameraLens: 'front',
       captureType: 'face',
-      numberOfImages: 0,
-      timeBetweenImages: 500,
-      saveImageCaptured: true,
+      imageCaptureAmount: 0,
+      imageCaptureInterval: 500,
+      imageCapture: true,
       faceDetectionBox: true,
       faceROI: false,
       imagePath: null,

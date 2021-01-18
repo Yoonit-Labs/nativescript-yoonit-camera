@@ -31,6 +31,7 @@ declare namespace ai {
 					public setOutputImageWidth(param0: number): void;
 					public setOutputImageHeight(param0: number): void;
 					public setSaveImageCaptured(param0: boolean): void;
+					public setColorEncodingCapture(param0: string): void;
 					public setFaceDetectionBox(param0: boolean): void;
 					public setFacePaddingPercent(param0: number): void;
 					public setFaceCaptureMinSize(param0: number): void;
