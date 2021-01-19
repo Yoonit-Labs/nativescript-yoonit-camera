@@ -44,6 +44,10 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
         this.startCapture(value);
     }
 
+    public set imageCapture(value: boolean) {
+        this.setImageCapture(value);
+    }
+
     public set imageCaptureAmount(value: number) {
         this.setImageCaptureAmount(value);
     }
@@ -60,12 +64,8 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
         this.setImageCaptureHeight(value);
     }
 
-    public set imageCapture(value: boolean) {
-        this.setImageCapture(value);
-    }
-
     public set colorEncoding(value: string) {
-        this.setImageCaptureColorEncoding(value)
+        this.setImageCaptureColorEncoding(value);
     }
 
     public set faceMinSize(value: string) {
@@ -79,7 +79,6 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
     public set faceDetectionBox(value: boolean) {
         this.setFaceDetectionBox(value);
     }
-
 
     public set faceROI(value: boolean) {
         this.setFaceROIEnable(value);
@@ -173,8 +172,7 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
         this.nativeView.setSaveImageCaptured(enable);
     }
 
-    @ValidateProps('setImageCaptureColorEncoding', ['RGB', 'YUV'])
-    public setImageCaptureColorEncoding(@Required colorEncoding: string): void {}
+    public setImageCaptureColorEncoding(colorEncoding: string): void {}
 
     @ValidateProps('faceDetectionBox', [false, true])
     public setFaceDetectionBox(@Required enable: boolean): void {

@@ -44,15 +44,19 @@ export declare class Camera extends ContentView {
     setCameraLens(lens: string): void;
     getLens(): string;
     startCapture(type: string): void;
+
+    setImageCapture(enable: boolean): void;
     setImageCaptureAmount(numberOfImages: number): void;
     setImageCaptureInterval(milliseconds: number): void;
-    setFacePaddingPercent(percentage: string): void;
     setImageCaptureWidth(percentage: number): void;
     setImageCaptureHeight(percentage: number): void;
+    setImageCaptureColorEncoding(colorEncoding: string): void;
+
+    setFacePaddingPercent(percentage: string): void;
     setFaceCaptureMinSize(percentage: string): void;
     setFaceCaptureMaxSize(percentage: string): void;
     setFaceDetectionBox(enable: boolean): void;
-    setImageCapture(enable: boolean): void;
+
     setFaceROIEnable(enable: boolean): void;
     setFaceROITopOffset(percentage): void;
     setFaceROIRightOffset(percentage): void;
