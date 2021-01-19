@@ -44,20 +44,28 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
         this.startCapture(value);
     }
 
-    public set numberOfImages(value: number) {
-        this.setNumberOfImages(value);
+    public set imageCapture(value: boolean) {
+        this.setImageCapture(value);
     }
 
-    public set timeBetweenImages(value: number) {
-        this.setTimeBetweenImages(value);
+    public set imageCaptureAmount(value: number) {
+        this.setImageCaptureAmount(value);
     }
 
-    public set outputImageWidth(value: number) {
-        this.setOutputImageWidth(value);
+    public set imageCaptureInterval(value: number) {
+        this.setImageCaptureInterval(value);
     }
 
-    public set outputImageHeight(value: number) {
-        this.setOutputImageHeight(value);
+    public set imageCaptureWidth(value: number) {
+        this.setImageCaptureWidth(value);
+    }
+
+    public set imageCaptureHeight(value: number) {
+        this.setImageCaptureHeight(value);
+    }
+
+    public set colorEncoding(value: string) {
+        this.setImageCaptureColorEncoding(value);
     }
 
     public set faceMinSize(value: string) {
@@ -70,10 +78,6 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
 
     public set faceDetectionBox(value: boolean) {
         this.setFaceDetectionBox(value);
-    }
-
-    public set saveImageCaptured(value: boolean) {
-        this.setSaveImageCaptured(value);
     }
 
     public set faceROI(value: boolean) {
@@ -141,27 +145,34 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
         this.nativeView.startCaptureType(type);
     }
 
-    @ValidateProps('numberOfImages', RegexNumber)
-    public setNumberOfImages(@Required numberOfImages: number): void {
-        this.nativeView.setNumberOfImages(numberOfImages);
+    @ValidateProps('imageCaptureAmount', RegexNumber)
+    public setImageCaptureAmount(@Required amount: number): void {
+        this.nativeView.setNumberOfImages(amount);
     }
 
-    @ValidateProps('timeBetweenImages', RegexNumber)
-    public setTimeBetweenImages(@Required milliseconds: number): void {
-        this.nativeView.setTimeBetweenImages(milliseconds);
+    @ValidateProps('imageCaptureInterval', RegexNumber)
+    public setImageCaptureInterval(@Required interval: number): void {
+        this.nativeView.setTimeBetweenImages(interval);
     }
 
-    @ValidateProps('outputImageWidth', RegexPX)
+    @ValidateProps('imageCaptureWidth', RegexPX)
     @NumberToPixel
-    public setOutputImageWidth(@Required width): void {
+    public setImageCaptureWidth(@Required width): void {
         this.nativeView.setOutputImageWidth(width);
     }
 
-    @ValidateProps('outputImageHeight', RegexPX)
+    @ValidateProps('imageCaptureHeight', RegexPX)
     @NumberToPixel
-    public setOutputImageHeight(@Required height): void {
+    public setImageCaptureHeight(@Required height): void {
         this.nativeView.setOutputImageHeight(height);
     }
+
+    @ValidateProps('imageCapture', [false, true])
+    public setImageCapture(@Required enable: boolean): void {
+        this.nativeView.setSaveImageCaptured(enable);
+    }
+
+    public setImageCaptureColorEncoding(colorEncoding: string): void {}
 
     @ValidateProps('faceDetectionBox', [false, true])
     public setFaceDetectionBox(@Required enable: boolean): void {
@@ -183,11 +194,6 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
     @PercentageToNumber
     public setFaceCaptureMaxSize(@Required percentage): void {
         this.nativeView.setFaceCaptureMaxSize(percentage);
-    }
-
-    @ValidateProps('saveImageCaptured', [false, true])
-    public setSaveImageCaptured(@Required enable: boolean): void {
-        this.nativeView.setSaveImageCaptured(enable);
     }
 
     @ValidateProps('faceROI', [false, true])
