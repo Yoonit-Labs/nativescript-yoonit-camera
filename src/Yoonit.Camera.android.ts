@@ -125,7 +125,8 @@ class CameraEventListener extends java.lang.Object implements ai.cyberlabs.yooni
         type: string,
         count: number,
         total: number,
-        imagePath: string
+        imagePath: string,
+        inferences: java.util.ArrayList<android.util.Pair<java.lang.String, number[]>>
     ): void {
 
         const owner = this.owner.get();
