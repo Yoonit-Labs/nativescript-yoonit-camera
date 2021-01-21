@@ -26,6 +26,7 @@ import Validator from "./helpers/Validator";
 const {
     ValidateProps,
     Required,
+    NativeMethod,
 } = Validator;
 
 const CAMERA = () => (android as any).Manifest.permission.CAMERA;
@@ -89,6 +90,7 @@ export class YoonitCamera extends CameraBase {
     }
 
     @ValidateProps('colorEncoding', ['RGB', 'YUV'])
+    @NativeMethod('setColorEncodingCapture')
     public setImageCaptureColorEncoding(@Required colorEncoding: string) {
         this.nativeView.setColorEncodingCapture(colorEncoding);
     }

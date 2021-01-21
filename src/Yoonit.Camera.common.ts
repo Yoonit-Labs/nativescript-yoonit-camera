@@ -24,6 +24,7 @@ import Validator from "./helpers/Validator";
 const {
     ValidateProps,
     Required,
+    NativeMethod,
     RegexNumber,
     RegexPX,
     PercentageToNumber,
@@ -128,6 +129,7 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
     }
 
     @ValidateProps('lens', ['front', 'back'])
+    @NativeMethod('setCameraLens')
     public setCameraLens(@Required lens: string): void {
         this.nativeView.setCameraLens(lens);
     }
@@ -136,38 +138,40 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
         return this.nativeView.getCameraLens();
     }
 
-    public startCapture(type: string): void {
-        this.startCaptureType(type);
-    }
-
     @ValidateProps('captureType', ['face', 'qrcode', 'frame', 'none'])
-    public startCaptureType(@Required type: string): void {
+    @NativeMethod('startCaptureType')
+    public startCapture(@Required type: string): void {
         this.nativeView.startCaptureType(type);
     }
 
     @ValidateProps('imageCaptureAmount', RegexNumber)
+    @NativeMethod('setNumberOfImages')
     public setImageCaptureAmount(@Required amount: number): void {
         this.nativeView.setNumberOfImages(amount);
     }
 
     @ValidateProps('imageCaptureInterval', RegexNumber)
+    @NativeMethod('setTimeBetweenImages')
     public setImageCaptureInterval(@Required interval: number): void {
         this.nativeView.setTimeBetweenImages(interval);
     }
 
     @ValidateProps('imageCaptureWidth', RegexPX)
     @NumberToPixel
+    @NativeMethod('setOutputImageWidth')
     public setImageCaptureWidth(@Required width): void {
         this.nativeView.setOutputImageWidth(width);
     }
 
     @ValidateProps('imageCaptureHeight', RegexPX)
     @NumberToPixel
+    @NativeMethod('setOutputImageHeight')
     public setImageCaptureHeight(@Required height): void {
         this.nativeView.setOutputImageHeight(height);
     }
 
     @ValidateProps('imageCapture', [false, true])
+    @NativeMethod('setSaveImageCaptured')
     public setImageCapture(@Required enable: boolean): void {
         this.nativeView.setSaveImageCaptured(enable);
     }
@@ -175,58 +179,68 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
     public setImageCaptureColorEncoding(colorEncoding: string): void {}
 
     @ValidateProps('faceDetectionBox', [false, true])
+    @NativeMethod('setFaceDetectionBox')
     public setFaceDetectionBox(@Required enable: boolean): void {
         this.nativeView.setFaceDetectionBox(enable);
     }
 
     @PercentageToNumber
+    @NativeMethod('setFacePaddingPercent')
     public setFacePaddingPercent(@Required percentage): void {
         this.nativeView.setFacePaddingPercent(percentage);
     }
 
     @ValidateProps('faceMinSize', RegexPercentage)
     @PercentageToNumber
+    @NativeMethod('setFaceCaptureMinSize')
     public setFaceCaptureMinSize(@Required percentage): void {
         this.nativeView.setFaceCaptureMinSize(percentage);
     }
 
     @ValidateProps('faceMaxSize', RegexPercentage)
     @PercentageToNumber
+    @NativeMethod('setFaceCaptureMaxSize')
     public setFaceCaptureMaxSize(@Required percentage): void {
         this.nativeView.setFaceCaptureMaxSize(percentage);
     }
 
     @ValidateProps('faceROI', [false, true])
+    @NativeMethod('setFaceROIEnable')
     public setFaceROIEnable(@Required enable: boolean): void {
         this.nativeView.setFaceROIEnable(enable);
     }
 
     @ValidateProps('faceROITopOffset', RegexPercentage)
     @PercentageToNumber
+    @NativeMethod('setFaceROITopOffset')
     public setFaceROITopOffset(@Required percentage): void {
         this.nativeView.setFaceROITopOffset(percentage);
     }
 
     @ValidateProps('faceROIRightOffset', RegexPercentage)
     @PercentageToNumber
+    @NativeMethod('setFaceROIRightOffset')
     public setFaceROIRightOffset(@Required percentage): void {
         this.nativeView.setFaceROIRightOffset(percentage);
     }
 
     @ValidateProps('faceROIBottomOffset', RegexPercentage)
     @PercentageToNumber
+    @NativeMethod('setFaceROIBottomOffset')
     public setFaceROIBottomOffset(@Required percentage): void {
         this.nativeView.setFaceROIBottomOffset(percentage);
     }
 
     @ValidateProps('faceROILeftOffset', RegexPercentage)
     @PercentageToNumber
+    @NativeMethod('setFaceROILeftOffset')
     public setFaceROILeftOffset(@Required percentage): void {
         this.nativeView.setFaceROILeftOffset(percentage);
     }
 
     @ValidateProps('faceROIMinSize', RegexPercentage)
     @PercentageToNumber
+    @NativeMethod('setFaceROIMinSize')
     public setFaceROIMinSize(@Required percentage): void {
         this.nativeView.setFaceROIMinSize(percentage);
     }
