@@ -112,15 +112,15 @@ class CameraEventListener extends java.lang.Object implements ai.cyberlabs.yooni
     }
 
     private imageProcessing(imagePath: string): object {
-      const source: ImageSource = ImageSource.fromFileSync(imagePath);
-      const imageFile = File.fromPath(imagePath);
-      const binary = imageFile.readSync();
+        const source: ImageSource = ImageSource.fromFileSync(imagePath);
+        const imageFile = File.fromPath(imagePath);
+        const binary = imageFile.readSync();
 
-      return {
-        path: imagePath,
-        source,
-        binary
-      };
+        return {
+            path: imagePath,
+            source,
+            binary
+        };
     }
 
     public onImageCaptured(
@@ -130,11 +130,11 @@ class CameraEventListener extends java.lang.Object implements ai.cyberlabs.yooni
         imagePath: string,
         inferences: java.util.ArrayList<android.util.Pair<java.lang.String, number[]>>
     ): void {
-
         const owner = this.owner.get();
-        const image = this.imageProcessing(imagePath);
 
-        if (owner) {
+        if (owner && !!imagePath) {
+            const image = this.imageProcessing(imagePath);
+
             owner.notify({
                 eventName: 'imageCaptured',
                 object: owner,
