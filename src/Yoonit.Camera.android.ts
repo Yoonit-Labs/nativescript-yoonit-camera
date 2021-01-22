@@ -26,6 +26,7 @@ import Validator from "./helpers/Validator";
 const {
     ValidateProps,
     Required,
+    NativeMethod,
 } = Validator;
 
 const CAMERA = () => (android as any).Manifest.permission.CAMERA;
@@ -89,6 +90,7 @@ export class YoonitCamera extends CameraBase {
     }
 
     @ValidateProps('colorEncoding', ['RGB', 'YUV'])
+    @NativeMethod('setColorEncodingCapture')
     public setImageCaptureColorEncoding(@Required colorEncoding: string) {
         this.nativeView.setColorEncodingCapture(colorEncoding);
     }
@@ -110,28 +112,29 @@ class CameraEventListener extends java.lang.Object implements ai.cyberlabs.yooni
     }
 
     private imageProcessing(imagePath: string): object {
-      const source: ImageSource = ImageSource.fromFileSync(imagePath);
-      const imageFile = File.fromPath(imagePath);
-      const binary = imageFile.readSync();
+        const source: ImageSource = ImageSource.fromFileSync(imagePath);
+        const imageFile = File.fromPath(imagePath);
+        const binary = imageFile.readSync();
 
-      return {
-        path: imagePath,
-        source,
-        binary
-      };
+        return {
+            path: imagePath,
+            source,
+            binary
+        };
     }
 
     public onImageCaptured(
         type: string,
         count: number,
         total: number,
-        imagePath: string
+        imagePath: string,
+        inferences: java.util.ArrayList<android.util.Pair<java.lang.String, number[]>>
     ): void {
-
         const owner = this.owner.get();
-        const image = this.imageProcessing(imagePath);
 
-        if (owner) {
+        if (owner && !!imagePath) {
+            const image = this.imageProcessing(imagePath);
+
             owner.notify({
                 eventName: 'imageCaptured',
                 object: owner,

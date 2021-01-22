@@ -135,23 +135,22 @@ class CameraEventListener extends NSObject implements CameraEventListenerDelegat
     }
 
     private imageProcessing(imagePath: string): object {
+        let imageName: any = imagePath.split('/');
+        imageName = imageName[imageName.length - 1];
 
-      let imageName: any = imagePath.split('/');
-      imageName = imageName[imageName.length - 1];
+        const finalPath: string  = path
+            .join(knownFolders.documents().path, imageName)
+            .replace('file://', '');
 
-      const finalPath: string  = path
-          .join(knownFolders.documents().path, imageName)
-          .replace('file://', '');
+        const source: ImageSource = ImageSource.fromFileSync(finalPath);
+        const imageFile = File.fromPath(finalPath);
+        const binary = imageFile.readSync();
 
-      const source: ImageSource = ImageSource.fromFileSync(finalPath);
-      const imageFile = File.fromPath(finalPath);
-      const binary = imageFile.readSync();
-
-      return {
-        path: finalPath,
-        source,
-        binary
-      };
+        return {
+            path: finalPath,
+            source,
+            binary
+        };
     }
 
     public onImageCaptured(
@@ -160,11 +159,11 @@ class CameraEventListener extends NSObject implements CameraEventListenerDelegat
         total: number,
         imagePath: string
     ): void {
-
         const owner = this.owner.get();
-        const image = this.imageProcessing(imagePath);
 
-        if (owner) {
+        if (owner && !!imagePath) {
+            const image = this.imageProcessing(imagePath);
+
             owner.notify({
                 eventName: 'imageCaptured',
                 object: owner,
@@ -182,7 +181,6 @@ class CameraEventListener extends NSObject implements CameraEventListenerDelegat
         width: number,
         height: number
     ): void {
-
         const owner = this.owner.get();
 
         if (owner) {

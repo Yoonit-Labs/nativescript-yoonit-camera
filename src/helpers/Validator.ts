@@ -1,6 +1,6 @@
 import "reflect-metadata";
 
-const metadataKey = Symbol("required");
+const MetadataKey = Symbol("required");
 
 class Validator {
     static RegexColor: RegExp = /(#([\da-f]{3}){1,2}|(rgb|hsl)a\((\d{1,3}%?,\s?){3}(1|0?\.\d+)\)|(rgb|hsl)\(\d{1,3}%?(,\s?\d{1,3}%?){2}\))/ig;
@@ -67,14 +67,14 @@ class Validator {
         parameterIndex: number
     ): void {
         let requiredParameters: number[] = Reflect.getOwnMetadata(
-            metadataKey,
+            MetadataKey,
             target,
             propertyKey) || [];
 
         requiredParameters.push(parameterIndex);
 
         Reflect.defineMetadata(
-            metadataKey,
+            MetadataKey,
             requiredParameters,
             target,
             propertyKey
@@ -94,7 +94,7 @@ class Validator {
 
             descriptor.value = function() {
                 let validateParameters: number[] = Reflect.getOwnMetadata(
-                    metadataKey,
+                    MetadataKey,
                     target,
                     propertyName
                 );
@@ -119,13 +119,44 @@ class Validator {
                         if (errorMessage !== null) {
                             throw new Error(errorMessage);
                         }
+                    }
+                }
 
-                        if (Validator.PropMap !== null) {
-                            Validator.PropMap.push({
-                                name: propertyName,
-                                value: arguments[parameterIndex]
-                            });
+                return method.apply(this, arguments);
+            };
+        };
+    }
+
+    public static NativeMethod(nativeMethodName: string): Function {
+        return function(
+            target: any,
+            propertyName: string,
+            descriptor: TypedPropertyDescriptor<Function>
+        ) {
+            let method = descriptor.value;
+
+            descriptor.value = function() {
+                let validateParameters: number[] = Reflect.getOwnMetadata(
+                    MetadataKey,
+                    target,
+                    propertyName
+                );
+
+                if (validateParameters) {
+                    for (let parameterIndex of validateParameters) {
+
+                        const invalid: boolean =
+                            parameterIndex >= arguments.length ||
+                            arguments[parameterIndex] === undefined;
+
+                        if (invalid) {
+                            throw new Error("Missing argument.");
                         }
+
+                        Validator.PropMap.push({
+                            name: nativeMethodName,
+                            value: arguments[parameterIndex]
+                        });
                     }
                 }
 
@@ -143,7 +174,7 @@ class Validator {
 
         descriptor.value = function() {
             let validateParameters: number[] = Reflect.getOwnMetadata(
-                metadataKey,
+                MetadataKey,
                 target,
                 propertyName
             );
@@ -178,7 +209,7 @@ class Validator {
 
         descriptor.value = function() {
             let validateParameters: number[] = Reflect.getOwnMetadata(
-                metadataKey,
+                MetadataKey,
                 target,
                 propertyName
             );
