@@ -1,4 +1,4 @@
-pod 'YoonitCamera', '~> 2.2'
+pod 'YoonitCamera', '~> 2.2.1'
 
 platform :ios, '12.0'
 
