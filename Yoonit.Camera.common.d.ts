@@ -1,0 +1,55 @@
+import { ContentView, EventData } from '@nativescript/core';
+import { Camera as CameraDefinition, StatusEventData, ImageCapturedEventData, FaceDetectedEventData, QRCodeScannedEventData } from '.';
+export declare abstract class CameraBase extends ContentView implements CameraDefinition {
+    set lens(value: string);
+    set captureType(value: string);
+    set imageCapture(value: boolean);
+    set imageCaptureAmount(value: number);
+    set imageCaptureInterval(value: number);
+    set imageCaptureWidth(value: number);
+    set imageCaptureHeight(value: number);
+    set colorEncoding(value: string);
+    set faceMinSize(value: string);
+    set faceMaxSize(value: string);
+    set faceDetectionBox(value: boolean);
+    set faceROI(value: boolean);
+    set faceROITopOffset(value: string);
+    set faceROIRightOffset(value: string);
+    set faceROIBottomOffset(value: string);
+    set faceROILeftOffset(value: string);
+    set faceROIMinSize(value: string);
+    requestPermission(explanationText?: string): Promise<boolean>;
+    hasPermission(): boolean;
+    preview(): void;
+    stopCapture(): void;
+    destroy(): void;
+    toggleLens(): void;
+    setCameraLens(lens: string): void;
+    getLens(): string;
+    startCapture(type: string): void;
+    setImageCaptureAmount(amount: number): void;
+    setImageCaptureInterval(interval: number): void;
+    setImageCaptureWidth(width: any): void;
+    setImageCaptureHeight(height: any): void;
+    setImageCapture(enable: boolean): void;
+    setImageCaptureColorEncoding(colorEncoding: string): void;
+    setFaceDetectionBox(enable: boolean): void;
+    setFacePaddingPercent(percentage: any): void;
+    setFaceCaptureMinSize(percentage: any): void;
+    setFaceCaptureMaxSize(percentage: any): void;
+    setFaceROIEnable(enable: boolean): void;
+    setFaceROITopOffset(percentage: any): void;
+    setFaceROIRightOffset(percentage: any): void;
+    setFaceROIBottomOffset(percentage: any): void;
+    setFaceROILeftOffset(percentage: any): void;
+    setFaceROIMinSize(percentage: any): void;
+}
+export interface CameraBase {
+    on(eventNames: string, callback: (data: EventData) => void, thisArg?: any): any;
+    on(event: "imageCaptured", callback: (args: ImageCapturedEventData) => void, thisArg?: any): any;
+    on(event: "faceDetected", callback: (args: FaceDetectedEventData) => void, thisArg?: any): any;
+    on(event: "endCapture", callback: () => void, thisArg?: any): any;
+    on(event: "qrCodeContent", callback: (args: QRCodeScannedEventData) => void, thisArg?: any): any;
+    on(event: "status", callback: (args: StatusEventData) => void, thisArg?: any): any;
+    on(event: "permissionDenied", callback: () => void, thisArg?: any): any;
+}
