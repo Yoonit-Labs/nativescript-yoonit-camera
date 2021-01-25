@@ -124,6 +124,10 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
         this.nativeView.stopCapture();
     }
 
+    public destroy(): void {
+        this.nativeView.destroy();
+    }
+
     public toggleLens(): void {
         this.nativeView.toggleCameraLens();
     }

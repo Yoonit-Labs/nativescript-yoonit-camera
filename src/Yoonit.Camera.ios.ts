@@ -64,7 +64,7 @@ export class YoonitCamera extends CameraBase {
      * so that it could be reused later.
      */
     disposeNativeView(): void {
-        this.nativeView.stopCapture();
+        this.nativeView.destroy();
         this.nativeView.cameraEventListener = null;
 
         // Remove reference from native listener to this instance.

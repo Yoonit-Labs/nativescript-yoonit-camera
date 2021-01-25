@@ -182,14 +182,14 @@ After that, you can access the camera object in your entire project using `this.
 
 #### Events  
 
-| Event            | Parameters                                                                                       | Description
-| -                | -                                                                                                | -
-| imageCaptured    | `{ type: string, count: number, total: number, image: object = { path: string, source: blob } }` | Must have started capture type of face/frame. Emitted when the face image file saved: <ul><li>type: "face" or "frame"</li>count: current index</li><li>total: total to create</li><li>image.path: the face/frame image path</li><li>image.source: the blob file</li><ul>
-| faceDetected     | `{ x: number, y: number, width: number, height: number }`                                        | Must have started capture type of face. Emit the detected face bounding box. Emit all parameters null if no more face detecting.    
-| endCapture       | -                                                                                                | Must have started capture type of face/frame. Emitted when the number of image files created is equal of the number of images set (see the method `setImageCaptureAmount`).   
-| qrCodeContent    | `{ content: string }`                                                                            | Must have started capture type of qrcode (see `startCapture`). Emitted when the camera read a QR Code.   
-| status           | `{ type: 'error'/'message', status: string }`                                                    | Emit message error from native. Used more often for debug purpose.   
-| permissionDenied | -                                                                                                | Emit when try to `preview` but there is not camera permission.
+| Event            | Parameters                                                                                                     | Description
+| -                | -                                                                                                              | -
+| imageCaptured    | `{ type: string, count: number, total: number, image: object = { path: string, source: blob, bynary: blob } }` | Must have started capture type of face/frame. Emitted when the face image file saved: <ul><li>type: "face" or "frame"</li>count: current index</li><li>total: total to create</li><li>image.path: the face/frame image path</li><li>image.source: the blob file</li><li>image.binary: the blob file</li><ul>
+| faceDetected     | `{ x: number, y: number, width: number, height: number }`                                                      | Must have started capture type of face. Emit the detected face bounding box. Emit all parameters null if no more face detecting.    
+| endCapture       | -                                                                                                              | Must have started capture type of face/frame. Emitted when the number of image files created is equal of the number of images set (see the method `setImageCaptureAmount`).   
+| qrCodeContent    | `{ content: string }`                                                                                          | Must have started capture type of qrcode (see `startCapture`). Emitted when the camera read a QR Code.   
+| status           | `{ type: 'error'/'message', status: string }`                                                                  | Emit message error from native. Used more often for debug purpose.   
+| permissionDenied | -                                                                                                              | Emit when try to `preview` but there is not camera permission.
 
 ### Message
 

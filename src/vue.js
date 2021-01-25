@@ -24,8 +24,8 @@ export default {
 
     const destroy = () => {
       if (Vue.prototype.$yoo.camera &&
-          Vue.prototype.$yoo.camera.stopCapture instanceof Function) {
-        Vue.prototype.$yoo.camera.stopCapture()
+          Vue.prototype.$yoo.camera.destroy instanceof Function) {
+        Vue.prototype.$yoo.camera.destroy()
       }
 
       Vue.prototype.$yoo = {
@@ -49,6 +49,7 @@ export default {
         hasPermission,
         preview,
         stopCapture,
+        destroy,
         toggleLens,
         setCameraLens,
         getLens,
@@ -73,12 +74,12 @@ export default {
 
       Vue.prototype.$yoo.camera = {
         ...Vue.prototype.$yoo.camera,
-        destroy,
         nativeView,
         requestPermission,
         hasPermission,
         preview,
         stopCapture,
+        destroy,
         toggleLens,
         setCameraLens,
         getLens,

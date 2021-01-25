@@ -23,6 +23,7 @@ declare namespace ai {
 					public startPreview(): void;
 					public startCaptureType(param0: string): void;
 					public stopCapture(): void;
+					public destroy(): void;
 					public toggleCameraLens(): void;
 					public setCameraLens(param0: string): void;
 					public getCameraLens(): string;
