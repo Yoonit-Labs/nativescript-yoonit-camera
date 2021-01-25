@@ -160,6 +160,7 @@ After that, you can access the camera object in your entire project using `this.
 | preview                        | -                        | -                                                                                 | void        | Start camera preview if has permission. |
 | startCapture                   | `type: string`           | <ul><li>`"none"`</li><li>`"face"`</li><li>`"qrcode"`</li><li>`"frame"`</li></ul>  | void        | Set capture type "none", "face", "qrcode" or "frame". Default value is `"none"`. |
 | stopCapture                    | -                        | -                                                                                 | void        | Stop any type of capture. |
+| destroy                        | -                        | -                                                                                 | void        | Destroy preview. |
 | toggleLens                     | -                        | -                                                                                 | void        | Toggle camera lens facing "front"/"back". |
 | setCameraLens                  | `lens: string`           | `"front"` or `"back"`                                                             | void        | Set camera to use "front" or "back" lens. Default value is `"front"`. |
 | getLens                        | -                        | -                                                                                 | string      | Return "front" or "back". |
