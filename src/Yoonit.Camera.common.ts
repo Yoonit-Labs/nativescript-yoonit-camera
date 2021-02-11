@@ -38,10 +38,6 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
     // PROPERTIES ================================================================
     // ===========================================================================
 
-    public set faceROIAreaOffsetColor(value: string) {
-        this.setFaceROIAreaOffsetColor(value);
-    }
-
     public set lens(value: string) {
         this.setCameraLens(value);
     }
@@ -108,6 +104,10 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
 
     public set faceROIMinSize(value: string) {
         this.setFaceROIMinSize(value);
+    }
+
+    public set faceROIAreaOffsetColor(value: string) {
+        this.setFaceROIAreaOffsetColor(value);
     }
 
     // METHODS ===================================================================
