@@ -115,7 +115,7 @@
       imageCaptureInterval: 500,
       imageCapture: true,
       faceDetectionBox: true,
-      faceROI: false,
+      faceROI: true,
       imagePath: null,
       imageInformationCaptured: "",
       qrCodeContent: ""
@@ -132,6 +132,13 @@
 
           console.log('[YooCamera] Permission granted, start preview')
           this.$yoo.camera.preview()
+
+        this.$yoo.camera.setFaceROITopOffset('10%')
+        this.$yoo.camera.setFaceROIRightOffset('10%')
+        this.$yoo.camera.setFaceROILeftOffset('10%')
+        this.$yoo.camera.setFaceROIBottomOffset('10%')
+        this.$yoo.camera.setFaceROIMinSize('10%')
+        this.$yoo.camera.setFaceROIAreaOffset(true)
         }
       },
 

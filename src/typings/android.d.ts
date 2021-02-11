@@ -49,6 +49,8 @@ declare namespace ai {
 						param2: number,
 						param3: number
 					): void;
+					public setFaceROIAreaOffset(param0: boolean): void
+					public setFaceROIEnable(param0: boolean): void
 				}
 				export namespace interfaces {
 					export class CameraEventListener {

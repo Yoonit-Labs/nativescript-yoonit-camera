@@ -43,6 +43,8 @@ declare class CameraView extends UIView {
         green: number,
         blue: number
     ): void;
+    setFaceROIAreaOffset(status: boolean): void
+    setFaceROIEnable(status: boolean): void
 }
 
 interface CameraEventListenerDelegate {

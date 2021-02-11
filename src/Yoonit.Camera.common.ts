@@ -269,6 +269,12 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
             colorNsInstance.b
         );
     }
+
+    @ValidateProps('faceROIAreaOffset', [false, true])
+    @NativeMethod('setFaceROIAreaOffset')
+    public setFaceROIAreaOffset(enable: boolean) {
+        this.nativeView.setFaceROIAreaOffset(enable);
+    }
 }
 
 export interface CameraBase {
