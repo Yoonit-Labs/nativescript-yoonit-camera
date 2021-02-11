@@ -43,6 +43,12 @@ declare namespace ai {
 					public setFaceROIBottomOffset(param0: number): void;
 					public setFaceROILeftOffset(param0: number): void;
 					public setFaceROIMinSize(param0: number): void;
+					public setFaceROIAreaOffsetColor(
+						param0: number,
+						param1: number,
+						param2: number,
+						param3: number
+					): void;
 				}
 				export namespace interfaces {
 					export class CameraEventListener {

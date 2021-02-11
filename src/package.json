@@ -40,6 +40,7 @@
 	},
 	"license": "MIT",
 	"devDependencies": {
+		"@nativescript/android": "7.0.1",
 		"@nativescript/core": "~7.0.0",
 		"@nativescript/types": "~7.0.0",
 		"@nativescript/webpack": "~3.0.0",

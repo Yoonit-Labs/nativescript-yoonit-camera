@@ -11,6 +11,7 @@
 import {
     ContentView,
     EventData,
+    Color
 } from '@nativescript/core';
 import {
     Camera as CameraDefinition,
@@ -36,6 +37,10 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
 
     // PROPERTIES ================================================================
     // ===========================================================================
+
+    public set faceROIAreaOffsetColor(value: string) {
+        this.setFaceROIAreaOffsetColor(value);
+    }
 
     public set lens(value: string) {
         this.setCameraLens(value);
@@ -247,6 +252,22 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
     @NativeMethod('setFaceROIMinSize')
     public setFaceROIMinSize(@Required percentage): void {
         this.nativeView.setFaceROIMinSize(percentage);
+    }
+
+    @ValidateProps('color', Validator.RegexColor)
+    public setFaceROIAreaOffsetColor(@Required color: string) {
+        if (!Color.isValid(color)) {
+            throw new Error("[Yoonit-Camera] Invalid Color HEX");
+        }
+
+        const colorNsInstance = new Color(color)
+
+        this.nativeView.setFaceROIAreaOffsetColor(
+            colorNsInstance.a,
+            colorNsInstance.r,
+            colorNsInstance.g,
+            colorNsInstance.b
+        );
     }
 }
 

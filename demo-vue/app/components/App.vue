@@ -11,6 +11,7 @@
       >
         <YoonitCamera
           ref="yooCamera"
+          faceROIAreaOffsetColor="#0081A7"
           :lens="cameraLens"
           :captureType="captureType"
           :imageCaptureAmount="imageCaptureAmount"
