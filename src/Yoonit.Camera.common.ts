@@ -110,6 +110,9 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
         this.setFaceROIAreaOffsetColor(value);
     }
 
+    public set faceROIAreaOffset(value: boolean) {
+        this.setFaceROIAreaOffset(value);
+    }
     // METHODS ===================================================================
     // ===========================================================================
 
@@ -272,7 +275,7 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
 
     @ValidateProps('faceROIAreaOffset', [false, true])
     @NativeMethod('setFaceROIAreaOffset')
-    public setFaceROIAreaOffset(enable: boolean) {
+    public setFaceROIAreaOffset(@Required enable: boolean) {
         this.nativeView.setFaceROIAreaOffset(enable);
     }
 }
