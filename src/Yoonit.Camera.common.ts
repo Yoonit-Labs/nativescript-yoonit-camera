@@ -31,6 +31,7 @@ const {
     PercentageToNumber,
     RegexPercentage,
     NumberToPixel,
+    ParseToNsColor
 } = Validator;
 
 export abstract class CameraBase extends ContentView implements CameraDefinition {
@@ -258,18 +259,14 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
     }
 
     @ValidateProps('color', Validator.RegexColor)
-    public setFaceROIAreaOffsetColor(@Required color: string) {
-        if (!Color.isValid(color)) {
-            throw new Error("[Yoonit-Camera] Invalid Color HEX");
-        }
-
-        const colorNsInstance = new Color(color)
-
+    @ParseToNsColor
+    // @NativeMethod('setFaceROIAreaOffsetColor')
+    public setFaceROIAreaOffsetColor(@Required nsColor) {
         this.nativeView.setFaceROIAreaOffsetColor(
-            colorNsInstance.a,
-            colorNsInstance.r,
-            colorNsInstance.g,
-            colorNsInstance.b
+            nsColor.a,
+            nsColor.r,
+            nsColor.g,
+            nsColor.b
         );
     }
 

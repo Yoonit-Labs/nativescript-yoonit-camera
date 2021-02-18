@@ -2,6 +2,10 @@ import "reflect-metadata";
 
 const MetadataKey = Symbol("required");
 
+import {
+    Color
+} from '@nativescript/core'
+
 class Validator {
     static RegexColor: RegExp = /(#([\da-f]{3}){1,2}|(rgb|hsl)a\((\d{1,3}%?,\s?){3}(1|0?\.\d+)\)|(rgb|hsl)\(\d{1,3}%?(,\s?\d{1,3}%?){2}\))/ig;
     static RegexPercentage: RegExp = /(^(([0-9])?([0-9])?|0)(\.[0-9]{0,2})?.\%$)/ig;
@@ -228,6 +232,41 @@ class Validator {
                     let pixel: string = arguments[parameterIndex];
                     pixel = pixel.replace('px', '');
                     arguments[parameterIndex] = Number.parseInt(pixel);
+                }
+            }
+
+            return method.apply(this, arguments);
+        };
+    }
+
+    public static ParseToNsColor(
+        target: any,
+        propertyName: string,
+        descriptor: TypedPropertyDescriptor<any>
+    ) {
+        let method = descriptor.value;
+
+        descriptor.value = function() {
+            let validateParameters: number[] = Reflect.getOwnMetadata(
+                MetadataKey,
+                target,
+                propertyName
+            );
+
+            if (validateParameters) {
+                for (let parameterIndex of validateParameters) {
+
+                    const invalid: boolean =
+                        parameterIndex >= arguments.length ||
+                        arguments[parameterIndex] === undefined;
+
+                    if (invalid) {
+                        throw new Error("Missing argument.");
+                    }
+
+                    let rawColor: string = arguments[parameterIndex];
+                    const nsColor: Color = new Color(rawColor);
+                    arguments[parameterIndex] = nsColor;
                 }
             }
 
