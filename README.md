@@ -150,6 +150,8 @@ After that, you can access the camera object in your entire project using `this.
 | faceROIBottomOffset   | `"NN%"`                                      | `"0%"`        | Distance in percentage of the bottom face bounding box with the bottom of the camera preview.
 | faceROILeftOffset     | `"NN%"`                                      | `"0%"`        | Distance in percentage of the left face bounding box with the left of the camera preview.
 | faceROIMinSize        | `"NN%"`                                      | `"0%"`        | The minimum face size related within the ROI. |
+| faceROIAreaOffset        |  boolean                                      | `false`        | Enable/disable ROI area visibility |
+| faceROIAreaOffsetColor        |  string                                      | `color's hexadecimal`        | Set ROI area color by hexadecimal value |
 
 #### Methods
 
@@ -180,6 +182,8 @@ After that, you can access the camera object in your entire project using `this.
 | setFaceROIBottomOffset         | `percentage: string`     | Value format must be in `NN%`                                                     | void        | Distance in percentage of the bottom face bounding box with the bottom of the camera preview. |
 | setFaceROILeftOffset           | `percentage: string`     | Value format must be in `NN%`                                                     | void        | Distance in percentage of the left face bounding box with the left of the camera preview. |
 | setFaceROIMinSize              | `percentage: string`     | Value format must be in `NN%`                                                     | void        | Set the minimum face size related within the ROI. |
+| setFaceROIAreaOffset              | `enable: boolean`     | true or false                                                     | void        | Set ROI area visibility |
+| setFaceROIAreaColor              | `color: string`     | Hexadecimal color                                                     | void        | Set ROI area color |
 
 #### Events  
 
@@ -207,7 +211,9 @@ Pre-define message constants used by the `status` event.
 
 Clone the repo, change what you want and send PR.
 
-Contributions are always welcome!
+Contributions are always welcome, some of people that already contributed!
+
+[<img src="https://contrib.rocks/image?repo=Yoonit-Labs/nativescript-yoonit-camera" />](https://github.com/Yoonit-Labs/nativescript-yoonit-camera/graphs/contributors)
 
 ---
 
