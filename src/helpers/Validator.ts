@@ -266,7 +266,12 @@ class Validator {
 
                     let rawColor: string = arguments[parameterIndex];
                     const nsColor: Color = new Color(rawColor);
-                    arguments[parameterIndex] = nsColor;
+                    arguments[parameterIndex] = [
+                        nsColor.a,
+                        nsColor.r,
+                        nsColor.g,
+                        nsColor.b
+                    ];
                 }
             }
 

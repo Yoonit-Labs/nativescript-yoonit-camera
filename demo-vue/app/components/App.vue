@@ -140,7 +140,7 @@
         this.$yoo.camera.setFaceROILeftOffset('10%')
         this.$yoo.camera.setFaceROIBottomOffset('10%')
         this.$yoo.camera.setFaceROIMinSize('10%')
-        this.$yoo.camera.setFaceROIAreaOffsetColor('#0081A7')
+        // this.$yoo.camera.setFaceROIAreaOffsetColor('#0081A7')
         }
       },
 
