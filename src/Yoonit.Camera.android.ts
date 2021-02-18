@@ -53,7 +53,7 @@ export class YoonitCamera extends CameraBase {
 
         Validator.PropMap.forEach((prop) => {
             if (this.nativeView[prop.name]) {
-                if (Array.isArray(prop.value)) {
+                if (prop.value.constructor === Array) {
                     return this.nativeView[prop.name](...prop.value)
                 }
                 this.nativeView[prop.name](prop.value);

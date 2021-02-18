@@ -35,14 +35,6 @@ const {
 } = Validator;
 
 export abstract class CameraBase extends ContentView implements CameraDefinition {
-
-    private colorPositionEnum = {
-        a: 0,
-        r: 1,
-        g: 2,
-        b: 3
-    }
-
     // PROPERTIES ================================================================
     // ===========================================================================
 
@@ -269,12 +261,7 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
     @ParseToNsColor
     @NativeMethod('setFaceROIAreaOffsetColor')
     public setFaceROIAreaOffsetColor(@Required color) {
-        this.nativeView.setFaceROIAreaOffsetColor(
-            color[this.colorPositionEnum.a],
-            color[this.colorPositionEnum.r],
-            color[this.colorPositionEnum.g],
-            color[this.colorPositionEnum.b]
-        );
+        this.nativeView.setFaceROIAreaOffsetColor(...color);
     }
 
     @ValidateProps('faceROIAreaOffset', [false, true])

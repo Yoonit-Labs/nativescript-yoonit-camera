@@ -11,7 +11,7 @@
       >
         <YoonitCamera
           ref="yooCamera"
-          faceROIAreaOffsetColor="#0081A7"
+          faceROIAreaOffsetColor="#8367C7"
           :faceROIAreaOffset="faceROIAreaOffset"
           :lens="cameraLens"
           :captureType="captureType"
@@ -135,6 +135,7 @@
           console.log('[YooCamera] Permission granted, start preview')
           this.$yoo.camera.preview()
 
+        // this.$yoo.camera.setFaceROIAreaOffset(true)
         this.$yoo.camera.setFaceROITopOffset('10%')
         this.$yoo.camera.setFaceROIRightOffset('10%')
         this.$yoo.camera.setFaceROILeftOffset('10%')
