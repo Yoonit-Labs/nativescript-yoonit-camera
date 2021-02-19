@@ -11,7 +11,7 @@
       >
         <YoonitCamera
           ref="yooCamera"
-          faceROIAreaOffsetColor="#8367C7"
+          faceROIAreaOffsetColor="#18FF6D"
           :faceROIAreaOffset="faceROIAreaOffset"
           :lens="cameraLens"
           :captureType="captureType"
@@ -136,12 +136,12 @@
           this.$yoo.camera.preview()
 
         // this.$yoo.camera.setFaceROIAreaOffset(true)
-        this.$yoo.camera.setFaceROITopOffset('10%')
-        this.$yoo.camera.setFaceROIRightOffset('10%')
-        this.$yoo.camera.setFaceROILeftOffset('10%')
-        this.$yoo.camera.setFaceROIBottomOffset('10%')
+        this.$yoo.camera.setFaceROITopOffset('25%')
+        this.$yoo.camera.setFaceROIRightOffset('22%')
+        this.$yoo.camera.setFaceROILeftOffset('22%')
+        this.$yoo.camera.setFaceROIBottomOffset('25%')
         this.$yoo.camera.setFaceROIMinSize('10%')
-        // this.$yoo.camera.setFaceROIAreaOffsetColor('#0081A7')
+        this.$yoo.camera.setFaceROIAreaOffsetColor('#0081A7')
         }
       },
 
