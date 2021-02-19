@@ -11,7 +11,7 @@ class Validator {
     static RegexPercentage: RegExp = /(^(([0-9])?([0-9])?|0)(\.[0-9]{0,2})?.\%$)/ig;
     static RegexNumber: RegExp = /[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$/ig;
     static RegexPX: RegExp = /[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)+(px)$/ig;
-    static PropMap: Array<{ name: string, value: any }> = [];
+    static PropMap: Array<{ name: string, value: any, length: number }> = [];
 
     private static getErrorMessage(
         propName: String,
@@ -131,7 +131,7 @@ class Validator {
         };
     }
 
-    public static NativeMethod(nativeMethodName: string): Function {
+    public static NativeMethod({ name, length }: { name: string, length: number}): Function {
         return function(
             target: any,
             propertyName: string,
@@ -158,8 +158,9 @@ class Validator {
                         }
 
                         Validator.PropMap.push({
-                            name: nativeMethodName,
-                            value: arguments[parameterIndex]
+                            name,
+                            value: arguments[parameterIndex],
+                            length
                         });
                     }
                 }

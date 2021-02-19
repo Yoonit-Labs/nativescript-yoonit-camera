@@ -53,7 +53,7 @@ export class YoonitCamera extends CameraBase {
 
         Validator.PropMap.forEach((prop) => {
             if (this.nativeView[prop.name]) {
-                if (prop.value.constructor === Array) {
+                if (prop.length > 1) {
                     return this.nativeView[prop.name](...prop.value)
                 }
                 this.nativeView[prop.name](prop.value);
@@ -94,7 +94,7 @@ export class YoonitCamera extends CameraBase {
     }
 
     @ValidateProps('colorEncoding', ['RGB', 'YUV'])
-    @NativeMethod('setColorEncodingCapture')
+    @NativeMethod({ name: 'setColorEncodingCapture', length: 1 })
     public setImageCaptureColorEncoding(@Required colorEncoding: string) {
         this.nativeView.setColorEncodingCapture(colorEncoding);
     }
