@@ -10,9 +10,7 @@
 
 import {
     ContentView,
-    EventData,
-    Color,
-    isAndroid
+    EventData
 } from '@nativescript/core';
 import {
     Camera as CameraDefinition,
@@ -283,14 +281,14 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
     @ValidateProps('faceROIAreaOffset', [false, true])
     @NativeMethod({ name: 'setFaceContours', length: 1 })
     public setFaceContours(@Required enable: boolean) {
-        this.nativeView.setFaceContours(enable)
+        this.nativeView.setFaceContours(enable);
     }
 
     @ValidateProps('color', RegexColor)
     @ParseToNsColor
     @NativeMethod({ name: 'setFaceContoursColor', length: 4 })
     public setFaceContoursColor(@Required color) {
-        this.nativeView.setFaceContoursColor(...color)
+        this.nativeView.setFaceContoursColor(...color);
     }
 }
 
