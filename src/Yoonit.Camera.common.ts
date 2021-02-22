@@ -11,7 +11,8 @@
 import {
     ContentView,
     EventData,
-    Color
+    Color,
+    isAndroid
 } from '@nativescript/core';
 import {
     Camera as CameraDefinition,

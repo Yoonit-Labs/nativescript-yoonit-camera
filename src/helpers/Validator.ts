@@ -3,7 +3,8 @@ import "reflect-metadata";
 const MetadataKey = Symbol("required");
 
 import {
-    Color
+    Color,
+    isAndroid
 } from '@nativescript/core'
 
 class Validator {
@@ -267,12 +268,22 @@ class Validator {
 
                     let rawColor: string = arguments[parameterIndex];
                     const nsColor: Color = new Color(rawColor);
-                    arguments[parameterIndex] = [
-                        nsColor.a,
-                        nsColor.r,
-                        nsColor.g,
-                        nsColor.b
-                    ];
+
+                    if (isAndroid) {
+                        arguments[parameterIndex] = [
+                            nsColor.a,
+                            nsColor.r,
+                            nsColor.g,
+                            nsColor.b
+                        ];
+                    } else {
+                        arguments[parameterIndex] = [
+                            nsColor.a/255,
+                            nsColor.r/255,
+                            nsColor.g/255,
+                            nsColor.b/255
+                        ];
+                    }
                 }
             }
 
