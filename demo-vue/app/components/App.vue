@@ -11,6 +11,7 @@
       >
         <YoonitCamera
           ref="yooCamera"
+          :faceContoursColor="faceContoursColor"
           :faceContours="faceContours"
           :faceROIAreaOffsetColor="faceROIAreaOffsetColor"
           :faceROIAreaOffset="faceROIAreaOffset"
@@ -123,6 +124,7 @@
       imageInformationCaptured: "",
       faceROIAreaOffsetColor: '#FFC8FB',
       faceContours: false,
+      faceContoursColor: '#FFC8FB',
       qrCodeContent: ""
     }),
 
@@ -146,6 +148,7 @@
         this.$yoo.camera.setFaceROIMinSize('10%')
         // this.$yoo.camera.setFaceROIAreaOffsetColor('#0081A7')
         this.$yoo.camera.setFaceContours(true)
+        // this.$yoo.camera.setFaceContoursColor('#0081A7')
         }
       },
 
