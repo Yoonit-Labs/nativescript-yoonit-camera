@@ -151,7 +151,9 @@ After that, you can access the camera object in your entire project using `this.
 | faceROILeftOffset     | `"NN%"`                                      | `"0%"`        | Distance in percentage of the left face bounding box with the left of the camera preview.
 | faceROIMinSize        | `"NN%"`                                      | `"0%"`        | The minimum face size related within the ROI. |
 | faceROIAreaOffset        |  boolean                                      | `false`        | Enable/disable ROI area visibility |
-| faceROIAreaOffsetColor        |  string                                      | `color's hexadecimal`        | Set ROI area color by hexadecimal value |
+| faceROIAreaOffsetColor        |  `hexadecimal color as string`                                      | `'#FFFFF'`        | Set ROI area color by hexadecimal value |
+| faceContours        |  boolean                                      | `false`        | Enable/disable face contours |
+| faceContoursColor        |  `hexadecimal color as string`                                      | `'#FFFFF'`        | Set face contours color |
 
 #### Methods
 
@@ -183,7 +185,9 @@ After that, you can access the camera object in your entire project using `this.
 | setFaceROILeftOffset           | `percentage: string`     | Value format must be in `NN%`                                                     | void        | Distance in percentage of the left face bounding box with the left of the camera preview. |
 | setFaceROIMinSize              | `percentage: string`     | Value format must be in `NN%`                                                     | void        | Set the minimum face size related within the ROI. |
 | setFaceROIAreaOffset              | `enable: boolean`     | true or false                                                     | void        | Set ROI area visibility |
-| setFaceROIAreaColor              | `color: string`     | Hexadecimal color                                                     | void        | Set ROI area color |
+| setFaceROIAreaColor              | `hexadecimal color as string`     | Hexadecimal color                                                     | void        | Set ROI area color |
+| setFaceContours        |  `boolean`                                      | true or false       | void | Enable/disable face contours |
+| setFaceContoursColor        |  `hexadecimal color as string`                                      | Hexadecimal color      | void  | Set face contours color |
 
 #### Events  
 
