@@ -114,6 +114,10 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
     public set faceROIAreaOffset(value: boolean) {
         this.setFaceROIAreaOffset(value);
     }
+
+    public set faceContours(value: boolean) {
+        this.setFaceContours(value)
+    }
     // METHODS ===================================================================
     // ===========================================================================
 
@@ -269,6 +273,12 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
     @NativeMethod({ name: 'setFaceROIAreaOffset', length: 1 })
     public setFaceROIAreaOffset(@Required enable: boolean) {
         this.nativeView.setFaceROIAreaOffset(enable);
+    }
+
+    @ValidateProps('faceROIAreaOffset', [false, true])
+    @NativeMethod({ name: 'setFaceContours', length: 1 })
+    public setFaceContours(@Required enable: boolean) {
+        this.nativeView.setFaceContours(enable)
     }
 }
 

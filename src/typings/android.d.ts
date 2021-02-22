@@ -51,6 +51,7 @@ declare namespace ai {
 					): void;
 					public setFaceROIAreaOffset(param0: boolean): void
 					public setFaceROIEnable(param0: boolean): void
+					public setFaceContours(param0: boolean): void
 				}
 				export namespace interfaces {
 					export class CameraEventListener {

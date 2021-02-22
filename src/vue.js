@@ -71,7 +71,8 @@ export default {
         setFaceROILeftOffset,
         setFaceROIMinSize,
         setFaceROIAreaOffset,
-        setFaceROIAreaOffsetColor
+        setFaceROIAreaOffsetColor,
+        setFaceContours
       } = element.nativeView
 
       Vue.prototype.$yoo.camera = {
@@ -103,7 +104,8 @@ export default {
         setFaceROILeftOffset,
         setFaceROIMinSize,
         setFaceROIAreaOffset,
-        setFaceROIAreaOffsetColor
+        setFaceROIAreaOffsetColor,
+        setFaceContours
       }
 
       return Vue.prototype.$yoo.camera
