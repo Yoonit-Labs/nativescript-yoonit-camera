@@ -86,7 +86,7 @@ export class YoonitCamera extends CameraBase {
                 NOT_ALLOWED = 1,
                 EXPLICIT_DENIED = 2,
                 EXPLICIT_ALLOWED = 3
-            }
+            };
 
             const cameraStatus: number = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo);
             switch (cameraStatus) {
