@@ -1,11 +1,11 @@
 import "reflect-metadata";
 
-const MetadataKey = Symbol("required");
-
 import {
     Color,
     isAndroid
-} from '@nativescript/core'
+} from '@nativescript/core';
+
+const MetadataKey = Symbol("required");
 
 class Validator {
     static RegexColor: RegExp = /(#([\da-f]{3}){1,2}|(rgb|hsl)a\((\d{1,3}%?,\s?){3}(1|0?\.\d+)\)|(rgb|hsl)\(\d{1,3}%?(,\s?\d{1,3}%?){2}\))/ig;
@@ -278,10 +278,10 @@ class Validator {
                         ];
                     } else {
                         arguments[parameterIndex] = [
-                            nsColor.a/255,
-                            nsColor.r/255,
-                            nsColor.g/255,
-                            nsColor.b/255
+                            nsColor.a / 255,
+                            nsColor.r / 255,
+                            nsColor.g / 255,
+                            nsColor.b / 255
                         ];
                     }
                 }
