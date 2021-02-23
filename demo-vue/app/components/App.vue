@@ -11,10 +11,16 @@
       >
         <YoonitCamera
           ref="yooCamera"
-          :faceContoursColor="faceContoursColor"
           :faceContours="faceContours"
-          :faceROIAreaOffsetColor="faceROIAreaOffsetColor"
+          :faceContoursColor="faceContoursColor"
+
           :faceROIAreaOffset="faceROIAreaOffset"
+          :faceROIAreaOffsetColor="faceROIAreaOffsetColor"
+          :faceROITopOffset="'10%'"
+          :faceROIRightOffset="'10%'"
+          :faceROIBottomOffset="'10%'"
+          :faceROILeftOffset="'10%'"
+
           :lens="cameraLens"
           :captureType="captureType"
           :imageCaptureAmount="imageCaptureAmount"
@@ -123,7 +129,7 @@
       imagePath: null,
       imageInformationCaptured: "",
       faceROIAreaOffsetColor: '#FFC8FB',
-      faceContours: false,
+      faceContours: true,
       faceContoursColor: '#FFC8FB',
       qrCodeContent: ""
     }),
@@ -139,16 +145,6 @@
 
           console.log('[YooCamera] Permission granted, start preview')
           this.$yoo.camera.preview()
-
-        // this.$yoo.camera.setFaceROIAreaOffset(true)
-        this.$yoo.camera.setFaceROITopOffset('25%')
-        this.$yoo.camera.setFaceROIRightOffset('22%')
-        this.$yoo.camera.setFaceROILeftOffset('22%')
-        this.$yoo.camera.setFaceROIBottomOffset('25%')
-        this.$yoo.camera.setFaceROIMinSize('10%')
-        // this.$yoo.camera.setFaceROIAreaOffsetColor('#0081A7')
-        this.$yoo.camera.setFaceContours(true)
-        // this.$yoo.camera.setFaceContoursColor('#0081A7')
         }
       },
 

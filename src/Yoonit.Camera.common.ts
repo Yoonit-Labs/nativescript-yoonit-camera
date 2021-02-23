@@ -115,11 +115,11 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
     }
 
     public set faceContours(value: boolean) {
-        this.setFaceContours(value)
+        this.setFaceContours(value);
     }
 
-    public set faceContoursColor(value: boolean) {
-        this.setFaceContoursColor(value)
+    public set faceContoursColor(value: string) {
+        this.setFaceContoursColor(value);
     }
     // METHODS ===================================================================
     // ===========================================================================
@@ -265,31 +265,22 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
         this.nativeView.setFaceROIMinSize(percentage);
     }
 
-    @ValidateProps('color', RegexColor)
-    @ParseToNsColor
-    @NativeMethod({ name: 'setFaceROIAreaOffsetColor', length: 4 })
-    public setFaceROIAreaOffsetColor(@Required color) {
-        this.nativeView.setFaceROIAreaOffsetColor(...color);
-    }
-
     @ValidateProps('faceROIAreaOffset', [false, true])
     @NativeMethod({ name: 'setFaceROIAreaOffset', length: 1 })
     public setFaceROIAreaOffset(@Required enable: boolean) {
         this.nativeView.setFaceROIAreaOffset(enable);
     }
 
-    @ValidateProps('faceROIAreaOffset', [false, true])
-    @NativeMethod({ name: 'setFaceContours', length: 1 })
-    public setFaceContours(@Required enable: boolean) {
-        this.nativeView.setFaceContours(enable);
+    @ValidateProps('faceROIAreaOffsetColor', RegexColor)
+    @ParseToNsColor
+    @NativeMethod({ name: 'setFaceROIAreaOffsetColor', length: 4 })
+    public setFaceROIAreaOffsetColor(@Required color) {
+        this.nativeView.setFaceROIAreaOffsetColor(...color);
     }
 
-    @ValidateProps('color', RegexColor)
-    @ParseToNsColor
-    @NativeMethod({ name: 'setFaceContoursColor', length: 4 })
-    public setFaceContoursColor(@Required color) {
-        this.nativeView.setFaceContoursColor(...color);
-    }
+    public setFaceContours(enable: boolean) {}
+
+    public setFaceContoursColor(color) {}
 }
 
 export interface CameraBase {
