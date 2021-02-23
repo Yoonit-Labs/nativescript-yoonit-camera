@@ -125,7 +125,7 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
     // ===========================================================================
 
     public requestPermission(explanationText?: string): Promise<boolean> {
-        return new Promise((resolve, reject) => resolve());
+        return new Promise((resolve, reject) => resolve(true));
     }
 
     public hasPermission(): boolean {

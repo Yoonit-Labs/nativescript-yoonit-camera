@@ -52,12 +52,7 @@ declare namespace ai {
 					public setFaceROIAreaOffset(param0: boolean): void;
 					public setFaceROIEnable(param0: boolean): void;
 					public setFaceContours(param0: boolean): void;
-					public setFaceContoursColor(
-						param0: number,
-						param1: number,
-						param2: number,
-						param3: number
-					): void;
+					public setFaceContoursColor(...params: number): void;
 				}
 				export namespace interfaces {
 					export class CameraEventListener {

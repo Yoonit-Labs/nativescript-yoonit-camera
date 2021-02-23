@@ -111,7 +111,6 @@ export class YoonitCamera extends CameraBase {
     @ParseToNsColor
     @NativeMethod({ name: 'setFaceContoursColor', length: 4 })
     public setFaceContoursColor(@Required color) {
-        // @ts-ignore: add to ignore the rest operator.
         this.nativeView.setFaceContoursColor(...color);
     }
 }
