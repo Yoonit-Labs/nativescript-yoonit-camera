@@ -135,25 +135,25 @@ After that, you can access the camera object in your entire project using `this.
 | -                     | -                                            | -             | - |                                 
 | lens                  | `"front"` or `"back"`                        | `"front"`     | The camera lens to use "front" or "back". |
 | captureType           | `"none"`, `"front"`, `"frame"` or `"qrcode"` | `"none"`      | The capture type of the camera. |
-| imageCapture          | boolean                                      | `false`       | Enable/disabled save image capture. |
-| imageCaptureAmount    | number                                       | `0`           | The image capture amount goal. |
-| imageCaptureInterval  | number                                       | `1000`        | The image capture time interval in milliseconds. |
+| imageCapture          | `boolean`                                      | `false`       | Enable/disabled save image capture. |
+| imageCaptureAmount    | `number`                                       | `0`           | The image capture amount goal. |
+| imageCaptureInterval  | `number`                                       | `1000`        | The image capture time interval in milliseconds. |
 | imageCaptureWidth     | `"NNpx"`                                     | `"200px"`     | The image capture width in pixels. |
 | imageCaptureHeight    | `"NNpx"`                                     | `"200px"`     | The image capture height in pixels. |
 | colorEncoding         | `"RGB"` or `"YUV"`                           | `"RGB"`       | Only for android. The image capture color encoding type: `"RGB"` or `"YUV"`. |
-| faceDetectionBox      | boolean                                      | `false`       | Show/hide the face detection box. |
+| faceDetectionBox      | `boolean`                                      | `false`       | Show/hide the face detection box. |
 | faceMinSize           | `"NN%"`                                      | `"0%"`        | The face minimum size percentage to capture. |
 | faceMaxSize           | `"NN%"`                                      | `"100%"`      | The face maximum size percentage to capture. |
-| faceROI               | boolean                                      | `false`       | Enable/disable the region of interest capture. |
+| faceROI               | `boolean`                                      | `false`       | Enable/disable the region of interest capture. |
 | faceROITopOffset      | `"NN%"`                                      | `"0%"`        | Distance in percentage of the top face bounding box with the top of the camera preview. |
 | faceROIRightOffset    | `"NN%"`                                      | `"0%"`        | Distance in percentage of the right face bounding box with the right of the camera preview.
 | faceROIBottomOffset   | `"NN%"`                                      | `"0%"`        | Distance in percentage of the bottom face bounding box with the bottom of the camera preview.
 | faceROILeftOffset     | `"NN%"`                                      | `"0%"`        | Distance in percentage of the left face bounding box with the left of the camera preview.
 | faceROIMinSize        | `"NN%"`                                      | `"0%"`        | The minimum face size related within the ROI. |
-| faceROIAreaOffset        |  boolean                                      | `false`        | Enable/disable ROI area visibility |
-| faceROIAreaOffsetColor        |  `hexadecimal color as string`                                      | `'#FFFFF'`        | Set ROI area color by hexadecimal value |
-| faceContours        |  boolean                                      | `false`        | Enable/disable face contours |
-| faceContoursColor        |  `hexadecimal color as string`                                      | `'#FFFFF'`        | Set face contours color |
+| faceROIAreaOffset        |  `boolean`                                      | `false`        | Enable/disable ROI area visibility |
+| faceROIAreaOffsetColor        |  `string`                                      | `'#FFFFF'`        | Set ROI area color by hexadecimal value |
+| faceContours        |  `boolean`                                      | `false`        | Enable/disable face contours |
+| faceContoursColor        |  `string`                                      | `'#FFFFF'`        | Set face contours color |
 
 #### Methods
 
@@ -185,9 +185,9 @@ After that, you can access the camera object in your entire project using `this.
 | setFaceROILeftOffset           | `percentage: string`     | Value format must be in `NN%`                                                     | void        | Distance in percentage of the left face bounding box with the left of the camera preview. |
 | setFaceROIMinSize              | `percentage: string`     | Value format must be in `NN%`                                                     | void        | Set the minimum face size related within the ROI. |
 | setFaceROIAreaOffset              | `enable: boolean`     | true or false                                                     | void        | Set ROI area visibility |
-| setFaceROIAreaColor              | `hexadecimal color as string`     | Hexadecimal color                                                     | void        | Set ROI area color |
+| setFaceROIAreaColor              | `color: string`     | Hexadecimal color                                                     | void        | Set ROI area color |
 | setFaceContours        |  `boolean`                                      | true or false       | void | Enable/disable face contours |
-| setFaceContoursColor        |  `hexadecimal color as string`                                      | Hexadecimal color      | void  | Set face contours color |
+| setFaceContoursColor        |  `color: string`                                      | Hexadecimal color      | void  | Set face contours color |
 
 #### Events  
 
@@ -215,7 +215,7 @@ Pre-define message constants used by the `status` event.
 
 Clone the repo, change what you want and send PR.
 
-Contributions are always welcome, some of people that already contributed!
+Contributions are always welcome, some people that already contributed!
 
 [<img src="https://contrib.rocks/image?repo=Yoonit-Labs/nativescript-yoonit-camera" />](https://github.com/Yoonit-Labs/nativescript-yoonit-camera/graphs/contributors)
 
