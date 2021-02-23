@@ -1,5 +1,10 @@
 import "reflect-metadata";
 
+import {
+    Color,
+    isAndroid
+} from '@nativescript/core';
+
 const MetadataKey = Symbol("required");
 
 class Validator {
@@ -7,7 +12,7 @@ class Validator {
     static RegexPercentage: RegExp = /(^(([0-9])?([0-9])?|0)(\.[0-9]{0,2})?.\%$)/ig;
     static RegexNumber: RegExp = /[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$/ig;
     static RegexPX: RegExp = /[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)+(px)$/ig;
-    static PropMap: Array<{ name: string, value: any }> = [];
+    static PropMap: Array<{ name: string, value: any, length: number }> = [];
 
     private static getErrorMessage(
         propName: String,
@@ -127,7 +132,7 @@ class Validator {
         };
     }
 
-    public static NativeMethod(nativeMethodName: string): Function {
+    public static NativeMethod({ name, length }: { name: string, length: number}): Function {
         return function(
             target: any,
             propertyName: string,
@@ -154,8 +159,9 @@ class Validator {
                         }
 
                         Validator.PropMap.push({
-                            name: nativeMethodName,
-                            value: arguments[parameterIndex]
+                            name,
+                            value: arguments[parameterIndex],
+                            length
                         });
                     }
                 }
@@ -228,6 +234,56 @@ class Validator {
                     let pixel: string = arguments[parameterIndex];
                     pixel = pixel.replace('px', '');
                     arguments[parameterIndex] = Number.parseInt(pixel);
+                }
+            }
+
+            return method.apply(this, arguments);
+        };
+    }
+
+    public static ParseToNsColor(
+        target: any,
+        propertyName: string,
+        descriptor: TypedPropertyDescriptor<any>
+    ) {
+        let method = descriptor.value;
+
+        descriptor.value = function() {
+            let validateParameters: number[] = Reflect.getOwnMetadata(
+                MetadataKey,
+                target,
+                propertyName
+            );
+
+            if (validateParameters) {
+                for (let parameterIndex of validateParameters) {
+
+                    const invalid: boolean =
+                        parameterIndex >= arguments.length ||
+                        arguments[parameterIndex] === undefined;
+
+                    if (invalid) {
+                        throw new Error("Missing argument.");
+                    }
+
+                    let rawColor: string = arguments[parameterIndex];
+                    const nsColor: Color = new Color(rawColor);
+
+                    if (isAndroid) {
+                        arguments[parameterIndex] = [
+                            nsColor.a,
+                            nsColor.r,
+                            nsColor.g,
+                            nsColor.b
+                        ];
+                    } else {
+                        arguments[parameterIndex] = [
+                            nsColor.a / 255,
+                            nsColor.r / 255,
+                            nsColor.g / 255,
+                            nsColor.b / 255
+                        ];
+                    }
                 }
             }
 

@@ -27,6 +27,8 @@ const {
     ValidateProps,
     Required,
     NativeMethod,
+    RegexColor,
+    ParseToNsColor,
 } = Validator;
 
 const CAMERA = () => (android as any).Manifest.permission.CAMERA;
@@ -53,6 +55,9 @@ export class YoonitCamera extends CameraBase {
 
         Validator.PropMap.forEach((prop) => {
             if (this.nativeView[prop.name]) {
+                if (prop.length > 1) {
+                    return this.nativeView[prop.name](...prop.value)
+                }
                 this.nativeView[prop.name](prop.value);
             }
         });
@@ -91,9 +96,22 @@ export class YoonitCamera extends CameraBase {
     }
 
     @ValidateProps('colorEncoding', ['RGB', 'YUV'])
-    @NativeMethod('setColorEncodingCapture')
+    @NativeMethod({ name: 'setColorEncodingCapture', length: 1 })
     public setImageCaptureColorEncoding(@Required colorEncoding: string) {
         this.nativeView.setColorEncodingCapture(colorEncoding);
+    }
+
+    @ValidateProps('faceROIAreaOffset', [false, true])
+    @NativeMethod({ name: 'setFaceContours', length: 1 })
+    public setFaceContours(@Required enable: boolean) {
+        this.nativeView.setFaceContours(enable);
+    }
+
+    @ValidateProps('faceContoursColor', RegexColor)
+    @ParseToNsColor
+    @NativeMethod({ name: 'setFaceContoursColor', length: 4 })
+    public setFaceContoursColor(@Required color) {
+        this.nativeView.setFaceContoursColor(...color);
     }
 }
 

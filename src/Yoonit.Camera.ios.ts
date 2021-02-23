@@ -51,6 +51,9 @@ export class YoonitCamera extends CameraBase {
 
         Validator.PropMap.forEach((prop) => {
             if (this.nativeView[prop.name]) {
+                if (prop.length > 1) {
+                    return this.nativeView[prop.name](...prop.value);
+                }
                 this.nativeView[prop.name](prop.value);
             }
         });
@@ -78,12 +81,19 @@ export class YoonitCamera extends CameraBase {
 
     public requestPermission(explanation: string = ''): Promise<boolean> {
         return new Promise((resolve, reject) => {
-            const cameraStatus = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo);
+            enum PermStatus {
+                NO_EXPLICIT_PERMISSION = 0,
+                NOT_ALLOWED = 1,
+                EXPLICIT_DENIED = 2,
+                EXPLICIT_ALLOWED = 3
+            };
+
+            const cameraStatus: number = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo);
             switch (cameraStatus) {
 
                 // Not determined: Explicit user permission is required for media capture,
                 // but the user has not yet granted or denied such permission..
-                case 0: {
+                case PermStatus.NO_EXPLICIT_PERMISSION: {
                     AVCaptureDevice.requestAccessForMediaTypeCompletionHandler(AVMediaTypeVideo, (granted) => {
                         if (granted) {
                             this.permission = true;
@@ -97,10 +107,10 @@ export class YoonitCamera extends CameraBase {
                 }
 
                 // Restricted: the user is not allowed to access media capture devices.
-                case 1:
+                case PermStatus.NOT_ALLOWED:
 
                 // Denied: The user has explicitly denied permission for media capture.
-                case 2: {
+                case PermStatus.EXPLICIT_DENIED: {
                     this.permission = false;
                     reject(false);
                     break;
@@ -108,7 +118,7 @@ export class YoonitCamera extends CameraBase {
 
                 // Authorized: The user has explicitly granted permission for media capture,
                 // or explicit user permission is not necessary for the media type in question.
-                case 3: {
+                case PermStatus.EXPLICIT_ALLOWED: {
                     this.permission = true;
                     resolve(true);
                     break;

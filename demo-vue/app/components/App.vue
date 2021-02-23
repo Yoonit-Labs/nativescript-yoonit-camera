@@ -11,6 +11,16 @@
       >
         <YoonitCamera
           ref="yooCamera"
+          :faceContours="faceContours"
+          :faceContoursColor="faceContoursColor"
+
+          :faceROIAreaOffset="faceROIAreaOffset"
+          :faceROIAreaOffsetColor="faceROIAreaOffsetColor"
+          :faceROITopOffset="'10%'"
+          :faceROIRightOffset="'10%'"
+          :faceROIBottomOffset="'10%'"
+          :faceROILeftOffset="'10%'"
+
           :lens="cameraLens"
           :captureType="captureType"
           :imageCaptureAmount="imageCaptureAmount"
@@ -114,9 +124,13 @@
       imageCaptureInterval: 500,
       imageCapture: true,
       faceDetectionBox: true,
-      faceROI: false,
+      faceROI: true,
+      faceROIAreaOffset: true,
       imagePath: null,
       imageInformationCaptured: "",
+      faceROIAreaOffsetColor: '#FFC8FB',
+      faceContours: true,
+      faceContoursColor: '#FFC8FB',
       qrCodeContent: ""
     }),
 
