@@ -152,8 +152,8 @@ After that, you can access the camera object in your entire project using `this.
 | faceROIMinSize        | `"NN%"`                                      | `"0%"`        | The minimum face size related within the ROI. |
 | faceROIAreaOffset        |  `boolean`                                      | `false`        | Enable/disable ROI area visibility |
 | faceROIAreaOffsetColor        |  `string`                                      | `'#FFFFF'`        | Set ROI area color by hexadecimal value |
-| faceContours        |  `boolean`                                      | `false`        | Enable/disable face contours |
-| faceContoursColor        |  `string`                                      | `'#FFFFF'`        | Set face contours color |
+| faceContours - `Android Only`       |  `boolean`                                      | `false`        | Enable/disable face contours |
+| faceContoursColor - `Android Only`      |  `string`                                      | `'#FFFFF'`        | Set face contours color |
 
 #### Methods
 
@@ -186,8 +186,8 @@ After that, you can access the camera object in your entire project using `this.
 | setFaceROIMinSize              | `percentage: string`     | Value format must be in `NN%`                                                     | void        | Set the minimum face size related within the ROI. |
 | setFaceROIAreaOffset              | `enable: boolean`     | true or false                                                     | void        | Set ROI area visibility |
 | setFaceROIAreaColor              | `color: string`     | Hexadecimal color                                                     | void        | Set ROI area color |
-| setFaceContours        |  `boolean`                                      | true or false       | void | Enable/disable face contours |
-| setFaceContoursColor        |  `color: string`                                      | Hexadecimal color      | void  | Set face contours color |
+| setFaceContours - `Android Only`       |  `boolean`                                      | true or false       | void | Enable/disable face contours |
+| setFaceContoursColor  - `Android Only`      |  `color: string`                                      | Hexadecimal color      | void  | Set face contours color |
 
 #### Events  
 
