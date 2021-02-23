@@ -211,7 +211,7 @@ Pre-define message constants used by the `status` event.
 | INVALID_CAPTURE_FACE_OUT_OF_ROI   | Face bounding box is out of the set region of interest (`setFaceROIOffset`).
 | INVALID_CAPTURE_FACE_ROI_MIN_SIZE | Face width percentage in relation of the screen width is less than the set (`setFaceROIMinSize`).
 
-## To contribute and make it better
+## Contribute and make it better
 
 Clone the repo, change what you want and send PR.
 
