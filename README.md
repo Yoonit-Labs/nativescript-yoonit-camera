@@ -151,9 +151,9 @@ After that, you can access the camera object in your entire project using `this.
 | faceROILeftOffset     | `"NN%"`                                      | `"0%"`        | Distance in percentage of the left face bounding box with the left of the camera preview.
 | faceROIMinSize        | `"NN%"`                                      | `"0%"`        | The minimum face size related within the ROI. |
 | faceROIAreaOffset        |  `boolean`                                      | `false`        | Enable/disable ROI area visibility |
-| faceROIAreaOffsetColor        |  `string`                                      | `'#FFFFF'`        | Set ROI area color by hexadecimal value |
+| faceROIAreaOffsetColor        |  `string`                                      | `'#FFFFFF'`        | Set ROI area color by hexadecimal value |
 | faceContours - `Android Only`       |  `boolean`                                      | `false`        | Enable/disable face contours |
-| faceContoursColor - `Android Only`      |  `string`                                      | `'#FFFFF'`        | Set face contours color |
+| faceContoursColor - `Android Only`      |  `string`                                      | `'#FFFFFF'`        | Set face contours color |
 
 #### Methods
 
