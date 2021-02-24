@@ -113,6 +113,21 @@ export class YoonitCamera extends CameraBase {
     public setFaceContoursColor(@Required color) {
         this.nativeView.setFaceContoursColor(...color);
     }
+
+    @NativeMethod({ name: 'setComputerVision', length: 1 })
+    public setComputerVision(@Required enable: boolean) {
+        this.nativeView.setComputerVision(enable);
+    }
+
+    public setComputerVisionLoadModels(modelPaths: Array<String>) {
+        const nativeArrayList = new java.util.ArrayList()
+
+        modelPaths.forEach((path) => {
+            nativeArrayList.add(path);
+        })
+
+        this.nativeView.setComputerVisionLoadModels(nativeArrayList);
+    }
 }
 
 @Interfaces([ai.cyberlabs.yoonit.camera.interfaces.CameraEventListener])
@@ -147,8 +162,25 @@ class CameraEventListener extends java.lang.Object implements ai.cyberlabs.yooni
         count: number,
         total: number,
         imagePath: string,
-        inferences: java.util.ArrayList<android.util.Pair<java.lang.String, number[]>>
+        inferences: java.util.ArrayList<android.util.Pair<string, number[]>>
     ): void {
+        const size: number = inferences.size();
+        const inferencesJsArray = new Array();
+
+        for (let i=0; i<size; i++) {
+            const key: string = inferences.get(i).first;
+            const javaArray: Array<number> = inferences.get(i).second;
+            const value: Array<number> = [];
+
+            for (let k=0; k<javaArray.length; k++) {
+                value.push(javaArray[k]);
+            }
+
+            inferencesJsArray.push({
+                [key]: value
+            });
+        }
+
         const owner = this.owner.get();
 
         if (owner && !!imagePath) {
@@ -160,7 +192,8 @@ class CameraEventListener extends java.lang.Object implements ai.cyberlabs.yooni
                 type,
                 count,
                 total,
-                image
+                image,
+                inferences: inferencesJsArray
             } as ImageCapturedEventData);
         }
     }

@@ -53,6 +53,8 @@ declare namespace ai {
 					public setFaceROIEnable(param0: boolean): void;
 					public setFaceContours(param0: boolean): void;
 					public setFaceContoursColor(...params: number): void;
+					public setComputerVision(param0: boolean): void;
+					public setComputerVisionLoadModels(param0: any): void
 				}
 				export namespace interfaces {
 					export class CameraEventListener {
@@ -62,7 +64,7 @@ declare namespace ai {
 							param1: number,
 							param2: number,
 							param3: string,
-							param4: java.util.ArrayList<android.util.Pair<java.lang.String, number[]>>
+							param4: java.util.ArrayList<android.util.Pair<string, number[]>>
 						): void;
 						public onFaceDetected(
 							param0: number,

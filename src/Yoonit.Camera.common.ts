@@ -121,6 +121,10 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
     public set faceContoursColor(value: string) {
         this.setFaceContoursColor(value);
     }
+
+    public set computerVision(value: boolean) {
+        this.setComputerVision(value);
+    }
     // METHODS ===================================================================
     // ===========================================================================
 
@@ -281,6 +285,8 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
     public setFaceContours(enable: boolean) {}
 
     public setFaceContoursColor(color) {}
+
+    public setComputerVision(enable: boolean) {}
 }
 
 export interface CameraBase {
