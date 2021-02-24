@@ -11,6 +11,8 @@
       >
         <YoonitCamera
           ref="yooCamera"
+          :computerVision="computerVision"
+
           :faceContours="faceContours"
           :faceContoursColor="faceContoursColor"
 
@@ -116,10 +118,15 @@
 </template>
 
 <script>
+  import {
+    knownFolders,
+    path
+  } from '@nativescript/core'
+
   export default {
     data: () => ({
       cameraLens: 'front',
-      captureType: 'face',
+      captureType: 'none',
       imageCaptureAmount: 0,
       imageCaptureInterval: 500,
       imageCapture: true,
@@ -131,6 +138,7 @@
       faceROIAreaOffsetColor: '#FFC8FB',
       faceContours: true,
       faceContoursColor: '#FFC8FB',
+      computerVision: true,
       qrCodeContent: ""
     }),
 
@@ -146,6 +154,12 @@
           console.log('[YooCamera] Permission granted, start preview')
           this.$yoo.camera.preview()
         }
+
+        const currentAppPath = knownFolders.currentApp()
+        const modelPath = path.join(currentAppPath.path, 'models', 'mask_custom_model.pt')
+
+        // this.$yoo.camera.setComputerVision(true)
+        this.$yoo.camera.setComputerVisionLoadModels([modelPath])
       },
 
       doFaceDetected({ x, y, width, height }) {
@@ -166,7 +180,8 @@
         image: {
           path,
           source
-        }
+        },
+        inferences
       }) {
         if (total === 0) {
           console.log('[YooCamera] doImageCaptured', `${type}: [${count}] ${path}`)
@@ -174,6 +189,13 @@
         } else {
           console.log('[YooCamera] doImageCaptured', `${type}: [${count}] of [${total}] - ${path}`)
           this.imageInformationCaptured = `${count} de ${total}`
+        }
+
+        if (this.computerVision) {
+          console.log(
+            '[YooCamera] Mask Pytorch',
+            inferences
+          )
         }
 
         this.imagePath = source
