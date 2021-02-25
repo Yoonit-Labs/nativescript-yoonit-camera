@@ -154,6 +154,7 @@ After that, you can access the camera object in your entire project using `this.
 | faceROIAreaOffsetColor        |  `string`                                      | `'#FFFFFF'`        | Set ROI area color by hexadecimal value |
 | faceContours - `Android Only`       |  `boolean`                                      | `false`        | Enable/disable face contours |
 | faceContoursColor - `Android Only`      |  `string`                                      | `'#FFFFFF'`        | Set face contours color |
+| computerVision - `Android Only`      |  `boolean`                                      | `true` or `false`       | Enable/disable computer vision model |
 
 #### Methods
 
@@ -188,12 +189,14 @@ After that, you can access the camera object in your entire project using `this.
 | setFaceROIAreaColor              | `color: string`     | Hexadecimal color                                                     | void        | Set ROI area color |
 | setFaceContours - `Android Only`       |  `boolean`                                      | `true` or `false`       | void | Enable/disable face contours |
 | setFaceContoursColor  - `Android Only`      |  `color: string`                                      | Hexadecimal color      | void  | Set face contours color |
+| setComputerVision  - `Android Only`      |  `enable: boolean`                                      | `true` or `false`      | void  | Enable/disable computer vision model |
+| setComputerVisionLoadModels  - `Android Only`      |  `modelPaths: Array<string>`                                      | Valid path to a pytorch computer vision model      | void  | Set model to be used when image is captured. To se more about it, <a href="https://github.com/Yoonit-Labs/nativescript-yoonit-camera/wiki">click here</a> |
 
 #### Events  
 
 | Event            | Parameters                                                                                                     | Description
 | -                | -                                                                                                              | -
-| imageCaptured    | `{ type: string, count: number, total: number, image: object = { path: string, source: blob, bynary: blob } }` | Must have started capture type of face/frame. Emitted when the face image file saved: <ul><li>type: "face" or "frame"</li>count: current index</li><li>total: total to create</li><li>image.path: the face/frame image path</li><li>image.source: the blob file</li><li>image.binary: the blob file</li><ul>
+| imageCaptured    | `{ type: string, count: number, total: number, image: object = { path: string, source: blob, bynary: blob }, inferences: [{ ['model name']: model output }] }` | Must have started capture type of face/frame. Emitted when the face image file saved: <ul><li>type: "face" or "frame"</li>count: current index</li><li>total: total to create</li><li>image.path: the face/frame image path</li><li>image.source: the blob file</li><li>image.binary: the blob file</li><li>inferences: An Array with models output</li><ul>
 | faceDetected     | `{ x: number, y: number, width: number, height: number }`                                                      | Must have started capture type of face. Emit the detected face bounding box. Emit all parameters null if no more face detecting.    
 | endCapture       | -                                                                                                              | Must have started capture type of face/frame. Emitted when the number of image files created is equal of the number of images set (see the method `setImageCaptureAmount`).   
 | qrCodeContent    | `{ content: string }`                                                                                          | Must have started capture type of qrcode (see `startCapture`). Emitted when the camera read a QR Code.   
