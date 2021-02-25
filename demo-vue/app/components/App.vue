@@ -169,7 +169,6 @@
         const currentApp = knownFolders.currentApp()
         const modelPath = path.join(currentApp.path, 'models', 'mask_custom_model.pt')
 
-        // this.$yoo.camera.setComputerVision(true)
         this.$yoo.camera.setComputerVisionLoadModels([modelPath])
       },
 
