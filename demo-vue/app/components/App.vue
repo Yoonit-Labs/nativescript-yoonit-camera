@@ -64,6 +64,16 @@
         width="100%"
       >
         <StackLayout>
+          <FlexboxLayout
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Label
+              v-show="computerVision && imagePath"
+              :class="isWearingMask ? 'positive-model-result' : 'negative-model-result'"
+              :text="isWearingMask ? 'Wearing Mask' : 'Not Wearing Mask'"
+            />
+          </FlexboxLayout>
           <StackLayout orientation="horizontal">
             <Button
               :text="cameraLens === 'back' ? 'BACK CAM' : 'FRONT CAM'"
@@ -126,7 +136,7 @@
   export default {
     data: () => ({
       cameraLens: 'front',
-      captureType: 'none',
+      captureType: 'face',
       imageCaptureAmount: 0,
       imageCaptureInterval: 500,
       imageCapture: true,
@@ -139,7 +149,8 @@
       faceContours: true,
       faceContoursColor: '#FFC8FB',
       computerVision: true,
-      qrCodeContent: ""
+      qrCodeContent: "",
+      isWearingMask: false
     }),
 
     methods: {
@@ -155,8 +166,8 @@
           this.$yoo.camera.preview()
         }
 
-        const currentAppPath = knownFolders.currentApp()
-        const modelPath = path.join(currentAppPath.path, 'models', 'mask_custom_model.pt')
+        const currentApp = knownFolders.currentApp()
+        const modelPath = path.join(currentApp.path, 'models', 'mask_custom_model.pt')
 
         // this.$yoo.camera.setComputerVision(true)
         this.$yoo.camera.setComputerVisionLoadModels([modelPath])
@@ -196,6 +207,8 @@
             '[YooCamera] Mask Pytorch',
             inferences
           )
+
+          this.doVerifyMaskUsage(inferences)
         }
 
         this.imagePath = source
@@ -224,6 +237,17 @@
       doPermissionDenied() {
         console.log('[YooCamera] doPermissionDenied');
       },
+
+      doVerifyMaskUsage(inferences) {
+          const TRASHOLD = 0.8
+          const MODEL_NAME = 'mask_custom_model.pt'
+
+          if (inferences[0][MODEL_NAME] > TRASHOLD) {
+            this.isWearingMask = false
+          } else {
+            this.isWearingMask = true
+          }
+      }
     }
   }
 </script>
@@ -255,5 +279,15 @@
     text-align: center;
     font-size: 20;
     color: #333333;
+  }
+
+  .positive-model-result {
+    color: green;
+    font-size: 14;
+  }
+
+  .negative-model-result {
+    color: red;
+    font-size: 14;
   }
 </style>
