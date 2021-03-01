@@ -238,10 +238,10 @@
       },
 
       doVerifyMaskUsage(inferences) {
-          const TRASHOLD = 0.8
+          const TRESHOLD = 0.8
           const MODEL_NAME = 'mask_custom_model.pt'
 
-          if (inferences[0][MODEL_NAME] > TRASHOLD) {
+          if (inferences[0][MODEL_NAME] > TRESHOLD) {
             this.isWearingMask = false
           } else {
             this.isWearingMask = true
