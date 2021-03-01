@@ -120,11 +120,11 @@ export class YoonitCamera extends CameraBase {
     }
 
     public setComputerVisionLoadModels(modelPaths: Array<String>) {
-        const nativeArrayList = new java.util.ArrayList()
+        const nativeArrayList = new java.util.ArrayList();
 
         modelPaths.forEach((path) => {
             nativeArrayList.add(path);
-        })
+        });
 
         this.nativeView.setComputerVisionLoadModels(nativeArrayList);
     }
