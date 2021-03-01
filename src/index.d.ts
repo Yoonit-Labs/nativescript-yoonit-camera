@@ -64,6 +64,9 @@ export declare class Camera extends ContentView {
     setFaceROIBottomOffset(percentage): void;
     setFaceROILeftOffset(percentage): void;
     setFaceROIMinSize(percentage: string): void;
+    setFaceContoursColor(color): void;
+    setComputerVision(enable: boolean): void;
+    setComputerVisionLoadModels(modelPaths: Array<string>): void;
 
     on(eventNames: string, callback: (data: EventData) => void, thisArg?: any);
     on(event: imageCaptured, callback: (args: ImageCapturedEventData) => void, thisArg?: any);
