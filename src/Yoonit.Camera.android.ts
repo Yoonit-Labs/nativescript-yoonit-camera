@@ -114,6 +114,7 @@ export class YoonitCamera extends CameraBase {
         this.nativeView.setFaceContoursColor(...color);
     }
 
+    @ValidateProps('computerVision', [false, true])
     @NativeMethod({ name: 'setComputerVision', length: 1 })
     public setComputerVision(@Required enable: boolean) {
         this.nativeView.setComputerVision(enable);
