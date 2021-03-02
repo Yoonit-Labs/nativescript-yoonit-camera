@@ -191,6 +191,7 @@ After that, you can access the camera object in your entire project using `this.
 | setFaceContoursColor  - `Android Only`      |  `color: string`                                      | Hexadecimal color      | void  | Set face contours color |
 | setComputerVision  - `Android Only`      |  `enable: boolean`                                      | `true` or `false`      | void  | Enable/disable computer vision model |
 | setComputerVisionLoadModels  - `Android Only`      |  `modelPaths: Array<string>`                                      | Valid path to a pytorch computer vision model      | void  | Set model to be used when image is captured. To se more about it, <a href="https://github.com/Yoonit-Labs/nativescript-yoonit-camera/wiki">click here</a> |
+| computerVisionClearModels  - `Android Only`      |  `void`                                      |  -      | void  | Clear models that was preveious added using setComputerVisionLoadModels |
 
 #### Events  
 
