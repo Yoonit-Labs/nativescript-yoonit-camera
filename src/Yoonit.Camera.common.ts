@@ -289,6 +289,8 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
     public setComputerVision(enable: boolean) {}
 
     public setComputerVisionLoadModels(modelPaths: Array<String>): void {}
+
+    public computerVisionClearModels():void {}
 }
 
 export interface CameraBase {

@@ -241,6 +241,10 @@
           const TRESHOLD = 0.8
           const MODEL_NAME = 'mask_custom_model.pt'
 
+          if (!inferences[0] || !inferences[0][MODEL_NAME]) {
+            return
+          }
+
           if (inferences[0][MODEL_NAME] > TRESHOLD) {
             this.isWearingMask = false
           } else {

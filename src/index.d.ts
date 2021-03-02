@@ -67,6 +67,8 @@ export declare class Camera extends ContentView {
     setFaceContoursColor(color): void;
     setComputerVision(enable: boolean): void;
     setComputerVisionLoadModels(modelPaths: Array<string>): void;
+    computerVisionClearModels(): void;
+    
 
     on(eventNames: string, callback: (data: EventData) => void, thisArg?: any);
     on(event: imageCaptured, callback: (args: ImageCapturedEventData) => void, thisArg?: any);

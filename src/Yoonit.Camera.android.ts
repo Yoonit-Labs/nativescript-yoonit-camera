@@ -129,6 +129,10 @@ export class YoonitCamera extends CameraBase {
 
         this.nativeView.setComputerVisionLoadModels(nativeArrayList);
     }
+
+    public computerVisionClearModels() {
+        this.nativeView.computerVisionClearModels();
+    }
 }
 
 @Interfaces([ai.cyberlabs.yoonit.camera.interfaces.CameraEventListener])

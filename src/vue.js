@@ -75,7 +75,8 @@ export default {
         setFaceContours,
         setFaceContoursColor,
         setComputerVision,
-        setComputerVisionLoadModels
+        setComputerVisionLoadModels,
+        computerVisionClearModels
       } = element.nativeView
 
       Vue.prototype.$yoo.camera = {
@@ -111,7 +112,8 @@ export default {
         setFaceContours,
         setFaceContoursColor,
         setComputerVision,
-        setComputerVisionLoadModels
+        setComputerVisionLoadModels,
+        computerVisionClearModels
       }
 
       return Vue.prototype.$yoo.camera

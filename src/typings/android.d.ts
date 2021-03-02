@@ -55,6 +55,7 @@ declare namespace ai {
 					public setFaceContoursColor(...params: number): void;
 					public setComputerVision(param0: boolean): void;
 					public setComputerVisionLoadModels(param0: any): void;
+					public computerVisionClearModels(): void;
 				}
 				export namespace interfaces {
 					export class CameraEventListener {
