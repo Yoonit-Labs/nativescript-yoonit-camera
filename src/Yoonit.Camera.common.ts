@@ -284,13 +284,13 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
 
     public setFaceContours(enable: boolean) {}
 
-    public setFaceContoursColor(color) {}
+    public setFaceContoursColor(color: string) {}
 
     public setComputerVision(enable: boolean) {}
 
     public setComputerVisionLoadModels(modelPaths: Array<String>): void {}
 
-    public computerVisionClearModels():void {}
+    public computerVisionClearModels(): void {}
 }
 
 export interface CameraBase {

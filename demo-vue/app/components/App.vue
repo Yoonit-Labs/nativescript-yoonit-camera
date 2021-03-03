@@ -12,17 +12,12 @@
         <YoonitCamera
           ref="yooCamera"
           :computerVision="computerVision"
-
           :faceContours="faceContours"
-          :faceContoursColor="faceContoursColor"
-
           :faceROIAreaOffset="faceROIAreaOffset"
-          :faceROIAreaOffsetColor="faceROIAreaOffsetColor"
           :faceROITopOffset="'10%'"
           :faceROIRightOffset="'10%'"
           :faceROIBottomOffset="'10%'"
           :faceROILeftOffset="'10%'"
-
           :lens="cameraLens"
           :captureType="captureType"
           :imageCaptureAmount="imageCaptureAmount"
@@ -141,16 +136,14 @@
       imageCaptureInterval: 500,
       imageCapture: true,
       faceDetectionBox: true,
-      faceROI: true,
+      faceROI: false,
       faceROIAreaOffset: true,
       imagePath: null,
-      imageInformationCaptured: "",
-      faceROIAreaOffsetColor: '#FFC8FB',
       faceContours: true,
-      faceContoursColor: '#FFC8FB',
       computerVision: true,
+      isWearingMask: false,
+      imageInformationCaptured: "",
       qrCodeContent: "",
-      isWearingMask: false
     }),
 
     methods: {
@@ -238,18 +231,14 @@
       },
 
       doVerifyMaskUsage(inferences) {
-          const TRESHOLD = 0.8
+          const THRESHOLD = 0.8
           const MODEL_NAME = 'mask_custom_model.pt'
 
           if (!inferences[0] || !inferences[0][MODEL_NAME]) {
             return
           }
 
-          if (inferences[0][MODEL_NAME] > TRESHOLD) {
-            this.isWearingMask = false
-          } else {
-            this.isWearingMask = true
-          }
+          this.isWearingMask = inferences[0][MODEL_NAME] <= THRESHOLD;
       }
     }
   }
