@@ -296,7 +296,7 @@ module.exports = env => {
                 "process": "global.process"
             }),
             // Remove all files from the out dir.
-            new CleanWebpackPlugin({ 
+            new CleanWebpackPlugin({
               cleanOnceBeforeBuildPatterns: itemsToClean,
               verbose: !!verbose
             }),
@@ -305,6 +305,7 @@ module.exports = env => {
               patterns: [
                 { from: 'assets/**', noErrorOnMissing: true, globOptions: { dot: false, ...copyIgnore } },
                 { from: 'fonts/**', noErrorOnMissing: true, globOptions: { dot: false, ...copyIgnore } },
+                { from: 'models/**', noErrorOnMissing: true, globOptions: { dot: false, ...copyIgnore } },
                 { from: '**/*.+(jpg|png)', noErrorOnMissing: true, globOptions: { dot: false, ...copyIgnore } }
               ],
             }),

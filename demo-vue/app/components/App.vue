@@ -11,16 +11,13 @@
       >
         <YoonitCamera
           ref="yooCamera"
+          :computerVision="computerVision"
           :faceContours="faceContours"
-          :faceContoursColor="faceContoursColor"
-
           :faceROIAreaOffset="faceROIAreaOffset"
-          :faceROIAreaOffsetColor="faceROIAreaOffsetColor"
           :faceROITopOffset="'10%'"
           :faceROIRightOffset="'10%'"
           :faceROIBottomOffset="'10%'"
           :faceROILeftOffset="'10%'"
-
           :lens="cameraLens"
           :captureType="captureType"
           :imageCaptureAmount="imageCaptureAmount"
@@ -62,6 +59,16 @@
         width="100%"
       >
         <StackLayout>
+          <FlexboxLayout
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Label
+              v-show="computerVision && imagePath"
+              :class="isWearingMask ? 'positive-model-result' : 'negative-model-result'"
+              :text="isWearingMask ? 'Wearing Mask' : 'Not Wearing Mask'"
+            />
+          </FlexboxLayout>
           <StackLayout orientation="horizontal">
             <Button
               :text="cameraLens === 'back' ? 'BACK CAM' : 'FRONT CAM'"
@@ -116,6 +123,11 @@
 </template>
 
 <script>
+  import {
+    knownFolders,
+    path
+  } from '@nativescript/core'
+
   export default {
     data: () => ({
       cameraLens: 'front',
@@ -124,14 +136,14 @@
       imageCaptureInterval: 500,
       imageCapture: true,
       faceDetectionBox: true,
-      faceROI: true,
+      faceROI: false,
       faceROIAreaOffset: true,
       imagePath: null,
-      imageInformationCaptured: "",
-      faceROIAreaOffsetColor: '#FFC8FB',
       faceContours: true,
-      faceContoursColor: '#FFC8FB',
-      qrCodeContent: ""
+      computerVision: true,
+      isWearingMask: false,
+      imageInformationCaptured: "",
+      qrCodeContent: "",
     }),
 
     methods: {
@@ -146,6 +158,11 @@
           console.log('[YooCamera] Permission granted, start preview')
           this.$yoo.camera.preview()
         }
+
+        const currentApp = knownFolders.currentApp()
+        const modelPath = path.join(currentApp.path, 'models', 'mask_custom_model.pt')
+
+        this.$yoo.camera.setComputerVisionLoadModels([modelPath])
       },
 
       doFaceDetected({ x, y, width, height }) {
@@ -166,7 +183,8 @@
         image: {
           path,
           source
-        }
+        },
+        inferences
       }) {
         if (total === 0) {
           console.log('[YooCamera] doImageCaptured', `${type}: [${count}] ${path}`)
@@ -174,6 +192,15 @@
         } else {
           console.log('[YooCamera] doImageCaptured', `${type}: [${count}] of [${total}] - ${path}`)
           this.imageInformationCaptured = `${count} de ${total}`
+        }
+
+        if (this.computerVision) {
+          console.log(
+            '[YooCamera] Mask Pytorch',
+            inferences
+          )
+
+          this.doVerifyMaskUsage(inferences)
         }
 
         this.imagePath = source
@@ -202,6 +229,17 @@
       doPermissionDenied() {
         console.log('[YooCamera] doPermissionDenied');
       },
+
+      doVerifyMaskUsage(inferences) {
+          const THRESHOLD = 0.8
+          const MODEL_NAME = 'mask_custom_model.pt'
+
+          if (!inferences[0] || !inferences[0][MODEL_NAME]) {
+            return
+          }
+
+          this.isWearingMask = inferences[0][MODEL_NAME] <= THRESHOLD;
+      }
     }
   }
 </script>
@@ -233,5 +271,15 @@
     text-align: center;
     font-size: 20;
     color: #333333;
+  }
+
+  .positive-model-result {
+    color: green;
+    font-size: 14;
+  }
+
+  .negative-model-result {
+    color: red;
+    font-size: 14;
   }
 </style>

@@ -17,7 +17,8 @@ export interface ImageCapturedEventData extends EventData {
     type: string;
     count: number;
     total: number;
-    image: any;
+    image: { path: string, source: any, binary: any };
+    inferences: object[];
 }
 
 export interface FaceDetectedEventData extends EventData {
@@ -46,6 +47,13 @@ export declare class Camera extends ContentView {
     getLens(): string;
     startCapture(type: string): void;
 
+    // Face Capture
+    setFacePaddingPercent(percentage: string): void;
+    setFaceCaptureMinSize(percentage: string): void;
+    setFaceCaptureMaxSize(percentage: string): void;
+    setFaceDetectionBox(enable: boolean): void;
+
+    // Image Capture
     setImageCapture(enable: boolean): void;
     setImageCaptureAmount(numberOfImages: number): void;
     setImageCaptureInterval(milliseconds: number): void;
@@ -53,17 +61,24 @@ export declare class Camera extends ContentView {
     setImageCaptureHeight(percentage: number): void;
     setImageCaptureColorEncoding(colorEncoding: string): void;
 
-    setFacePaddingPercent(percentage: string): void;
-    setFaceCaptureMinSize(percentage: string): void;
-    setFaceCaptureMaxSize(percentage: string): void;
-    setFaceDetectionBox(enable: boolean): void;
-
+    // Face ROI
     setFaceROIEnable(enable: boolean): void;
-    setFaceROITopOffset(percentage): void;
-    setFaceROIRightOffset(percentage): void;
-    setFaceROIBottomOffset(percentage): void;
-    setFaceROILeftOffset(percentage): void;
+    setFaceROITopOffset(percentage: string): void;
+    setFaceROIRightOffset(percentage: string): void;
+    setFaceROIBottomOffset(percentage: string): void;
+    setFaceROILeftOffset(percentage: string): void;
     setFaceROIMinSize(percentage: string): void;
+    setFaceROIAreaOffset(enable: boolean): void;
+    setFaceROIAreaOffsetColor(color: string): void;
+
+    // Face Contours
+    setFaceContours(enable: boolean): void; // Only Android.
+    setFaceContoursColor(color: string): void; // Only Android.
+
+    // Computer Vision
+    setComputerVision(enable: boolean): void; // Only Android.
+    setComputerVisionLoadModels(modelPaths: Array<string>): void; // Only Android.
+    computerVisionClearModels(): void; // Only Android.
 
     on(eventNames: string, callback: (data: EventData) => void, thisArg?: any);
     on(event: imageCaptured, callback: (args: ImageCapturedEventData) => void, thisArg?: any);
