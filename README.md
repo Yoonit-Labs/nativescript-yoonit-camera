@@ -54,53 +54,93 @@ Vue.use(YoonitCamera)
 After that, you can access the camera object in your entire project using `this.$yoo.camera`
 
 #### Vue Component
+
 `App.vue`
-```vue  
-<template>  
- <Page @loaded="onLoaded">  
- <YoonitCamera ref="yooCamera" lens="front" captureType="face" imageCapture=true imageCaptureAmount=10 imageCaptureInterval=500 faceDetectionBox=true @faceDetected="doFaceDetected"  
- @imageCaptured="doImageCaptured"  
- @endCapture="doEndCapture"  
- @qrCodeContent="doQRCodeContent"  
- @status="doStatus"  
- @permissionDenied="doPermissionDenied"  
- /> </Page></template>  
-  
-<script>  
- export default {  data: () => ({}),  
-  
-  methods: {  
- async onLoaded() {  
-  
-  console.log('[YooCamera] Getting Camera view')  
- this.$yoo.camera.registerElement(this.$refs.yooCamera)  
-  
-  console.log('[YooCamera] Getting permission')  
- if (await this.$yoo.camera.requestPermission()) {  
-  console.log('[YooCamera] Permission granted, start preview')  
- this.$yoo.camera.preview()  
- } },  
-  doFaceDetected({ x, y, width, height }) {  
-  console.log('[YooCamera] doFaceDetected', `{x: ${x}, y: ${y}, width: ${width}, height: ${height}}`)  
- if (!x || !y || !width || !height) { this.imagePath = null } },  
-  doImageCaptured({  
- type, count, total,  image: {  
- path, source } }) { if (total === 0) {  console.log('[YooCamera] doImageCreated', `${type}: [${count}] ${path}`)  
- this.imageCreated = `${count}` } else {  console.log('[YooCamera] doImageCreated', `${type}: [${count}] of [${total}] - ${path}`)  
- this.imageCreated = `${count} de ${total}` }  
- this.imagePath = source },  
-  doEndCapture() {  
-  console.log('[YooCamera] doEndCapture')  
- },  
-  doQRCodeContent({ content }) {  
-  console.log('[YooCamera] doQRCodeContent', content)  
- },  
-  doStatus({ status }) {  
-  console.log('[YooCamera] doStatus', status)  
- },  
-  doPermissionDenied() {  
-  console.log('[YooCamera] doPermissionDenied')  
- } } }</script>  
+
+```vue
+<template>
+  <Page @loaded="onLoaded">
+    <YoonitCamera
+      ref="yooCamera"
+      initialLens="front"
+      captureType="face"
+      numberOfImages=10
+      timeBetweenImages=500
+      saveImageCaptured=true
+      faceDetectionBox=true
+      @faceDetected="doFaceDetected"
+      @imageCaptured="doImageCaptured"
+      @endCapture="doEndCapture"
+      @qrCodeContent="doQRCodeContent"
+      @status="doStatus"
+      @permissionDenied="doPermissionDenied"
+    />
+  </Page>
+</template>
+
+<script>
+  export default {
+    data: () => ({}),
+
+    methods: {
+      async onLoaded() {
+
+        console.log('[YooCamera] Getting Camera view')
+        this.$yoo.camera.registerElement(this.$refs.yooCamera)
+
+        console.log('[YooCamera] Getting permission')
+        if (await this.$yoo.camera.requestPermission()) {
+          
+          console.log('[YooCamera] Permission granted, start preview')
+          this.$yoo.camera.preview()
+        }
+      },
+
+      doFaceDetected({ x, y, width, height }) {
+        console.log('[YooCamera] doFaceDetected', `{x: ${x}, y: ${y}, width: ${width}, height: ${height}}`)
+        if (!x || !y || !width || !height) {
+          this.imagePath = null
+        }
+      },
+
+      doImageCaptured({
+        type,
+        count,
+        total,
+        image: {
+          path,
+          source
+        }
+      }) {
+        if (total === 0) {
+          console.log('[YooCamera] doImageCreated', `${type}: [${count}] ${path}`)
+          this.imageCreated = `${count}`
+        } else {
+          console.log('[YooCamera] doImageCreated', `${type}: [${count}] of [${total}] - ${path}`)
+          this.imageCreated = `${count} de ${total}`
+        }
+
+        this.imagePath = source
+      },
+
+      doEndCapture() {
+        console.log('[YooCamera] doEndCapture')
+      },
+
+      doQRCodeContent({ content }) {
+        console.log('[YooCamera] doQRCodeContent', content)
+      },
+
+      doStatus({ status }) {
+        console.log('[YooCamera] doStatus', status)
+      },
+
+      doPermissionDenied() {
+        console.log('[YooCamera] doPermissionDenied')
+      }
+    }
+  }
+</script>
 ```  
 
 ## API
