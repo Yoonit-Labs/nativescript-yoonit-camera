@@ -165,12 +165,34 @@
         this.$yoo.camera.setComputerVisionLoadModels([modelPath])
       },
 
-      doFaceDetected({ x, y, width, height }) {
+      doFaceDetected(
+        {
+          x,
+          y,
+          width,
+          height,
+          leftEyeOpenProbability,
+          rightEyeOpenProbability,
+          smilingProbability,
+          headEulerAngleX,
+          headEulerAngleY,
+          headEulerAngleZ
+        }) {
         console.log(
           '[YooCamera] doFaceDetected',
-          `{x: ${x}, y: ${y}, width: ${width}, height: ${height}}`
+          `{
+              x: ${x}
+              y: ${y}
+              width: ${width}
+              height: ${height}
+              leftEyeOpenProbability: ${leftEyeOpenProbability}
+              rightEyeOpenProbability: ${rightEyeOpenProbability}
+              smilingProbability: ${smilingProbability}
+              headEulerAngleX: ${headEulerAngleX}
+              headEulerAngleY: ${headEulerAngleY}
+              headEulerAngleZ: ${headEulerAngleZ}
+          }`
         )
-
         if (!x || !y || !width || !height) {
           this.imagePath = null
         }
