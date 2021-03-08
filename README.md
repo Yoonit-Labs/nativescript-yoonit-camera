@@ -213,11 +213,39 @@ After that, you can access the camera object in your entire project using `this.
 | Event            | Parameters                                                                                                                                                   | Description  
 | -                | -                                                                                                                                                            | -  
 | imageCaptured    | `{ type: string, count: number, total: number, image: object = { path: string, source: any, binary: any }, inferences: [{ ['model name']: model output }] }` | Must have started capture type of face/frame. Emitted when the face image file saved: <ul><li>type: "face" or "frame"</li>count: current index</li><li>total: total to create</li><li>image.path: the face/frame image path</li><li>image.source: the blob file</li><li>image.binary: the blob file</li><li>inferences: An Array with models output</li><ul>  
-| faceDetected     | `{ x: number, y: number, width: number, height: number }` | Must have started capture type of face. Emit the detected face bounding box. Emit all parameters null if no more face detecting.      
+| faceDetected     | `{ x: number, y: number, width: number, height: number, leftEyeOpenProbability: number, rightEyeOpenProbability: number, smilingProbability: number, headEulerAngleX: number, headEulerAngleY: number, headEulerAngleZ: number }` | Must have started capture type of face. Emit the [face analysis](#face-analysis), all parameters null if no more face detecting.      
 | endCapture       | -                                                                                                                                                            | Must have started capture type of face/frame. Emitted when the number of image files created is equal of the number of images set (see the method `setImageCaptureAmount`).     
 | qrCodeContent    | `{ content: string }` | Must have started capture type of qrcode (see `startCapture`). Emitted when the camera read a QR Code.     
 | status           | `{ type: 'error'/'message', status: string }` | Emit message error from native. Used more often for debug purpose.     
 | permissionDenied | -                                                                                                                                                            | Emit when try to `preview` but there is not camera permission.
+
+#### Face Analysis
+
+The face analysis is the response send by the `onFaceDetected`. Here we specify all the parameters.
+
+| Attribute               | Type      | Description |
+| -                       | -         | -           |
+| x                       | `number`  | The `x` position of the face in the screen. |
+| y                       | `number`  | The `y` position of the face in the screen. |
+| width                   | `number`  | The `width` position of the face in the screen. |
+| height                  | `number`  | The `height` position of the face in the screen. |
+| leftEyeOpenProbability  | `number?` | The left eye open probability. |
+| rightEyeOpenProbability | `number?` | The right eye open probability. |
+| smilingProbability      | `number?` | The smiling probability. |
+| headEulerAngleX         | `number`  | The angle in degrees that indicate the vertical head direction. See [Head Movements](#headmovements) |
+| headEulerAngleY         | `number`  | The angle in degrees that indicate the horizontal head direction. See [Head Movements](#headmovements) |
+| headEulerAngleZ         | `number`  | The angle in degrees that indicate the tilt head direction. See [Head Movements](#headmovements) |
+
+
+#### Head Movements
+
+Here we explaining the above gif and how reached the "results". Each "movement" (vertical, horizontal and tilt) is a state, based in the angle in degrees that indicate head direction;
+
+| Head Direction | Attribute                  |  _v_ < -36°       | -36° < _v_ < -12° | -12° < _v_ < 12° | 12° < _v_ < 36° |  36° < _v_       | 
+| -                        | -                              | -                   | -                        | -                   | -                    | -                   |
+| Vertical             | `headEulerAngleX` | Super Down | Down               | Frontal          | Up             | Super Up |
+| Horizontal           | `headEulerAngleY` | Super Right | Right                 | Frontal          | Left                 | Super Left    |
+| Tilt                 | `headEulerAngleZ` | Super Left   | Left                   | Frontal          | Right            | Super Right |
 
 #### Messages
 
