@@ -206,7 +206,13 @@ class CameraEventListener extends java.lang.Object implements ai.cyberlabs.yooni
         x: number,
         y: number,
         width: number,
-        height: number
+        height: number,
+        leftEyeOpenProbability: number,
+        rightEyeOpenProbability: number,
+        smilingProbability: number,
+        headEulerAngleX: number,
+        headEulerAngleY: number,
+        headEulerAngleZ: number
     ): void {
 
         const owner = this.owner.get();
@@ -218,7 +224,13 @@ class CameraEventListener extends java.lang.Object implements ai.cyberlabs.yooni
                 x,
                 y,
                 width,
-                height
+                height,
+                leftEyeOpenProbability,
+                rightEyeOpenProbability,
+                smilingProbability,
+                headEulerAngleX,
+                headEulerAngleY,
+                headEulerAngleZ
             } as FaceDetectedEventData);
         }
     }

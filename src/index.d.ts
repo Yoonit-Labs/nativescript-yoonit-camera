@@ -26,6 +26,12 @@ export interface FaceDetectedEventData extends EventData {
     y: number;
     width: number;
     height: number;
+    leftEyeOpenProbability: number;
+    rightEyeOpenProbability: number;
+    smilingProbability: number;
+    headEulerAngleX: number;
+    headEulerAngleY: number;
+    headEulerAngleZ: number;
 }
 
 export interface QRCodeScannedEventData extends EventData {
