@@ -4,8 +4,8 @@
 //
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 // | Yoonit Camera Plugin for NativeScript applications              |
-// | Luigui Delyer, Haroldo Teruya,                                  |
-// | Victor Goulart & Márcio Bruffato @ Cyberlabs AI 2020            |
+// | Luigui Delyer, Haroldo Teruya, Victor Goulart                   |
+// | Gabriel Rizzo & Márcio Bruffato @ Cyberlabs AI 2020             |
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 import {
@@ -78,8 +78,8 @@ export declare class Camera extends ContentView {
     setFaceROIAreaOffsetColor(color: string): void;
 
     // Face Contours
-    setFaceContours(enable: boolean): void; // Only Android.
-    setFaceContoursColor(color: string): void; // Only Android.
+    setFaceContours(enable: boolean): void;
+    setFaceContoursColor(color: string): void;
 
     // Computer Vision
     setComputerVision(enable: boolean): void; // Only Android.

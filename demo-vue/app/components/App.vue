@@ -165,19 +165,18 @@
         this.$yoo.camera.setComputerVisionLoadModels([modelPath])
       },
 
-      doFaceDetected(
-        {
-          x,
-          y,
-          width,
-          height,
-          leftEyeOpenProbability,
-          rightEyeOpenProbability,
-          smilingProbability,
-          headEulerAngleX,
-          headEulerAngleY,
-          headEulerAngleZ
-        }) {
+      doFaceDetected({
+        x,
+        y,
+        width,
+        height,
+        leftEyeOpenProbability,
+        rightEyeOpenProbability,
+        smilingProbability,
+        headEulerAngleX,
+        headEulerAngleY,
+        headEulerAngleZ
+      }) {
         console.log(
           '[YooCamera] doFaceDetected',
           `{

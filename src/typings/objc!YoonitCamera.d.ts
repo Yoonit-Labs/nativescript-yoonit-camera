@@ -43,8 +43,8 @@ declare class CameraView extends UIView {
         green: number,
         blue: number
     ): void;
-    setFaceROIAreaOffset(status: boolean): void
-    setFaceROIEnable(status: boolean): void
+    setFaceROIAreaOffset(status: boolean): void;
+    setFaceROIEnable(status: boolean): void;
 }
 
 interface CameraEventListenerDelegate {
@@ -55,11 +55,17 @@ interface CameraEventListenerDelegate {
         width: number,
         height: number,
         leftEyeOpenProbability: number,
+        hasLeftEyeOpenProbability: boolean,
         rightEyeOpenProbability: number,
+        hasRightEyeOpenProbability: boolean,
         smilingProbability: number,
+        hasSmilingProbability: boolean,
         headEulerAngleX: number,
+        hasHeadEulerAngleX: boolean,
         headEulerAngleY: number,
-        headEulerAngleZ: number
+        hasHeadEulerAngleY: boolean,
+        headEulerAngleZ: number,
+        hasHeadEulerAngleZ: boolean
     ): void;
     onFaceUndetected(): void;
     onEndCapture(): void;

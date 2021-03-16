@@ -4,8 +4,8 @@
 //
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 // | Yoonit Camera Plugin for NativeScript applications              |
-// | Luigui Delyer, Haroldo Teruya,                                  |
-// | Victor Goulart & Márcio Bruffato @ Cyberlabs AI 2020            |
+// | Luigui Delyer, Haroldo Teruya, Victor Goulart                   |
+// | Gabriel Rizzo & Márcio Bruffato @ Cyberlabs AI 2020             |
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 import {
@@ -192,11 +192,17 @@ class CameraEventListener extends NSObject implements CameraEventListenerDelegat
         width: number,
         height: number,
         leftEyeOpenProbability: number,
+        hasLeftEyeOpenProbability: boolean,
         rightEyeOpenProbability: number,
+        hasRightEyeOpenProbability: boolean,
         smilingProbability: number,
+        hasSmilingProbability: boolean,
         headEulerAngleX: number,
+        hasHeadEulerAngleX: boolean,
         headEulerAngleY: number,
-        headEulerAngleZ: number
+        hasHeadEulerAngleY: boolean,
+        headEulerAngleZ: number,
+        hasHeadEulerAngleZ: boolean
     ): void {
         const owner = this.owner.get();
 
@@ -228,7 +234,13 @@ class CameraEventListener extends NSObject implements CameraEventListenerDelegat
                 x: null,
                 y: null,
                 width: null,
-                height: null
+                height: null,
+                leftEyeOpenProbability: null,
+                rightEyeOpenProbability: null,
+                smilingProbability: null,
+                headEulerAngleX: null,
+                headEulerAngleY: null,
+                headEulerAngleZ: null
             } as EventData);
         }
     }
