@@ -192,17 +192,11 @@ class CameraEventListener extends NSObject implements CameraEventListenerDelegat
         width: number,
         height: number,
         leftEyeOpenProbability: number,
-        hasLeftEyeOpenProbability: boolean,
         rightEyeOpenProbability: number,
-        hasRightEyeOpenProbability: boolean,
         smilingProbability: number,
-        hasSmilingProbability: boolean,
         headEulerAngleX: number,
-        hasHeadEulerAngleX: boolean,
         headEulerAngleY: number,
-        hasHeadEulerAngleY: boolean,
-        headEulerAngleZ: number,
-        hasHeadEulerAngleZ: boolean
+        headEulerAngleZ: number
     ): void {
         const owner = this.owner.get();
 
