@@ -3,7 +3,8 @@
 !extractTGZ.js
 *.js.map
 *.log
-*.*.d.ts
+*.d.ts
+*.js
 node_modules
 *.aar
 npm
