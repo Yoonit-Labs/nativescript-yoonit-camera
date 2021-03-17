@@ -1,3 +1,13 @@
+// +-+-+-+-+-+-+
+// |y|o|o|n|i|t|
+// +-+-+-+-+-+-+
+//
+// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+// | Yoonit Camera Plugin for NativeScript applications              |
+// | Luigui Delyer, Haroldo Teruya, Victor Goulart                   |
+// | Gabriel Rizzo & Márcio Bruffato @ Cyberlabs AI 2020-2021        |
+// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
 import "reflect-metadata";
 
 import {
