@@ -10,11 +10,13 @@
 A NativeScript plugin to provide:
 - Modern Android Camera API [Camera X](https://developer.android.com/training/camerax)
 - Camera preview (Front & Back)
-- [Google MLKit](https://developers.google.com/ml-kit) integration
-- [PyTorch](https://pytorch.org/mobile/home/) integration (Soon)
+* Yoonit Facefy integration:
+  * Android: [android-yoonit-facefy](https://github.com/Yoonit-Labs/android-yoonit-facefy)
+  * iOS: [ios-yoonit-facefy](https://github.com/Yoonit-Labs/ios-yoonit-facefy)
+- [PyTorch](https://pytorch.org/mobile/home/) integration (Android)
 - Computer vision pipeline
 - Face detection, capture and image crop
-- Understanding of the human face (Soon)
+- Understanding of the human face
 - Frame capture
 - Capture timed images
 - QR Code scanning
@@ -96,8 +98,33 @@ After that, you can access the camera object in your entire project using `this.
         }
       },
 
-      doFaceDetected({ x, y, width, height }) {
-        console.log('[YooCamera] doFaceDetected', `{x: ${x}, y: ${y}, width: ${width}, height: ${height}}`)
+      doFaceDetected({ 
+        x, 
+        y, 
+        width, 
+        height,
+        leftEyeOpenProbability,
+        rightEyeOpenProbability,
+        smilingProbability,
+        headEulerAngleX,
+        headEulerAngleY,
+        headEulerAngleZ
+      }) {
+        console.log(
+          '[YooCamera] doFaceDetected',
+          `
+          x: ${x}
+          y: ${y}
+          width: ${width}
+          height: ${height}
+          leftEyeOpenProbability: ${leftEyeOpenProbability}
+          rightEyeOpenProbability: ${rightEyeOpenProbability}
+          smilingProbability: ${smilingProbability}
+          headEulerAngleX: ${headEulerAngleX}
+          headEulerAngleY: ${headEulerAngleY}
+          headEulerAngleZ: ${headEulerAngleZ}
+          `
+        )
         if (!x || !y || !width || !height) {
           this.imagePath = null
         }
@@ -110,7 +137,8 @@ After that, you can access the camera object in your entire project using `this.
         image: {
           path,
           source
-        }
+        },
+        inferences
       }) {
         if (total === 0) {
           console.log('[YooCamera] doImageCreated', `${type}: [${count}] ${path}`)
@@ -119,7 +147,7 @@ After that, you can access the camera object in your entire project using `this.
           console.log('[YooCamera] doImageCreated', `${type}: [${count}] of [${total}] - ${path}`)
           this.imageCreated = `${count} de ${total}`
         }
-
+        console.log('[YooCamera] Mask Pytorch', inferences)
         this.imagePath = source
       },
 
@@ -261,6 +289,8 @@ Pre-define message constants used by the `status` event.
 ## Contribute and make it better
 
 Clone the repo, change what you want and send PR.
+
+For commit messages we use <a href="https://www.conventionalcommits.org/">Conventional Commits</a>.
 
 Contributions are always welcome, some people that already contributed!
 
