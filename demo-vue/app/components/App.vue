@@ -11,20 +11,24 @@
       >
         <YoonitCamera
           ref="yooCamera"
-          :computerVision="computerVision"
-          :faceContours="faceContours"
-          :faceROIAreaOffset="faceROIAreaOffset"
+          :lens="cameraLens"
+          :captureType="captureType"
+          :computerVision="true"
+          :faceDetectionBox="enableFaceDetectionBox"
+          :faceContours="enableFaceContours"
+          :faceContoursColor="enableFaceContoursColor ? '#FF0000' : '#FFFFFF'"
+          :faceMinSize="enableFaceMinSize ? '70%' : '0%'"
+          :faceMaxSize="enableFaceMaxsize ? '80%' : '100%'"
+          :faceROI="enableFaceROI"
+          :faceROIAreaOffset="true"
           :faceROITopOffset="'10%'"
           :faceROIRightOffset="'10%'"
           :faceROIBottomOffset="'10%'"
           :faceROILeftOffset="'10%'"
-          :lens="cameraLens"
-          :captureType="captureType"
-          :imageCaptureAmount="imageCaptureAmount"
-          :imageCaptureInterval="imageCaptureInterval"
-          :imageCapture="imageCapture"
-          :faceDetectionBox="faceDetectionBox"
-          :faceROI="faceROI"
+          :faceROIMinSize="enableFaceROIMinSize ? '70%' : '0%'"
+          :imageCapture="enableImageCapture"
+          :imageCaptureAmount="0"
+          :imageCaptureInterval="300"
           @faceDetected="doFaceDetected"
           @imageCaptured="doImageCaptured"
           @endCapture="doEndCapture"
@@ -45,7 +49,7 @@
             :src="imagePath"
             width="200"
             height="200"
-            v-if="imageCapture && (captureType === 'face' || captureType === 'frame')"
+            v-if="enableImageCapture && (captureType === 'face' || captureType === 'frame')"
           />
           <TextField
             class="message"
@@ -59,63 +63,126 @@
         width="100%"
       >
         <StackLayout>
-          <FlexboxLayout
-            justifyContent="center"
-            alignItems="center"
-          >
+          <FlexboxLayout flexDirection="row" backgroundColor="#26262675">
+            <StackLayout orientation="horizontal">
+              <Button
+                  :class="panel === 'configurations' ? 'selected' : ''"
+                  text="Configurações"
+                  horizontalAlignment="left"
+                  @tap='panel = "configurations"'
+              />
+              <Button
+                  :class="panel === 'analysis' ? 'selected' : ''"
+                  text="FaceAnalysis"
+                  horizontalAlignment="left"
+                  @tap="panel = 'analysis'"
+              />
+            </StackLayout>
+          </FlexboxLayout>
+          <StackLayout v-show="panel === 'configurations'" backgroundColor="#33333375">
+            <FlexboxLayout flexDirection="row">
+              <StackLayout width="50%" paddingLeft="-10">
+                <YooSwitch
+                  label="Capturar Imagem"
+                  @tap="enableImageCapture = !enableImageCapture"
+                />
+                <YooSwitch
+                  label="Contorno da Face"
+                  @tap="enableFaceContours = !enableFaceContours"
+                />
+                <YooSwitch
+                  label="Face Min 70%"
+                  @tap="enableFaceMinSize = !enableFaceMinSize"
+                />
+                <YooSwitch
+                  label="Face ROI"
+                  @tap="enableFaceROI = !enableFaceROI"
+                />
+                <YooSwitch
+                  label="Lens Front"
+                  initialChecked=true
+                  @tap="cameraLens = cameraLens === 'back' ? 'front' : 'back'"
+                />
+              </StackLayout>
+              <StackLayout width="50%" paddingLeft="-10">
+                <YooSwitch
+                  label="Caixa de Detecção"
+                  initialChecked=true
+                  @tap="enableFaceDetectionBox = !enableFaceDetectionBox"
+                />
+                <YooSwitch
+                  label="Cor do Contorno"
+                  @tap="enableFaceContoursColor = !enableFaceContoursColor"
+                />
+                <YooSwitch
+                  label="Face Max 70%"
+                  @tap="enableFaceMaxsize = !enableFaceMaxsize"
+                />
+                <YooSwitch
+                  label="Face ROI Min 70%"
+                  @tap="enableFaceROIMinSize = !enableFaceROIMinSize"
+                />
+                <YooSwitch
+                  label="Camera"
+                  initialChecked=true
+                  @tap="toggleCamera"
+                />
+              </StackLayout>
+            </FlexboxLayout>
+            <Label text="Tipos de Captura:" marginLeft="10" />
+            <StackLayout orientation="horizontal">
+              <Button
+                :class="captureType === 'none' ? 'selected' : ''"
+                text="NONE"
+                horizontalAlignment="left"
+                @tap='captureType = "none"'
+              />
+              <Button
+                :class="captureType === 'face' ? 'selected' : ''"
+                text="FACE"
+                horizontalAlignment="left"
+                @tap="captureType = 'face'"
+              />
+              <Button
+                :class="captureType === 'qrcode' ? 'selected' : ''"
+                text="QRCODE"
+                horizontalAlignment="left"
+                @tap="captureType = 'qrcode'"
+              />
+              <Button
+                :class="captureType === 'frame' ? 'selected' : ''"
+                text="FRAME"
+                horizontalAlignment="left"
+                @tap="captureType = 'frame'"
+              />
+            </StackLayout>
+            <FlexboxLayout>
+              <Label
+                marginLeft="10"
+                v-if="captureType === 'face' || captureType === 'frame'"
+                text="Quantidade de captura de imagens: "
+              />
+              <Label
+                v-if="captureType === 'face' || captureType === 'frame'"
+                :text="imageInformationCaptured"
+              />
+            </FlexboxLayout>
             <Label
-              v-show="computerVision && imagePath"
+              marginLeft="10"
+              v-show="imagePath"
               :class="isWearingMask ? 'positive-model-result' : 'negative-model-result'"
               :text="isWearingMask ? 'Wearing Mask' : 'Not Wearing Mask'"
             />
-          </FlexboxLayout>
-          <StackLayout orientation="horizontal">
-            <Button
-              :text="cameraLens === 'back' ? 'BACK CAM' : 'FRONT CAM'"
-              horizontalAlignment="left"
-              @tap="doToggleCameraLens" />
-            <Button
-              text="TOGGLE BOX"
-              horizontalAlignment="left"
-              @tap="faceDetectionBox = !faceDetectionBox" />
-            <Button
-              text="TOGGLE SAVE"
-              horizontalAlignment="left"
-              @tap="imageCapture = !imageCapture" />
           </StackLayout>
-          <Label text="Tipos de Captura:" />
-          <StackLayout orientation="horizontal">
-            <Button
-              :class="captureType === 'none' ? 'selected' : ''"
-              text="NONE"
-              horizontalAlignment="left"
-              @tap='captureType ="none"' />
-            <Button
-              :class="captureType === 'face' ? 'selected' : ''"
-              text="FACE"
-              horizontalAlignment="left"
-              @tap="captureType = 'face'" />
-            <Button
-              :class="captureType === 'qrcode' ? 'selected' : ''"
-              text="QRCODE"
-              horizontalAlignment="left"
-              @tap="captureType = 'qrcode'" />
-            <Button
-              :class="captureType === 'frame' ? 'selected' : ''"
-              text="FRAME"
-              horizontalAlignment="left"
-              @tap="captureType = 'frame'" />
-          </StackLayout>
-          <FlexboxLayout>
-            <Label
-              v-if="captureType === 'face' || captureType === 'frame'"
-              text="Quantidade de captura de imagens: "
-            />
-            <Label
-              v-if="captureType === 'face' || captureType === 'frame'"
-              :text="imageInformationCaptured"
-            />
-          </FlexboxLayout>
+          <YooFaceAnalysis
+            :show="panel === 'analysis'"
+            :faceLeftEyeOpenProbability=faceLeftEyeOpenProbability
+            :faceRightEyeOpenProbability=faceRightEyeOpenProbability
+            :faceSmilingProbability=faceSmilingProbability
+            :faceHeadEulerAngleX=faceHeadEulerAngleX
+            :faceHeadEulerAngleY=faceHeadEulerAngleY
+            :faceHeadEulerAngleZ=faceHeadEulerAngleZ
+          />
         </StackLayout>
       </GridLayout>
     </GridLayout>
@@ -127,44 +194,61 @@
     knownFolders,
     path
   } from '@nativescript/core'
+  import YooSwitch from '~/components/YooSwitch';
+  import YooFaceAnalysis from '~/components/YooFaceAnalysis';
 
   export default {
+    components: { YooFaceAnalysis, YooSwitch },
     data: () => ({
+      panel: 'analysis',
       cameraLens: 'front',
       captureType: 'face',
-      imageCaptureAmount: 0,
-      imageCaptureInterval: 500,
-      imageCapture: true,
-      faceDetectionBox: true,
-      faceROI: false,
-      faceROIAreaOffset: true,
+      enableCamera: true,
+      enableImageCapture: false,
+      enableFaceDetectionBox: true,
+      enableFaceContours: false,
+      enableFaceContoursColor: false,
+      enableFaceMinSize: false,
+      enableFaceMaxsize: false,
+      enableFaceROI: false,
+      enableFaceROIMinSize: false,
       imagePath: null,
-      faceContours: true,
-      computerVision: true,
-      isWearingMask: false,
       imageInformationCaptured: "",
       qrCodeContent: "",
+      isWearingMask: false,
+      faceLeftEyeOpenProbability: "",
+      faceRightEyeOpenProbability: "",
+      faceSmilingProbability: "",
+      faceHeadEulerAngleX: "",
+      faceHeadEulerAngleY: "",
+      faceHeadEulerAngleZ: "",
     }),
 
     methods: {
       async onLoaded() {
-
         console.log('[YooCamera] Getting Camera view')
+
         this.$yoo.camera.registerElement(this.$refs.yooCamera)
-
+        await this.doPreview()
+        this.doLoadComputerVisionModels()
+      },
+      async doPreview() {
         console.log('[YooCamera] Getting permission')
-        if (await this.$yoo.camera.requestPermission()) {
 
+        if (await this.$yoo.camera.requestPermission()) {
           console.log('[YooCamera] Permission granted, start preview')
           this.$yoo.camera.preview()
         }
-
+      },
+      doLoadComputerVisionModels() {
         const currentApp = knownFolders.currentApp()
         const modelPath = path.join(currentApp.path, 'models', 'mask_custom_model.pt')
-
         this.$yoo.camera.setComputerVisionLoadModels([modelPath])
       },
-
+      async toggleCamera() {
+        this.enableCamera = !this.enableCamera;
+        this.enableCamera ? await this.doPreview() : this.$yoo.camera.destroy();
+      },
       doFaceDetected({
         x,
         y,
@@ -177,26 +261,17 @@
         headEulerAngleY,
         headEulerAngleZ
       }) {
-        console.log(
-          '[YooCamera] doFaceDetected',
-          `{
-              x: ${x}
-              y: ${y}
-              width: ${width}
-              height: ${height}
-              leftEyeOpenProbability: ${leftEyeOpenProbability}
-              rightEyeOpenProbability: ${rightEyeOpenProbability}
-              smilingProbability: ${smilingProbability}
-              headEulerAngleX: ${headEulerAngleX}
-              headEulerAngleY: ${headEulerAngleY}
-              headEulerAngleZ: ${headEulerAngleZ}
-          }`
-        )
+        this.faceLeftEyeOpenProbability = parseFloat(leftEyeOpenProbability).toFixed(4);
+        this.faceRightEyeOpenProbability = parseFloat(rightEyeOpenProbability).toFixed(4);
+        this.faceSmilingProbability = parseFloat(smilingProbability).toFixed(4);
+        this.faceHeadEulerAngleX = parseFloat(headEulerAngleX).toFixed(4);
+        this.faceHeadEulerAngleY = parseFloat(headEulerAngleY).toFixed(4);
+        this.faceHeadEulerAngleZ = parseFloat(headEulerAngleZ).toFixed(4);
+
         if (!x || !y || !width || !height) {
           this.imagePath = null
         }
       },
-
       doImageCaptured({
         type,
         count,
@@ -214,52 +289,33 @@
           console.log('[YooCamera] doImageCaptured', `${type}: [${count}] of [${total}] - ${path}`)
           this.imageInformationCaptured = `${count} de ${total}`
         }
-
-        if (this.computerVision) {
-          console.log(
-            '[YooCamera] Mask Pytorch',
-            inferences
-          )
-
-          this.doVerifyMaskUsage(inferences)
-        }
-
+        this.doVerifyMaskUsage(inferences)
         this.imagePath = source
       },
-
-      doToggleCameraLens() {
-        console.log('[YooCamera] doToggleCameraLens');
-
-        this.cameraLens = this.cameraLens === 'back' ? 'front' : 'back';
-      },
-
       doEndCapture() {
         console.log('[YooCamera] doEndCapture');
       },
-
       doQRCodeContent({ content }) {
         console.log('[YooCamera] doQRCodeContent', content);
-
         this.qrCodeContent = content;
       },
-
       doStatus({ status }) {
         console.log('[YooCamera] doStatus', status);
       },
-
       doPermissionDenied() {
         console.log('[YooCamera] doPermissionDenied');
       },
-
       doVerifyMaskUsage(inferences) {
-          const THRESHOLD = 0.8
-          const MODEL_NAME = 'mask_custom_model.pt'
+        console.log('[YooCamera] Mask Pytorch', inferences)
 
-          if (!inferences[0] || !inferences[0][MODEL_NAME]) {
-            return
-          }
+        const THRESHOLD = 0.8
+        const MODEL_NAME = 'mask_custom_model.pt'
 
-          this.isWearingMask = inferences[0][MODEL_NAME] <= THRESHOLD;
+        if (!inferences[0] || !inferences[0][MODEL_NAME]) {
+          return
+        }
+
+        this.isWearingMask = inferences[0][MODEL_NAME] <= THRESHOLD;
       }
     }
   }
@@ -270,11 +326,10 @@
     background-color: #000000;
     color: #ffffff;
   }
-
   Label {
-    margin-left: 12;
+    font-size: 14;
+    color: #ffffff;
   }
-
   Button {
     padding: 8 12;
     color: #333333;
@@ -282,23 +337,20 @@
     border-radius: 8;
     margin: 8 0 8 12;
   }
-
   .selected {
-    background-color: #CCCCCC;
+    color: white;
+    background-color: #9b9b9b;
   }
-
   .message {
     vertical-align: center;
     text-align: center;
     font-size: 20;
     color: #333333;
   }
-
   .positive-model-result {
     color: green;
     font-size: 14;
   }
-
   .negative-model-result {
     color: red;
     font-size: 14;
