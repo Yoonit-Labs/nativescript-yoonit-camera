@@ -4,9 +4,12 @@
 *.js.map
 *.log
 *.*.d.ts
+*.js
 node_modules
 *.aar
 npm
+
+Validator.d.ts
 
 # Editor directories and files
 .idea

@@ -10,11 +10,13 @@
 A NativeScript plugin to provide:
 - Modern Android Camera API [Camera X](https://developer.android.com/training/camerax)
 - Camera preview (Front & Back)
-- [Google MLKit](https://developers.google.com/ml-kit) integration
-- [PyTorch](https://pytorch.org/mobile/home/) integration (Soon)
+* Yoonit Facefy integration:
+  * Android: [android-yoonit-facefy](https://github.com/Yoonit-Labs/android-yoonit-facefy)
+  * iOS: [ios-yoonit-facefy](https://github.com/Yoonit-Labs/ios-yoonit-facefy)
+- [PyTorch](https://pytorch.org/mobile/home/) integration (Android)
 - Computer vision pipeline
 - Face detection, capture and image crop
-- Understanding of the human face (Soon)
+- Understanding of the human face
 - Frame capture
 - Capture timed images
 - QR Code scanning
@@ -96,8 +98,33 @@ After that, you can access the camera object in your entire project using `this.
         }
       },
 
-      doFaceDetected({ x, y, width, height }) {
-        console.log('[YooCamera] doFaceDetected', `{x: ${x}, y: ${y}, width: ${width}, height: ${height}}`)
+      doFaceDetected({ 
+        x, 
+        y, 
+        width, 
+        height,
+        leftEyeOpenProbability,
+        rightEyeOpenProbability,
+        smilingProbability,
+        headEulerAngleX,
+        headEulerAngleY,
+        headEulerAngleZ
+      }) {
+        console.log(
+          '[YooCamera] doFaceDetected',
+          `
+          x: ${x}
+          y: ${y}
+          width: ${width}
+          height: ${height}
+          leftEyeOpenProbability: ${leftEyeOpenProbability}
+          rightEyeOpenProbability: ${rightEyeOpenProbability}
+          smilingProbability: ${smilingProbability}
+          headEulerAngleX: ${headEulerAngleX}
+          headEulerAngleY: ${headEulerAngleY}
+          headEulerAngleZ: ${headEulerAngleZ}
+          `
+        )
         if (!x || !y || !width || !height) {
           this.imagePath = null
         }
@@ -110,7 +137,8 @@ After that, you can access the camera object in your entire project using `this.
         image: {
           path,
           source
-        }
+        },
+        inferences
       }) {
         if (total === 0) {
           console.log('[YooCamera] doImageCreated', `${type}: [${count}] ${path}`)
@@ -119,7 +147,7 @@ After that, you can access the camera object in your entire project using `this.
           console.log('[YooCamera] doImageCreated', `${type}: [${count}] of [${total}] - ${path}`)
           this.imageCreated = `${count} de ${total}`
         }
-
+        console.log('[YooCamera] Mask Pytorch', inferences)
         this.imagePath = source
       },
 
@@ -213,11 +241,39 @@ After that, you can access the camera object in your entire project using `this.
 | Event            | Parameters                                                                                                                                                   | Description  
 | -                | -                                                                                                                                                            | -  
 | imageCaptured    | `{ type: string, count: number, total: number, image: object = { path: string, source: any, binary: any }, inferences: [{ ['model name']: model output }] }` | Must have started capture type of face/frame. Emitted when the face image file saved: <ul><li>type: "face" or "frame"</li>count: current index</li><li>total: total to create</li><li>image.path: the face/frame image path</li><li>image.source: the blob file</li><li>image.binary: the blob file</li><li>inferences: An Array with models output</li><ul>  
-| faceDetected     | `{ x: number, y: number, width: number, height: number }` | Must have started capture type of face. Emit the detected face bounding box. Emit all parameters null if no more face detecting.      
+| faceDetected     | `{ x: number, y: number, width: number, height: number, leftEyeOpenProbability: number, rightEyeOpenProbability: number, smilingProbability: number, headEulerAngleX: number, headEulerAngleY: number, headEulerAngleZ: number }` | Must have started capture type of face. Emit the [face analysis](#face-analysis), all parameters null if no more face detecting.      
 | endCapture       | -                                                                                                                                                            | Must have started capture type of face/frame. Emitted when the number of image files created is equal of the number of images set (see the method `setImageCaptureAmount`).     
 | qrCodeContent    | `{ content: string }` | Must have started capture type of qrcode (see `startCapture`). Emitted when the camera read a QR Code.     
 | status           | `{ type: 'error'/'message', status: string }` | Emit message error from native. Used more often for debug purpose.     
 | permissionDenied | -                                                                                                                                                            | Emit when try to `preview` but there is not camera permission.
+
+#### Face Analysis
+
+The face analysis is the response send by the `onFaceDetected`. Here we specify all the parameters.
+
+| Attribute               | Type      | Description |
+| -                       | -         | -           |
+| x                       | `number`  | The `x` position of the face in the screen. |
+| y                       | `number`  | The `y` position of the face in the screen. |
+| width                   | `number`  | The `width` position of the face in the screen. |
+| height                  | `number`  | The `height` position of the face in the screen. |
+| leftEyeOpenProbability  | `number?` | The left eye open probability. |
+| rightEyeOpenProbability | `number?` | The right eye open probability. |
+| smilingProbability      | `number?` | The smiling probability. |
+| headEulerAngleX         | `number`  | The angle in degrees that indicate the vertical head direction. See [Head Movements](#headmovements) |
+| headEulerAngleY         | `number`  | The angle in degrees that indicate the horizontal head direction. See [Head Movements](#headmovements) |
+| headEulerAngleZ         | `number`  | The angle in degrees that indicate the tilt head direction. See [Head Movements](#headmovements) |
+
+
+#### Head Movements
+
+Here we explaining the above gif and how reached the "results". Each "movement" (vertical, horizontal and tilt) is a state, based in the angle in degrees that indicate head direction;
+
+| Head Direction | Attribute                  |  _v_ < -36°       | -36° < _v_ < -12° | -12° < _v_ < 12° | 12° < _v_ < 36° |  36° < _v_       | 
+| -                        | -                              | -                   | -                        | -                   | -                    | -                   |
+| Vertical             | `headEulerAngleX` | Super Down | Down               | Frontal          | Up             | Super Up |
+| Horizontal           | `headEulerAngleY` | Super Right | Right                 | Frontal          | Left                 | Super Left    |
+| Tilt                 | `headEulerAngleZ` | Super Left   | Left                   | Frontal          | Right            | Super Right |
 
 #### Messages
 
@@ -233,6 +289,8 @@ Pre-define message constants used by the `status` event.
 ## Contribute and make it better
 
 Clone the repo, change what you want and send PR.
+
+For commit messages we use <a href="https://www.conventionalcommits.org/">Conventional Commits</a>.
 
 Contributions are always welcome, some people that already contributed!
 

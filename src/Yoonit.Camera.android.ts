@@ -4,8 +4,8 @@
 //
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 // | Yoonit Camera Plugin for NativeScript applications              |
-// | Luigui Delyer, Haroldo Teruya,                                  |
-// | Victor Goulart & Márcio Bruffato @ Cyberlabs AI 2020            |
+// | Luigui Delyer, Haroldo Teruya, Victor Goulart                   |
+// | Gabriel Rizzo & Márcio Bruffato @ Cyberlabs AI 2020-2021        |
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 import {
@@ -206,7 +206,13 @@ class CameraEventListener extends java.lang.Object implements ai.cyberlabs.yooni
         x: number,
         y: number,
         width: number,
-        height: number
+        height: number,
+        leftEyeOpenProbability: number,
+        rightEyeOpenProbability: number,
+        smilingProbability: number,
+        headEulerAngleX: number,
+        headEulerAngleY: number,
+        headEulerAngleZ: number
     ): void {
 
         const owner = this.owner.get();
@@ -218,7 +224,13 @@ class CameraEventListener extends java.lang.Object implements ai.cyberlabs.yooni
                 x,
                 y,
                 width,
-                height
+                height,
+                leftEyeOpenProbability,
+                rightEyeOpenProbability,
+                smilingProbability,
+                headEulerAngleX,
+                headEulerAngleY,
+                headEulerAngleZ
             } as FaceDetectedEventData);
         }
     }
@@ -233,7 +245,13 @@ class CameraEventListener extends java.lang.Object implements ai.cyberlabs.yooni
                 x: null,
                 y: null,
                 width: null,
-                height: null
+                height: null,
+                leftEyeOpenProbability: null,
+                rightEyeOpenProbability: null,
+                smilingProbability: null,
+                headEulerAngleX: null,
+                headEulerAngleY: null,
+                headEulerAngleZ: null
             } as EventData);
         }
     }
