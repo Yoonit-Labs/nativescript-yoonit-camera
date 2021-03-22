@@ -68,7 +68,7 @@ export declare class Camera extends ContentView {
     setImageCaptureColorEncoding(colorEncoding: string): void;
 
     // Face ROI
-    setFaceROIEnable(enable: boolean): void;
+    setFaceROI(enable: boolean): void;
     setFaceROITopOffset(percentage: string): void;
     setFaceROIRightOffset(percentage: string): void;
     setFaceROIBottomOffset(percentage: string): void;

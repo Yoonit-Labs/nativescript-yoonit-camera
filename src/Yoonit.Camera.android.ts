@@ -101,7 +101,7 @@ export class YoonitCamera extends CameraBase {
         this.nativeView.setColorEncodingCapture(colorEncoding);
     }
 
-    @ValidateProps('faceROIAreaOffset', [false, true])
+    @ValidateProps('faceContours', [false, true])
     @NativeMethod({ name: 'setFaceContours', length: 1 })
     public setFaceContours(@Required enable: boolean) {
         this.nativeView.setFaceContours(enable);
