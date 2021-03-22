@@ -83,7 +83,7 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
     }
 
     public set faceROI(value: boolean) {
-        this.setFaceROIEnable(value);
+        this.setFaceROI(value);
     }
 
     public set faceROITopOffset(value: string) {
@@ -230,7 +230,7 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
 
     @ValidateProps('faceROI', [false, true])
     @NativeMethod({ name: 'setFaceROIEnable', length: 1 })
-    public setFaceROIEnable(@Required enable: boolean): void {
+    public setFaceROI(@Required enable: boolean): void {
         this.nativeView.setFaceROIEnable(enable);
     }
 

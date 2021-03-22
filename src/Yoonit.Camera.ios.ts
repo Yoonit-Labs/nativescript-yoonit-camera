@@ -24,6 +24,14 @@ import {
 } from '@nativescript/core';
 import Validator from "./helpers/Validator";
 
+const {
+    ValidateProps,
+    Required,
+    NativeMethod,
+    RegexColor,
+    ParseToNsColor,
+} = Validator;
+
 export class YoonitCamera extends CameraBase {
 
     nativeView: CameraView;
@@ -129,6 +137,19 @@ export class YoonitCamera extends CameraBase {
 
     public hasPermission(): boolean {
         return this.permission;
+    }
+
+    @ValidateProps('faceContours', [false, true])
+    @NativeMethod({ name: 'setFaceContours', length: 1 })
+    public setFaceContours(@Required enable: boolean) {
+        this.nativeView.setFaceContours(enable);
+    }
+
+    @ValidateProps('faceContoursColor', RegexColor)
+    @ParseToNsColor
+    @NativeMethod({ name: 'setFaceROIAreaOffsetColorWithAlphaRefGreenBlue', length: 4 })
+    public setFaceContoursColor(@Required color) {
+        this.nativeView.setFaceContoursColorWithAlphaRedGreenBlue(...color);
     }
 }
 
