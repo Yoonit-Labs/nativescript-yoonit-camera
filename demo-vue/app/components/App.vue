@@ -203,7 +203,7 @@
       enableDetectionBox: true,
       enableFaceContours: false,
       enableFaceContoursColor: false,
-      enableDetactionMinSize: false,
+      enableDetectionMinSize: false,
       enableDetectionMaxsize: false,
       enableROI: false,
       imagePath: null,
