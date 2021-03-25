@@ -53,11 +53,11 @@ export declare class Camera extends ContentView {
     getLens(): string;
     startCapture(type: string): void;
 
-    // Face Capture
+    // Detection
     setFacePaddingPercent(percentage: string): void;
-    setFaceCaptureMinSize(percentage: string): void;
-    setFaceCaptureMaxSize(percentage: string): void;
-    setFaceDetectionBox(enable: boolean): void;
+    setDetectionMinSize(percentage: string): void;
+    setDetectionMaxSize(percentage: string): void;
+    setDetectionBox(enable: boolean): void;
 
     // Image Capture
     setImageCapture(enable: boolean): void;
@@ -68,14 +68,13 @@ export declare class Camera extends ContentView {
     setImageCaptureColorEncoding(colorEncoding: string): void;
 
     // Face ROI
-    setFaceROI(enable: boolean): void;
-    setFaceROITopOffset(percentage: string): void;
-    setFaceROIRightOffset(percentage: string): void;
-    setFaceROIBottomOffset(percentage: string): void;
-    setFaceROILeftOffset(percentage: string): void;
-    setFaceROIMinSize(percentage: string): void;
-    setFaceROIAreaOffset(enable: boolean): void;
-    setFaceROIAreaOffsetColor(color: string): void;
+    setROI(enable: boolean): void;
+    setROITopOffset(percentage: string): void;
+    setROIRightOffset(percentage: string): void;
+    setROIBottomOffset(percentage: string): void;
+    setROILeftOffset(percentage: string): void;
+    setROIAreaOffset(enable: boolean): void;
+    setROIAreaOffsetColor(color: string): void;
 
     // Face Contours
     setFaceContours(enable: boolean): void;
