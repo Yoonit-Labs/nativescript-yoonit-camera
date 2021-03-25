@@ -98,7 +98,7 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
         this.setROIBottomOffset(value);
     }
 
-    public set ROILeftOffset(value: string) {
+    public set roiLeftOffset(value: string) {
         this.setROILeftOffset(value);
     }
 
@@ -106,7 +106,7 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
         this.setROIAreaOffsetColor(value);
     }
 
-    public set ROIAreaOffset(value: boolean) {
+    public set roiAreaOffset(value: boolean) {
         this.setROIAreaOffset(value);
     }
 
@@ -198,10 +198,10 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
 
     public setImageCaptureColorEncoding(colorEncoding: string): void {}
 
-    @ValidateProps('faceDetectionBox', [false, true])
+    @ValidateProps('detectionBox', [false, true])
     @NativeMethod({ name: 'setFaceDetectionBox', length: 1 })
     public setDetectionBox(@Required enable: boolean): void {
-        this.nativeView.setFaceDetectionBox(enable);
+        this.nativeView.setDetectionBox(enable);
     }
 
     @PercentageToNumber
@@ -210,63 +210,63 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
         this.nativeView.setFacePaddingPercent(percentage);
     }
 
-    @ValidateProps('faceMinSize', RegexPercentage)
+    @ValidateProps('detactionMinSize', RegexPercentage)
     @PercentageToNumber
-    @NativeMethod({ name: 'setFaceCaptureMinSize', length: 1 })
+    @NativeMethod({ name: 'setDetectionMinSize', length: 1 })
     public setDetectionMinSize(@Required percentage): void {
-        this.nativeView.setCaptureMinSize(percentage);
+        this.nativeView.setDetectionMinSize(percentage);
     }
 
-    @ValidateProps('faceMaxSize', RegexPercentage)
+    @ValidateProps('detectionMaxSize', RegexPercentage)
     @PercentageToNumber
-    @NativeMethod({ name: 'setFaceCaptureMaxSize', length: 1 })
+    @NativeMethod({ name: 'setDetectionMaxSize', length: 1 })
     public setDetectionMaxSize(@Required percentage): void {
-        this.nativeView.setCaptureMaxSize(percentage);
+        this.nativeView.setDetectionMaxSize(percentage);
     }
 
-    @ValidateProps('faceROI', [false, true])
-    @NativeMethod({ name: 'setFaceROIEnable', length: 1 })
+    @ValidateProps('roi', [false, true])
+    @NativeMethod({ name: 'setROI', length: 1 })
     public setROI(@Required enable: boolean): void {
         this.nativeView.setROI(enable);
     }
 
-    @ValidateProps('faceROITopOffset', RegexPercentage)
+    @ValidateProps('roiTopOffset', RegexPercentage)
     @PercentageToNumber
-    @NativeMethod({ name: 'setFaceROITopOffset', length: 1 })
+    @NativeMethod({ name: 'setROITopOffset', length: 1 })
     public setROITopOffset(@Required percentage): void {
         this.nativeView.setROITopOffset(percentage);
     }
 
-    @ValidateProps('faceROIRightOffset', RegexPercentage)
+    @ValidateProps('roiRightOffset', RegexPercentage)
     @PercentageToNumber
-    @NativeMethod({ name: 'setFaceROIRightOffset', length: 1 })
+    @NativeMethod({ name: 'setROIRightOffset', length: 1 })
     public setROIRightOffset(@Required percentage): void {
         this.nativeView.setROIRightOffset(percentage);
     }
 
-    @ValidateProps('faceROIBottomOffset', RegexPercentage)
+    @ValidateProps('roiBottomOffset', RegexPercentage)
     @PercentageToNumber
-    @NativeMethod({ name: 'setFaceROIBottomOffset', length: 1 })
+    @NativeMethod({ name: 'setROIBottomOffset', length: 1 })
     public setROIBottomOffset(@Required percentage): void {
         this.nativeView.setROIBottomOffset(percentage);
     }
 
-    @ValidateProps('faceROILeftOffset', RegexPercentage)
+    @ValidateProps('roiLeftOffset', RegexPercentage)
     @PercentageToNumber
-    @NativeMethod({ name: 'setFaceROILeftOffset', length: 1 })
+    @NativeMethod({ name: 'setROILeftOffset', length: 1 })
     public setROILeftOffset(@Required percentage): void {
         this.nativeView.setROILeftOffset(percentage);
     }
 
-    @ValidateProps('faceROIAreaOffset', [false, true])
-    @NativeMethod({ name: 'setFaceROIAreaOffset', length: 1 })
+    @ValidateProps('roiAreaOffset', [false, true])
+    @NativeMethod({ name: 'setROIAreaOffset', length: 1 })
     public setROIAreaOffset(@Required enable: boolean) {
         this.nativeView.setROIAreaOffset(enable);
     }
 
-    @ValidateProps('faceROIAreaOffsetColor', RegexColor)
+    @ValidateProps('roiAreaOffsetColor', RegexColor)
     @ParseToNsColor
-    @NativeMethod({ name: 'setFaceROIAreaOffsetColor', length: 4 })
+    @NativeMethod({ name: 'setROIAreaOffsetColor', length: 4 })
     public setROIAreaOffsetColor(@Required color) {
         this.nativeView.setROIAreaOffsetColor(...color);
     }
