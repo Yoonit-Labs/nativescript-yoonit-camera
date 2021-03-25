@@ -85,6 +85,9 @@ export declare class Camera extends ContentView {
     setComputerVisionLoadModels(modelPaths: Array<string>): void; // Only Android.
     computerVisionClearModels(): void; // Only Android.
 
+    // UTILITIES
+    setFlash(enable: boolean): void;
+
     on(eventNames: string, callback: (data: EventData) => void, thisArg?: any);
     on(event: imageCaptured, callback: (args: ImageCapturedEventData) => void, thisArg?: any);
     on(event: faceDetected, callback: (args: FaceDetectedEventData) => void, thisArg?: any);

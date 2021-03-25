@@ -55,6 +55,7 @@ declare namespace ai {
 					public setComputerVision(param0: boolean): void;
 					public setComputerVisionLoadModels(param0: any): void;
 					public computerVisionClearModels(): void;
+					public setFlash(param0: boolean): void;
 				}
 				export namespace interfaces {
 					export class CameraEventListener {

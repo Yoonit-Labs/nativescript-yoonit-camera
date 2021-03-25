@@ -11,6 +11,7 @@
       >
         <YoonitCamera
           ref="yooCamera"
+          :flash="enableFlash"
           :lens="cameraLens"
           :captureType="captureType"
           :computerVision="true"
@@ -216,6 +217,7 @@
       faceHeadEulerAngleX: "",
       faceHeadEulerAngleY: "",
       faceHeadEulerAngleZ: "",
+      enableFlash: false
     }),
 
     methods: {

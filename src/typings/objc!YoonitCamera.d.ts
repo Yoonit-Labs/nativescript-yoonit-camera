@@ -46,6 +46,7 @@ declare class CameraView extends UIView {
     setROIEnable(status: boolean): void;
     setFaceContours(enable: boolean): void;
     setFaceContoursColorWithAlphaRedGreenBlue(...params: number): void;
+    setFlash(enable: boolean): void;
 }
 
 interface CameraEventListenerDelegate {
