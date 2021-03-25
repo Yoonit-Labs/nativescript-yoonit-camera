@@ -14,18 +14,17 @@
           :lens="cameraLens"
           :captureType="captureType"
           :computerVision="true"
-          :faceDetectionBox="enableFaceDetectionBox"
+          :detectionBox="enableDetectionBox"
           :faceContours="enableFaceContours"
           :faceContoursColor="enableFaceContoursColor ? '#FF0000' : '#FFFFFF'"
-          :faceMinSize="enableFaceMinSize ? '70%' : '0%'"
-          :faceMaxSize="enableFaceMaxsize ? '80%' : '100%'"
-          :faceROI="enableFaceROI"
-          :faceROIAreaOffset="true"
-          :faceROITopOffset="'10%'"
-          :faceROIRightOffset="'10%'"
-          :faceROIBottomOffset="'10%'"
-          :faceROILeftOffset="'10%'"
-          :faceROIMinSize="enableFaceROIMinSize ? '70%' : '0%'"
+          :detectionMinSize="enableDetectionMinSize ? '70%' : '0%'"
+          :detectionMaxSize="enableDetectionMaxsize ? '80%' : '100%'"
+          :roi="enableROI"
+          :ROIAreaOffset="true"
+          :ROITopOffset="'10%'"
+          :ROIRightOffset="'10%'"
+          :ROIBottomOffset="'10%'"
+          :ROILeftOffset="'10%'"
           :imageCapture="enableImageCapture"
           :imageCaptureAmount="0"
           :imageCaptureInterval="300"
@@ -92,11 +91,11 @@
                 />
                 <YooSwitch
                   label="Face Min 70%"
-                  @tap="enableFaceMinSize = !enableFaceMinSize"
+                  @tap="enableDetactionMinSize = !enableDetactionMinSize"
                 />
                 <YooSwitch
                   label="Face ROI"
-                  @tap="enableFaceROI = !enableFaceROI"
+                  @tap="enableROI = !enableROI"
                 />
                 <YooSwitch
                   label="Lens Front"
@@ -108,7 +107,7 @@
                 <YooSwitch
                   label="Caixa de Detecção"
                   initialChecked=true
-                  @tap="enableFaceDetectionBox = !enableFaceDetectionBox"
+                  @tap="enableDetectionBox = !enableDetectionBox"
                 />
                 <YooSwitch
                   label="Cor do Contorno"
@@ -116,11 +115,7 @@
                 />
                 <YooSwitch
                   label="Face Max 70%"
-                  @tap="enableFaceMaxsize = !enableFaceMaxsize"
-                />
-                <YooSwitch
-                  label="Face ROI Min 70%"
-                  @tap="enableFaceROIMinSize = !enableFaceROIMinSize"
+                  @tap="enableDetectionMaxsize = !enableDetectionMaxsize"
                 />
                 <YooSwitch
                   label="Camera"
@@ -205,13 +200,12 @@
       captureType: 'face',
       enableCamera: true,
       enableImageCapture: false,
-      enableFaceDetectionBox: true,
+      enableDetectionBox: true,
       enableFaceContours: false,
       enableFaceContoursColor: false,
-      enableFaceMinSize: false,
-      enableFaceMaxsize: false,
-      enableFaceROI: false,
-      enableFaceROIMinSize: false,
+      enableDetactionMinSize: false,
+      enableDetectionMaxsize: false,
+      enableROI: false,
       imagePath: null,
       imageInformationCaptured: "",
       qrCodeContent: "",
