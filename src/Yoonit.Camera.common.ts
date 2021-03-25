@@ -35,6 +35,7 @@ const {
 } = Validator;
 
 export abstract class CameraBase extends ContentView implements CameraDefinition {
+
     // PROPERTIES ================================================================
     // ===========================================================================
 
@@ -121,6 +122,7 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
     public set computerVision(value: boolean) {
         this.setComputerVision(value);
     }
+
     // METHODS ===================================================================
     // ===========================================================================
 
@@ -199,7 +201,7 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
     public setImageCaptureColorEncoding(colorEncoding: string): void {}
 
     @ValidateProps('detectionBox', [false, true])
-    @NativeMethod({ name: 'setFaceDetectionBox', length: 1 })
+    @NativeMethod({ name: 'setDetectionBox', length: 1 })
     public setDetectionBox(@Required enable: boolean): void {
         this.nativeView.setDetectionBox(enable);
     }
@@ -210,7 +212,7 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
         this.nativeView.setFacePaddingPercent(percentage);
     }
 
-    @ValidateProps('detactionMinSize', RegexPercentage)
+    @ValidateProps('detectionMinSize', RegexPercentage)
     @PercentageToNumber
     @NativeMethod({ name: 'setDetectionMinSize', length: 1 })
     public setDetectionMinSize(@Required percentage): void {
