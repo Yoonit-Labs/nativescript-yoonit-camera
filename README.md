@@ -185,20 +185,21 @@ After that, you can access the camera object in your entire project using `this.
 | imageCaptureWidth                  | `"NNpx"`                                     | `"200px"`     | The image capture width in pixels. |  
 | imageCaptureHeight                 | `"NNpx"`                                     | `"200px"`     | The image capture height in pixels. |  
 | colorEncoding                      | `"RGB"` or `"YUV"`                           | `"RGB"`       | Only for android. The image capture color encoding type: `"RGB"` or `"YUV"`. |  
-| faceDetectionBox                   | `boolean`                                    | `false`       | Show/hide the face detection box. |  
-| faceMinSize                        | `"NN%"`                                      | `"0%"`        | The face minimum size percentage to capture. |  
-| faceMaxSize                        | `"NN%"`                                      | `"100%"`      | The face maximum size percentage to capture. |  
-| faceROI                            | `boolean`                                    | `false`       | Enable/disable the region of interest capture. |  
-| faceROITopOffset                   | `"NN%"`                                      | `"0%"`        | Distance in percentage of the top face bounding box with the top of the camera preview. |  
-| faceROIRightOffset                 | `"NN%"`                                      | `"0%"`        | Distance in percentage of the right face bounding box with the right of the camera preview. |
-| faceROIBottomOffset                | `"NN%"`                                      | `"0%"`        | Distance in percentage of the bottom face bounding box with the bottom of the camera preview. |  
-| faceROILeftOffset                  | `"NN%"`                                      | `"0%"`        | Distance in percentage of the left face bounding box with the left of the camera preview. |  
-| faceROIMinSize                     | `"NN%"`                                      | `"0%"`        | The minimum face size related within the ROI. |  
-| faceROIAreaOffset                  | `boolean`                                    | `false`       | Enable/disable display of the region of interest area offset. |  
-| faceROIAreaOffsetColor             | `string`                                     | `'#ffffff73'` | Set display of the region of interest area offset color. |  
+| detectionBox                   | `boolean`                                    | `false`       | Show/hide the face detection box.
+| detectionBoxColor                   | `string`                                    | `hexadecimal`       | Set detection box color |  
+| detectionMinSize                        | `"NN%"`                                      | `"0%"`        | The face minimum size percentage to capture. |  
+| detectionMaxSize                        | `"NN%"`                                      | `"100%"`      | The face maximum size percentage to capture. |  
+| roi                            | `boolean`                                    | `false`       | Enable/disable the region of interest capture. |  
+| roiTopOffset                   | `"NN%"`                                      | `"0%"`        | Distance in percentage of the top face bounding box with the top of the camera preview. |  
+| roiRightOffset                 | `"NN%"`                                      | `"0%"`        | Distance in percentage of the right face bounding box with the right of the camera preview. |
+| roiBottomOffset                | `"NN%"`                                      | `"0%"`        | Distance in percentage of the bottom face bounding box with the bottom of the camera preview. |  
+| roiLeftOffset                  | `"NN%"`                                      | `"0%"`        | Distance in percentage of the left face bounding box with the left of the camera preview. |    
+| roiAreaOffset                  | `boolean`                                    | `false`       | Enable/disable display of the region of interest area offset. |  
+| roiAreaOffsetColor             | `string`                                     | `'#ffffff73'` | Set display of the region of interest area offset color. |  
 | faceContours                       | `boolean`                                    | `false`       | Enable/disable display list of points on a detected face. |  
 | faceContoursColor                  | `string`                                     | `'#FFFFFF'`   | Set face contours color. |  
 | computerVision - `Android Only`    | `boolean`                                    | `false`       | Enable/disable computer vision model. |
+| flash    | `boolean`                                    | `false`       | Enable/disable device flashlight. |
 
 #### Methods
 
@@ -219,23 +220,25 @@ After that, you can access the camera object in your entire project using `this.
 | setImageCaptureWidth                         | `width: string`             | Value format must be in `NNpx`                                                    | void        | Set the image capture width in pixels. |  
 | setImageCaptureHeight                        | `height: string`            | Value format must be in `NNpx`                                                    | void        | Set the image capture height in pixels. |  
 | setImageCaptureColorEncoding                 | `colorEncoding: string`     | `"YUV"` or `"RGB"`                                                                | void        | Only for android. Set the image capture color encoding type: `"RGB"` or `"YUV"`. |  
-| setFaceDetectionBox                          | `enable: boolean`           | `true` or `false`                                                                 | void        | Set to show/hide the face detection box. |  
+| setDetectionBox                          | `enable: boolean`           | `true` or `false`                                                                 | void        | Set to show/hide the face detection box. |
+| setDetectionBoxColor                          | `color: string`           | hexadecimal                                                                 | void        | Set detection box color. | 
 | setFacePaddingPercent                        | `percentage: string`        |  Value format must be in `NN%`                                                    | void        | Set face image capture and detection box padding in percentage. |    
-| setFaceCaptureMinSize                        | `percentage: string`        | Value format must be in `NN%`                                                     | void        | Set the face minimum size percentage to capture. |  
-| setFaceCaptureMaxSize                        | `percentage: string`        | Value format must be in `NN%`                                                     | void        | Set the face maximum size percentage to capture. |  
-| setFaceROI                                   | `enable: boolean`           | `true` or `false`                                                                 | void        | Enable/disable face region of interest capture. |  
-| setFaceROITopOffset                          | `percentage: string`        | Value format must be in `NN%`                                                     | void        | Distance in percentage of the top face bounding box with the top of the camera preview. |  
-| setFaceROIRightOffset                        | `percentage: string`        | Value format must be in `NN%`                                                     | void        | Distance in percentage of the right face bounding box with the right of the camera preview. |  
-| setFaceROIBottomOffset                       | `percentage: string`        | Value format must be in `NN%`                                                     | void        | Distance in percentage of the bottom face bounding box with the bottom of the camera preview. |  
-| setFaceROILeftOffset                         | `percentage: string`        | Value format must be in `NN%`                                                     | void        | Distance in percentage of the left face bounding box with the left of the camera preview. |  
-| setFaceROIMinSize                            | `percentage: string`        | Value format must be in `NN%`                                                     | void        | Set the minimum face size related within the ROI. |  
-| setFaceROIAreaOffset                         | `enable: boolean`           | `true` or `false`                                                                 | void        | Enable/disable display of the region of interest area offset. |  
-| setFaceROIAreaOffsetColor                    | `color: string`             | Hexadecimal color                                                                 | void        | Set display of the region of interest area offset color. |  
+| setDetectionCaptureMinSize                        | `percentage: string`        | Value format must be in `NN%`                                                     | void        | Set the face minimum size percentage to capture. |  
+| setDetectionCaptureMaxSize                        | `percentage: string`        | Value format must be in `NN%`                                                     | void        | Set the face maximum size percentage to capture. |  
+| setROI                                   | `enable: boolean`           | `true` or `false`                                                                 | void        | Enable/disable face region of interest capture. |  
+| setROITopOffset                          | `percentage: string`        | Value format must be in `NN%`                                                     | void        | Distance in percentage of the top face bounding box with the top of the camera preview. |  
+| setROIRightOffset                        | `percentage: string`        | Value format must be in `NN%`                                                     | void        | Distance in percentage of the right face bounding box with the right of the camera preview. |  
+| setROIBottomOffset                       | `percentage: string`        | Value format must be in `NN%`                                                     | void        | Distance in percentage of the bottom face bounding box with the bottom of the camera preview. |  
+| setROILeftOffset                         | `percentage: string`        | Value format must be in `NN%`                                                     | void        | Distance in percentage of the left face bounding box with the left of the camera preview. |  
+| setROIMinSize                            | `percentage: string`        | Value format must be in `NN%`                                                     | void        | Set the minimum face size related within the ROI. |  
+| setROIAreaOffset                         | `enable: boolean`           | `true` or `false`                                                                 | void        | Enable/disable display of the region of interest area offset. |  
+| setROIAreaOffsetColor                    | `color: string`             | Hexadecimal color                                                                 | void        | Set display of the region of interest area offset color. |  
 | setFaceContours                              | `enable: boolean`           | `true` or `false`                                                                 | void        | Enable/disable display list of points on a detected face. |  
 | setFaceContoursColor                         | `color: string`             | Hexadecimal color                                                                 | void        | Set face contours color. |  
 | setComputerVision (`Android Only`)           | `enable: boolean`           | `true` or `false`                                                                 | void        | Enable/disable computer vision model. |  
 | setComputerVisionLoadModels (`Android Only`) | `modelPaths: Array<string>` | Valid system path file to a PyTorch computer vision model                         | void        | Set model to be used when image is captured. To se more about it, <a href="https://github.com/Yoonit-Labs/nativescript-yoonit-camera/wiki">Click Here</a>. |  
 | computerVisionClearModels (`Android Only`)   | -                           |  -                                                                                | void        | Clear models that was previous added using `setComputerVisionLoadModels`. |
+| setFlash                    | `enable: boolean`             | `true` or `false`                                                                 | void        | Enable/disable device flashlight. |
 
 #### Events
 | Event            | Parameters                                                                                                                                                   | Description  
