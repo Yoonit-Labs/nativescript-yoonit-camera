@@ -16,6 +16,7 @@
           :captureType="captureType"
           :computerVision="true"
           :detectionBox="enableDetectionBox"
+          :detectionBoxColor="enableDetectionBoxColor ? '#FF0000' : '#FFFFFF'"
           :faceContours="enableFaceContours"
           :faceContoursColor="enableFaceContoursColor ? '#FF0000' : '#FFFFFF'"
           :detectionMinSize="enableDetectionMinSize ? '70%' : '0%'"
@@ -113,6 +114,10 @@
                 <YooSwitch
                   label="Cor do Contorno"
                   @tap="enableFaceContoursColor = !enableFaceContoursColor"
+                />
+                <YooSwitch
+                  label="Cor da Caixa"
+                  @tap="enableDetectionBoxColor = !enableDetectionBoxColor"
                 />
                 <YooSwitch
                   label="Face Max 70%"
@@ -217,7 +222,8 @@
       faceHeadEulerAngleX: "",
       faceHeadEulerAngleY: "",
       faceHeadEulerAngleZ: "",
-      enableFlash: false
+      enableFlash: false,
+      enableDetectionBoxColor: '#FFFFFF'
     }),
 
     methods: {

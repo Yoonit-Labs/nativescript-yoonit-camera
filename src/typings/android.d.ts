@@ -56,6 +56,12 @@ declare namespace ai {
 					public setComputerVisionLoadModels(param0: any): void;
 					public computerVisionClearModels(): void;
 					public setFlash(param0: boolean): void;
+					public setDetectionBoxColor(
+						param0: number,
+						param1: number,
+						param2: number,
+						param3: number
+					): void;
 				}
 				export namespace interfaces {
 					export class CameraEventListener {

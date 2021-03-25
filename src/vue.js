@@ -76,7 +76,8 @@ export default {
         setComputerVision,
         setComputerVisionLoadModels,
         computerVisionClearModels,
-        setFlash
+        setFlash,
+        setDetectionBoxColor
       } = element.nativeView
 
       Vue.prototype.$yoo.camera = {
@@ -113,7 +114,8 @@ export default {
         setComputerVision,
         setComputerVisionLoadModels,
         computerVisionClearModels,
-        setFlash
+        setFlash,
+        setDetectionBoxColor
       }
 
       return Vue.prototype.$yoo.camera

@@ -126,6 +126,10 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
     public set flash(value: boolean) {
         this.setFlash(value);
     }
+
+    public set detectionBoxColor(value: string) {
+        this.setDetectionBoxColor(value);
+    }
     // METHODS ===================================================================
     // ===========================================================================
 
@@ -290,6 +294,13 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
     @NativeMethod({ name: 'setFlash', length: 1 })
     public setFlash(@Required enable: boolean) {
         this.nativeView.setFlash(enable)
+    }
+
+    @ValidateProps('detectionBoxColor', RegexColor)
+    @ParseToNsColor
+    @NativeMethod({ name: 'setDetectionBoxColor', length: 4 })
+    public setDetectionBoxColor(@Required color) {
+        this.nativeView.setDetectionBoxColor(...color)
     }
 }
 
