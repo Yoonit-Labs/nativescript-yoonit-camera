@@ -27,8 +27,14 @@ declare class CameraView extends UIView {
     setOutputImageWidth(width: number): void;
     setOutputImageHeight(height: number): void;
     setSaveImageCaptured(enable: boolean): void;
-    setDetectionBox(enable: boolean): void;
     setFacePaddingPercent(facePaddingPercent: number): void;
+    setDetectionBox(enable: boolean): void;
+    setDetectionBoxColor(
+        alpha: number,
+        red: number,
+        green: number,
+        blue: number
+    ): void;
     setDetectionMinSize(detectionMinSize: number): void;
     setDetectionMaxSize(detectionMaxSize: number): void;
     setROI(enable: boolean): void;
@@ -43,16 +49,9 @@ declare class CameraView extends UIView {
         blue: number
     ): void;
     setROIAreaOffset(status: boolean): void;
-    setROIEnable(status: boolean): void;
     setFaceContours(enable: boolean): void;
     setFaceContoursColorWithAlphaRedGreenBlue(...params: number): void;
     setFlash(enable: boolean): void;
-    setDetectionBoxColor(
-        alpha: number,
-        red: number,
-        green: number,
-        blue: number
-    ): void;
 }
 
 interface CameraEventListenerDelegate {

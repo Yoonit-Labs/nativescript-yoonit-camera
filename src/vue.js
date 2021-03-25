@@ -60,8 +60,9 @@ export default {
         setImageCaptureWidth,
         setImageCaptureHeight,
         setImageCaptureColorEncoding,
-        setDetectionBox,
         setFacePaddingPercent,
+        setDetectionBox,
+        setDetectionBoxColor,
         setDetectionMinSize,
         setDetectionMaxSize,
         setROI,
@@ -77,7 +78,6 @@ export default {
         setComputerVisionLoadModels,
         computerVisionClearModels,
         setFlash,
-        setDetectionBoxColor
       } = element.nativeView
 
       Vue.prototype.$yoo.camera = {
@@ -98,8 +98,9 @@ export default {
         setImageCaptureWidth,
         setImageCaptureHeight,
         setImageCaptureColorEncoding,
-        setDetectionBox,
         setFacePaddingPercent,
+        setDetectionBox,
+        setDetectionBoxColor,
         setDetectionMinSize,
         setDetectionMaxSize,
         setROI,
@@ -115,7 +116,6 @@ export default {
         setComputerVisionLoadModels,
         computerVisionClearModels,
         setFlash,
-        setDetectionBoxColor
       }
 
       return Vue.prototype.$yoo.camera

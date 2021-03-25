@@ -207,6 +207,7 @@
       enableCamera: true,
       enableImageCapture: false,
       enableDetectionBox: true,
+      enableDetectionBoxColor: false,
       enableFaceContours: false,
       enableFaceContoursColor: false,
       enableDetectionMinSize: false,
@@ -223,7 +224,6 @@
       faceHeadEulerAngleY: "",
       faceHeadEulerAngleZ: "",
       enableFlash: false,
-      enableDetectionBoxColor: '#FFFFFF'
     }),
 
     methods: {

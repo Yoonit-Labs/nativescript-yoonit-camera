@@ -71,16 +71,20 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
         this.setImageCaptureColorEncoding(value);
     }
 
+    public set detectionBox(value: boolean) {
+        this.setDetectionBox(value);
+    }
+
+    public set detectionBoxColor(value: string) {
+        this.setDetectionBoxColor(value);
+    }
+
     public set detectionMinSize(value: string) {
         this.setDetectionMinSize(value);
     }
 
     public set detectionMaxSize(value: string) {
         this.setDetectionMaxSize(value);
-    }
-
-    public set detectionBox(value: boolean) {
-        this.setDetectionBox(value);
     }
 
     public set roi(value: boolean) {
@@ -127,9 +131,6 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
         this.setFlash(value);
     }
 
-    public set detectionBoxColor(value: string) {
-        this.setDetectionBoxColor(value);
-    }
     // METHODS ===================================================================
     // ===========================================================================
 
@@ -207,16 +208,23 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
 
     public setImageCaptureColorEncoding(colorEncoding: string): void {}
 
+    @PercentageToNumber
+    @NativeMethod({ name: 'setFacePaddingPercent', length: 1 })
+    public setFacePaddingPercent(@Required percentage): void {
+        this.nativeView.setFacePaddingPercent(percentage);
+    }
+
     @ValidateProps('detectionBox', [false, true])
     @NativeMethod({ name: 'setDetectionBox', length: 1 })
     public setDetectionBox(@Required enable: boolean): void {
         this.nativeView.setDetectionBox(enable);
     }
 
-    @PercentageToNumber
-    @NativeMethod({ name: 'setFacePaddingPercent', length: 1 })
-    public setFacePaddingPercent(@Required percentage): void {
-        this.nativeView.setFacePaddingPercent(percentage);
+    @ValidateProps('detectionBoxColor', RegexColor)
+    @ParseToNsColor
+    @NativeMethod({ name: 'setDetectionBoxColor', length: 4 })
+    public setDetectionBoxColor(@Required color) {
+        this.nativeView.setDetectionBoxColor(...color);
     }
 
     @ValidateProps('detectionMinSize', RegexPercentage)
@@ -293,14 +301,7 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
     @ValidateProps('flash', [false, true])
     @NativeMethod({ name: 'setFlash', length: 1 })
     public setFlash(@Required enable: boolean) {
-        this.nativeView.setFlash(enable)
-    }
-
-    @ValidateProps('detectionBoxColor', RegexColor)
-    @ParseToNsColor
-    @NativeMethod({ name: 'setDetectionBoxColor', length: 4 })
-    public setDetectionBoxColor(@Required color) {
-        this.nativeView.setDetectionBoxColor(...color)
+        this.nativeView.setFlash(enable);
     }
 }
 
