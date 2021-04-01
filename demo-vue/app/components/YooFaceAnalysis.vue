@@ -30,6 +30,11 @@
       <Label :text="'Tilt: ' + getMovementTilt(faceHeadEulerAngleZ)" />
       <Label :text="'raw: ' + (isNaN(faceHeadEulerAngleZ) ? '-' : faceHeadEulerAngleZ)" />
     </FlexboxLayout>
+    <Label
+      v-show="imagePath && !!isWearingMask"
+      :class="isWearingMask ? 'positive-model-result' : 'negative-model-result'"
+      :text="isWearingMask ? 'Usando Máscara' : 'Não possui Máscara'"
+    />
   </StackLayout>
 </template>
 
@@ -58,6 +63,12 @@ export default {
     faceHeadEulerAngleZ: {
       default: "-"
     },
+    imagePath: {
+      default: "-"
+    },
+    isWearingMask: {
+      default: false
+    }
   },
   methods: {
     getEyeOpen(probability) {
@@ -78,7 +89,7 @@ export default {
       } else if (-36 < angle && angle < -12) {
         return 'Down';
       } else if (-12 < angle && angle < 12) {
-        return 'Forntal';
+        return 'Frontal';
       } else if (12 < angle && angle < 36) {
         return 'Up';
       } else if (36 < angle) {
@@ -88,29 +99,29 @@ export default {
     },
     getMovementHorizontal(angle) {
       if (angle < -36) {
-        return 'Super Right';
-      } else if (-36 < angle && angle < -12) {
-        return 'Right';
-      } else if (-12 < angle && angle < 12) {
-        return 'Forntal';
-      } else if (12 < angle && angle < 36) {
-        return 'Left';
-      } else if (36 < angle) {
         return 'Super Left';
+      } else if (-36 < angle && angle < -12) {
+        return 'Left';
+      } else if (-12 < angle && angle < 12) {
+        return 'Frontal';
+      } else if (12 < angle && angle < 36) {
+        return 'Right';
+      } else if (36 < angle) {
+        return 'Super Right';
       }
       return '-';
     },
     getMovementTilt(angle) {
       if (angle < -36) {
-        return 'Super Left';
-      } else if (-36 < angle && angle < -12) {
-        return 'Left';
-      } else if (-12 < angle && angle < 12) {
-        return 'Forntal';
-      } else if (12 < angle && angle < 36) {
-        return 'Right';
-      } else if (36 < angle) {
         return 'Super Right';
+      } else if (-36 < angle && angle < -12) {
+        return 'Right';
+      } else if (-12 < angle && angle < 12) {
+        return 'Frontal';
+      } else if (12 < angle && angle < 36) {
+        return 'Left';
+      } else if (36 < angle) {
+        return 'Super Left';
       }
       return '-';
     },
@@ -123,5 +134,11 @@ export default {
     font-size: 18;
     margin-top: 10;
     color: #ffffff;
+  }
+  .positive-model-result {
+    color: green;
+  }
+  .negative-model-result {
+    color: red;
   }
 </style>
