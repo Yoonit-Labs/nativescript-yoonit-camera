@@ -27,26 +27,31 @@ declare class CameraView extends UIView {
     setOutputImageWidth(width: number): void;
     setOutputImageHeight(height: number): void;
     setSaveImageCaptured(enable: boolean): void;
-    setFaceDetectionBox(enable: boolean): void;
     setFacePaddingPercent(facePaddingPercent: number): void;
-    setFaceCaptureMinSize(faceCaptureMinSize: number): void;
-    setFaceCaptureMaxSize(faceCaptureMaxSize: number): void;
-    setFaceROIEnable(enable: boolean): void;
-    setFaceROITopOffset(topOffset: number): void;
-    setFaceROIRightOffset(rightOffset: number): void;
-    setFaceROIBottomOffset(bottomOffset: number): void;
-    setFaceROILeftOffset(leftOffset: number): void;
-    setFaceROIMinSize(minimumSize: number): void;
-    setFaceROIAreaOffsetColor(
+    setDetectionBox(enable: boolean): void;
+    setDetectionBoxColor(
         alpha: number,
         red: number,
         green: number,
         blue: number
     ): void;
-    setFaceROIAreaOffset(status: boolean): void;
-    setFaceROIEnable(status: boolean): void;
+    setDetectionMinSize(detectionMinSize: number): void;
+    setDetectionMaxSize(detectionMaxSize: number): void;
+    setROI(enable: boolean): void;
+    setROITopOffset(topOffset: number): void;
+    setROIRightOffset(rightOffset: number): void;
+    setROIBottomOffset(bottomOffset: number): void;
+    setROILeftOffset(leftOffset: number): void;
+    setROIAreaOffsetColor(
+        alpha: number,
+        red: number,
+        green: number,
+        blue: number
+    ): void;
+    setROIAreaOffset(status: boolean): void;
     setFaceContours(enable: boolean): void;
-    setFaceContoursColorWithAlphaRedGreenBlue(...params: number): void;
+    setFaceContoursColor(...params: number): void;
+    setTorch(enable: boolean): void;
 }
 
 interface CameraEventListenerDelegate {

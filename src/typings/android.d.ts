@@ -33,29 +33,34 @@ declare namespace ai {
 					public setOutputImageHeight(param0: number): void;
 					public setSaveImageCaptured(param0: boolean): void;
 					public setColorEncodingCapture(param0: string): void;
-					public setFaceDetectionBox(param0: boolean): void;
 					public setFacePaddingPercent(param0: number): void;
-					public setFaceCaptureMinSize(param0: number): void;
-					public setFaceCaptureMaxSize(param0: number): void;
-					public setFaceROIEnable(param0: boolean): void;
-					public setFaceROITopOffset(param0: number): void;
-					public setFaceROIRightOffset(param0: number): void;
-					public setFaceROIBottomOffset(param0: number): void;
-					public setFaceROILeftOffset(param0: number): void;
-					public setFaceROIMinSize(param0: number): void;
-					public setFaceROIAreaOffsetColor(
+					public setDetectionBox(param0: boolean): void;
+					public setDetectionBoxColor(
 						param0: number,
 						param1: number,
 						param2: number,
 						param3: number
 					): void;
-					public setFaceROIAreaOffset(param0: boolean): void;
-					public setFaceROIEnable(param0: boolean): void;
+					public setDetectionMinSize(param0: number): void;
+					public setDetectionMaxSize(param0: number): void;
+					public setROI(param0: boolean): void;
+					public setROITopOffset(param0: number): void;
+					public setROIRightOffset(param0: number): void;
+					public setROIBottomOffset(param0: number): void;
+					public setROILeftOffset(param0: number): void;
+					public setROIAreaOffsetColor(
+						param0: number,
+						param1: number,
+						param2: number,
+						param3: number
+					): void;
+					public setROIAreaOffset(param0: boolean): void;
 					public setFaceContours(param0: boolean): void;
 					public setFaceContoursColor(...params: number): void;
 					public setComputerVision(param0: boolean): void;
 					public setComputerVisionLoadModels(param0: any): void;
 					public computerVisionClearModels(): void;
+					public setTorch(param0: boolean): void;
 				}
 				export namespace interfaces {
 					export class CameraEventListener {
