@@ -87,7 +87,7 @@ export declare class Camera extends ContentView {
     computerVisionClearModels(): void; // Only Android.
 
     // UTILITIES
-    setFlash(enable: boolean): void;
+    setTorch(enable: boolean): void;
 
     on(eventNames: string, callback: (data: EventData) => void, thisArg?: any);
     on(event: imageCaptured, callback: (args: ImageCapturedEventData) => void, thisArg?: any);

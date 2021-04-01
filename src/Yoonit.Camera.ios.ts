@@ -147,9 +147,9 @@ export class YoonitCamera extends CameraBase {
 
     @ValidateProps('faceContoursColor', RegexColor)
     @ParseToNsColor
-    @NativeMethod({ name: 'setFaceROIAreaOffsetColorWithAlphaRefGreenBlue', length: 4 })
+    @NativeMethod({ name: 'setFaceContoursColor', length: 4 })
     public setFaceContoursColor(@Required color) {
-        this.nativeView.setFaceContoursColorWithAlphaRedGreenBlue(...color);
+        this.nativeView.setFaceContoursColor(...color);
     }
 }
 

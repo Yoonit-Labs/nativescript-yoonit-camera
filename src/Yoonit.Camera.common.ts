@@ -127,8 +127,8 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
         this.setComputerVision(value);
     }
 
-    public set flash(value: boolean) {
-        this.setFlash(value);
+    public set torch(value: boolean) {
+        this.setTorch(value);
     }
 
     // METHODS ===================================================================
@@ -298,10 +298,10 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
 
     public computerVisionClearModels(): void {}
 
-    @ValidateProps('flash', [false, true])
-    @NativeMethod({ name: 'setFlash', length: 1 })
-    public setFlash(@Required enable: boolean) {
-        this.nativeView.setFlash(enable);
+    @ValidateProps('torch', [false, true])
+    @NativeMethod({ name: 'setTorch', length: 1 })
+    public setTorch(@Required enable: boolean) {
+        this.nativeView.setTorch(enable);
     }
 }
 
