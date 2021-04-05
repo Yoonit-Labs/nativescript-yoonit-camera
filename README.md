@@ -186,7 +186,7 @@ After that, you can access the camera object in your entire project using `this.
 | imageCaptureHeight              | `"NNpx"`                                     | `"200px"`     | The image capture height in pixels. |  
 | colorEncoding                   | `"RGB"` or `"YUV"`                           | `"RGB"`       | Only for android. The image capture color encoding type: `"RGB"` or `"YUV"`. |  
 | detectionBox                    | `boolean`                                    | `false`       | Show/hide the face detection box.
-| detectionBoxColor               | `string`                                     | `#ffffff`     | Set detection box color |  
+| detectionBoxColor               | `string`                                     | `#ffffff`     | Set detection box color. |  
 | detectionMinSize                | `"NN%"`                                      | `"0%"`        | The face minimum size percentage to capture. |  
 | detectionMaxSize                | `"NN%"`                                      | `"100%"`      | The face maximum size percentage to capture. |  
 | roi                             | `boolean`                                    | `false`       | Enable/disable the region of interest capture. |  
@@ -223,8 +223,8 @@ After that, you can access the camera object in your entire project using `this.
 | setDetectionBox                              | `enable: boolean`           | `true` or `false`                                                                 | void        | Set to show/hide the face detection box. |
 | setDetectionBoxColor                         | `color: string`             | hexadecimal                                                                       | void        | Set detection box color. | 
 | setFacePaddingPercent                        | `percentage: string`        |  Value format must be in `NN%`                                                    | void        | Set face image capture and detection box padding in percentage. |    
-| setDetectionCaptureMinSize                   | `percentage: string`        | Value format must be in `NN%`                                                     | void        | Set the face minimum size percentage to capture. |  
-| setDetectionCaptureMaxSize                   | `percentage: string`        | Value format must be in `NN%`                                                     | void        | Set the face maximum size percentage to capture. |  
+| setDetectionMinSize                          | `percentage: string`        | Value format must be in `NN%`                                                     | void        | Set the face minimum size percentage to capture. |  
+| setDetectionMaxSize                          | `percentage: string`        | Value format must be in `NN%`                                                     | void        | Set the face maximum size percentage to capture. |  
 | setROI                                       | `enable: boolean`           | `true` or `false`                                                                 | void        | Enable/disable face region of interest capture. |  
 | setROITopOffset                              | `percentage: string`        | Value format must be in `NN%`                                                     | void        | Distance in percentage of the top face bounding box with the top of the camera preview. |  
 | setROIRightOffset                            | `percentage: string`        | Value format must be in `NN%`                                                     | void        | Distance in percentage of the right face bounding box with the right of the camera preview. |  
@@ -255,18 +255,18 @@ After that, you can access the camera object in your entire project using `this.
 
 The face analysis is the response send by the `onFaceDetected`. Here we specify all the parameters.
 
-| Attribute               | Type      | Description |
-| -                       | -         | -           |
-| x                       | `number`  | The `x` position of the face in the screen. |
-| y                       | `number`  | The `y` position of the face in the screen. |
-| width                   | `number`  | The `width` position of the face in the screen. |
-| height                  | `number`  | The `height` position of the face in the screen. |
-| leftEyeOpenProbability  | `number?` | The left eye open probability. |
-| rightEyeOpenProbability | `number?` | The right eye open probability. |
-| smilingProbability      | `number?` | The smiling probability. |
-| headEulerAngleX         | `number`  | The angle in degrees that indicate the vertical head direction. See [Head Movements](#headmovements) |
-| headEulerAngleY         | `number`  | The angle in degrees that indicate the horizontal head direction. See [Head Movements](#headmovements) |
-| headEulerAngleZ         | `number`  | The angle in degrees that indicate the tilt head direction. See [Head Movements](#headmovements) |
+| Attribute               | Type     | Description |
+| -                       | -        | -           |
+| x                       | `number` | The `x` position of the face in the screen. |
+| y                       | `number` | The `y` position of the face in the screen. |
+| width                   | `number` | The `width` position of the face in the screen. |
+| height                  | `number` | The `height` position of the face in the screen. |
+| leftEyeOpenProbability  | `number` | The left eye open probability. |
+| rightEyeOpenProbability | `number` | The right eye open probability. |
+| smilingProbability      | `number` | The smiling probability. |
+| headEulerAngleX         | `number` | The angle in degrees that indicate the vertical head direction. See [Head Movements](#headmovements) |
+| headEulerAngleY         | `number` | The angle in degrees that indicate the horizontal head direction. See [Head Movements](#headmovements) |
+| headEulerAngleZ         | `number` | The angle in degrees that indicate the tilt head direction. See [Head Movements](#headmovements) |
 
 #### Head Movements
 
