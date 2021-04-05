@@ -10,9 +10,6 @@
 A NativeScript plugin to provide:
 - Modern Android Camera API [Camera X](https://developer.android.com/training/camerax)
 - Camera preview (Front & Back)
-* Yoonit Facefy integration:
-  * Android: [android-yoonit-facefy](https://github.com/Yoonit-Labs/android-yoonit-facefy)
-  * iOS: [ios-yoonit-facefy](https://github.com/Yoonit-Labs/ios-yoonit-facefy)
 - [PyTorch](https://pytorch.org/mobile/home/) integration (Android)
 - Computer vision pipeline
 - Face detection, capture and image crop
@@ -64,12 +61,12 @@ After that, you can access the camera object in your entire project using `this.
   <Page @loaded="onLoaded">
     <YoonitCamera
       ref="yooCamera"
-      initialLens="front"
+      lens="front"
       captureType="face"
-      numberOfImages=10
-      timeBetweenImages=500
-      saveImageCaptured=true
-      faceDetectionBox=true
+      imageCapture=true
+      imageCaptureAmount=10
+      imageCaptureInterval=500
+      detectionBox=true
       @faceDetected="doFaceDetected"
       @imageCaptured="doImageCaptured"
       @endCapture="doEndCapture"
@@ -196,9 +193,9 @@ After that, you can access the camera object in your entire project using `this.
 | roiLeftOffset                   | `"NN%"`                                      | `"0%"`        | Distance in percentage of the left face bounding box with the left of the camera preview. |    
 | roiAreaOffset                   | `boolean`                                    | `false`       | Enable/disable display of the region of interest area offset. |  
 | roiAreaOffsetColor              | `string`                                     | `'#ffffff73'` | Set display of the region of interest area offset color. |  
-| faceContours                    | `boolean`                                    | `false`       | Enable/disable display list of points on a detected face. |  
-| faceContoursColor               | `string`                                     | `'#FFFFFF'`   | Set face contours color. |  
-| computerVision - `Android Only` | `boolean`                                    | `false`       | Enable/disable computer vision model. |
+| faceContours (`Android Only`)   | `boolean`                                    | `false`       | Enable/disable display list of points on a detected face. |  
+| faceContoursColor (`Android Only`) | `string`                                     | `'#FFFFFF'`   | Set face contours color. |  
+| computerVision (`Android Only`) | `boolean`                                    | `false`       | Enable/disable computer vision model. |
 | torch                           | `boolean`                                    | `false`       | Enable/disable device torch. Available only to camera lens `"back"`. |
 
 #### Methods
@@ -233,8 +230,8 @@ After that, you can access the camera object in your entire project using `this.
 | setROIMinSize                                | `percentage: string`        | Value format must be in `NN%`                                                     | void        | Set the minimum face size related within the ROI. |  
 | setROIAreaOffset                             | `enable: boolean`           | `true` or `false`                                                                 | void        | Enable/disable display of the region of interest area offset. |  
 | setROIAreaOffsetColor                        | `color: string`             | Hexadecimal color                                                                 | void        | Set display of the region of interest area offset color. |  
-| setFaceContours                              | `enable: boolean`           | `true` or `false`                                                                 | void        | Enable/disable display list of points on a detected face. |  
-| setFaceContoursColor                         | `color: string`             | Hexadecimal color                                                                 | void        | Set face contours color. |  
+| setFaceContours (`Android Only`)             | `enable: boolean`           | `true` or `false`                                                                 | void        | Enable/disable display list of points on a detected face. |  
+| setFaceContoursColor (`Android Only`)        | `color: string`             | Hexadecimal color                                                                 | void        | Set face contours color. |  
 | setComputerVision (`Android Only`)           | `enable: boolean`           | `true` or `false`                                                                 | void        | Enable/disable computer vision model. |  
 | setComputerVisionLoadModels (`Android Only`) | `modelPaths: Array<string>` | Valid system path file to a PyTorch computer vision model                         | void        | Set model to be used when image is captured. To se more about it, <a href="https://github.com/Yoonit-Labs/nativescript-yoonit-camera/wiki">Click Here</a>. |  
 | computerVisionClearModels (`Android Only`)   | -                           |  -                                                                                | void        | Clear models that was previous added using `setComputerVisionLoadModels`. |
