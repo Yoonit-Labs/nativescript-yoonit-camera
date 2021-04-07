@@ -55,7 +55,15 @@ declare class CameraView extends UIView {
 }
 
 interface CameraEventListenerDelegate {
-    onImageCaptured(type: string, count: number, total: number, imagePath: string): void;
+    onImageCaptured(
+        type: string,
+        count: number,
+        total: number,
+        imagePath: string,
+        darkness: number,
+        lightness: number,
+        sharpness: number
+    ): void;
     onFaceDetected(
         x: number,
         y: number,

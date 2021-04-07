@@ -19,6 +19,9 @@ export interface ImageCapturedEventData extends EventData {
     total: number;
     image: { path: string, source: any, binary: any };
     inferences: object[];
+    darkness: number;
+    lightness: number;
+    sharpness: number;
 }
 
 export interface FaceDetectedEventData extends EventData {

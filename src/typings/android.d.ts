@@ -70,7 +70,10 @@ declare namespace ai {
 							param1: number,
 							param2: number,
 							param3: string,
-							param4: java.util.ArrayList<android.util.Pair<string, number[]>>
+							param4: java.util.ArrayList<android.util.Pair<string, number[]>>,
+							param5: number,
+							param6: number,
+							param7: number
 						): void;
 						public onFaceDetected(
 							param0: number,
