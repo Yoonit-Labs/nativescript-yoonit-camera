@@ -188,7 +188,10 @@ class CameraEventListener extends NSObject implements CameraEventListenerDelegat
         type: string,
         count: number,
         total: number,
-        imagePath: string
+        imagePath: string,
+        darkness: number,
+        lightness: number,
+        sharpness: number
     ): void {
         const owner = this.owner.get();
 
@@ -202,7 +205,10 @@ class CameraEventListener extends NSObject implements CameraEventListenerDelegat
                 count,
                 total,
                 image,
-                inferences: []
+                inferences: [],
+                darkness,
+                lightness,
+                sharpness
             } as ImageCapturedEventData);
         }
     }
