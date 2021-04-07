@@ -18,6 +18,16 @@ A NativeScript plugin to provide:
 - Capture timed images
 - QR Code scanning
 
+> ### More about...
+> 
+> The plugin's core is the native layer. Every change in the native layer, reflects here. This plugin, the Yoonit Camera, we can say that is an aggregation  of many Yoonit's native libs:
+> * [Android Yoonit Camera](https://github.com/Yoonit-Labs/android-yoonit-camera): Android core camera lib;
+> * [iOS Yoonit Camera](https://github.com/Yoonit-Labs/ios-yoonit-camera): iOS core camera lib;
+> * [Android Yoonit Facefy](https://github.com/Yoonit-Labs/android-yoonit-facefy): Android face detection and analysis;
+> * [iOS Yoonit Facefy](https://github.com/Yoonit-Labs/ios-yoonit-facefy): iOS face detection and analysis;
+> 
+> All this native libs can be used independently.
+ 
 ## Table Of Contents
 
 * [Installation](#installation)
@@ -28,6 +38,8 @@ A NativeScript plugin to provide:
     * [Props](#props)
     * [Methods](#methods)
     * [Events](#events)
+    * [Face Analysis](#face-analysis)
+    * [Head Movements](#head-movements)
     * [Messages](#messages)
 * [Contribute](#contribute-and-make-it-better)
 
@@ -135,7 +147,10 @@ After that, you can access the camera object in your entire project using `this.
           path,
           source
         },
-        inferences
+        inferences,
+        darkness,
+        lightness,
+        sharpness
       }) {
         if (total === 0) {
           console.log('[YooCamera] doImageCreated', `${type}: [${count}] ${path}`)
@@ -145,6 +160,10 @@ After that, you can access the camera object in your entire project using `this.
           this.imageCreated = `${count} de ${total}`
         }
         console.log('[YooCamera] Mask Pytorch', inferences)
+        
+        console.log('[YooCamera] Image Quality Darkness:', darkness)
+        console.log('[YooCamera] Image Quality Lightness', lightness)
+        console.log('[YooCamera] Image Quality Sharpness', sharpness)
         this.imagePath = source
       },
 
@@ -193,8 +212,8 @@ After that, you can access the camera object in your entire project using `this.
 | roiLeftOffset                   | `"NN%"`                                      | `"0%"`        | Distance in percentage of the left face bounding box with the left of the camera preview. |    
 | roiAreaOffset                   | `boolean`                                    | `false`       | Enable/disable display of the region of interest area offset. |  
 | roiAreaOffsetColor              | `string`                                     | `'#ffffff73'` | Set display of the region of interest area offset color. |  
-| faceContours (`Android Only`)   | `boolean`                                    | `false`       | Enable/disable display list of points on a detected face. |  
-| faceContoursColor (`Android Only`) | `string`                                     | `'#FFFFFF'`   | Set face contours color. |  
+| faceContours                    | `boolean`                                    | `false`       | Enable/disable display list of points on a detected face. |  
+| faceContoursColor               | `string`                                     | `'#FFFFFF'`   | Set face contours color. |  
 | computerVision (`Android Only`) | `boolean`                                    | `false`       | Enable/disable computer vision model. |
 | torch                           | `boolean`                                    | `false`       | Enable/disable device torch. Available only to camera lens `"back"`. |
 
@@ -230,8 +249,8 @@ After that, you can access the camera object in your entire project using `this.
 | setROIMinSize                                | `percentage: string`        | Value format must be in `NN%`                                                     | void        | Set the minimum face size related within the ROI. |  
 | setROIAreaOffset                             | `enable: boolean`           | `true` or `false`                                                                 | void        | Enable/disable display of the region of interest area offset. |  
 | setROIAreaOffsetColor                        | `color: string`             | Hexadecimal color                                                                 | void        | Set display of the region of interest area offset color. |  
-| setFaceContours (`Android Only`)             | `enable: boolean`           | `true` or `false`                                                                 | void        | Enable/disable display list of points on a detected face. |  
-| setFaceContoursColor (`Android Only`)        | `color: string`             | Hexadecimal color                                                                 | void        | Set face contours color. |  
+| setFaceContours                              | `enable: boolean`           | `true` or `false`                                                                 | void        | Enable/disable display list of points on a detected face. |  
+| setFaceContoursColor                         | `color: string`             | Hexadecimal color                                                                 | void        | Set face contours color. |  
 | setComputerVision (`Android Only`)           | `enable: boolean`           | `true` or `false`                                                                 | void        | Enable/disable computer vision model. |  
 | setComputerVisionLoadModels (`Android Only`) | `modelPaths: Array<string>` | Valid system path file to a PyTorch computer vision model                         | void        | Set model to be used when image is captured. To se more about it, <a href="https://github.com/Yoonit-Labs/nativescript-yoonit-camera/wiki">Click Here</a>. |  
 | computerVisionClearModels (`Android Only`)   | -                           |  -                                                                                | void        | Clear models that was previous added using `setComputerVisionLoadModels`. |
@@ -239,14 +258,14 @@ After that, you can access the camera object in your entire project using `this.
 
 #### Events
 
-| Event            | Parameters                                                                                                                                                   | Description  
-| -                | -                                                                                                                                                            | -  
-| imageCaptured    | `{ type: string, count: number, total: number, image: object = { path: string, source: any, binary: any }, inferences: [{ ['model name']: model output }] }` | Must have started capture type of face/frame. Emitted when the face image file saved: <ul><li>type: "face" or "frame"</li>count: current index</li><li>total: total to create</li><li>image.path: the face/frame image path</li><li>image.source: the blob file</li><li>image.binary: the blob file</li><li>inferences: An Array with models output</li><ul>  
-| faceDetected     | `{ x: number, y: number, width: number, height: number, leftEyeOpenProbability: number, rightEyeOpenProbability: number, smilingProbability: number, headEulerAngleX: number, headEulerAngleY: number, headEulerAngleZ: number }` | Must have started capture type of face. Emit the [face analysis](#face-analysis), all parameters null if no more face detecting.      
-| endCapture       | -                                                                                                                                                            | Must have started capture type of face/frame. Emitted when the number of image files created is equal of the number of images set (see the method `setImageCaptureAmount`).     
-| qrCodeContent    | `{ content: string }` | Must have started capture type of qrcode (see `startCapture`). Emitted when the camera read a QR Code.     
-| status           | `{ type: 'error'/'message', status: string }` | Emit message error from native. Used more often for debug purpose.     
-| permissionDenied | -                                                                                                                                                            | Emit when try to `preview` but there is not camera permission.
+| Event            | Parameters                                                                                                                                                                                                                        | Description  
+| -                | -                                                                                                                                                                                                                                 | -  
+| imageCaptured    | `{ type: string, count: number, total: number, image: object = { path: string, source: any, binary: any }, inferences: [{ ['model name']: model output }], darkness: number, lightness: number, sharpness: number }`              | Must have started capture type of face/frame. Emitted when the face image file saved: <ul><li>type: "face" or "frame"</li>count: current index</li><li>total: total to create</li><li>image.path: the face/frame image path</li><li>image.source: the blob file</li><li>image.binary: the blob file</li><li>inferences: An Array with models output</li><li>darkness: image darkness classification.</li><li>lightness: image lightness classification.</li><li>sharpness: image sharpness classification.</li><ul>  
+| faceDetected     | `{ x: number, y: number, width: number, height: number, leftEyeOpenProbability: number, rightEyeOpenProbability: number, smilingProbability: number, headEulerAngleX: number, headEulerAngleY: number, headEulerAngleZ: number }` | Must have started capture type of face. Emit the [face analysis](#face-analysis), all parameters are null if no more face detecting.      
+| endCapture       | -                                                                                                                                                                                                                                 | Must have started capture type of face/frame. Emitted when the number of image files created is equal of the number of images set (see the method `setImageCaptureAmount`).     
+| qrCodeContent    | `{ content: string }`                                                                                                                                                                                                             | Must have started capture type of qrcode (see `startCapture`). Emitted when the camera read a QR Code.     
+| status           | `{ type: 'error'/'message', status: string }`                                                                                                                                                                                     | Emit message error from native. Used more often for debug purpose.     
+| permissionDenied | -                                                                                                                                                                                                                                 | Emit when try to `preview` but there is no camera permission.
 
 #### Face Analysis
 
