@@ -27,14 +27,32 @@
       <Label :text="'raw: ' + (isNaN(faceHeadEulerAngleY) ? '-' : faceHeadEulerAngleY)" />
     </FlexboxLayout>
     <FlexboxLayout flexDirection="row" justifyContent="space-between">
-      <Label :text="'Tilt: ' + getMovementTilt(faceHeadEulerAngleZ)" />
+      <Label :text="'Inclinação: ' + getMovementTilt(faceHeadEulerAngleZ)" />
       <Label :text="'raw: ' + (isNaN(faceHeadEulerAngleZ) ? '-' : faceHeadEulerAngleZ)" />
     </FlexboxLayout>
-    <Label
-      v-show="imagePath && !!isWearingMask"
-      :class="isWearingMask ? 'positive-model-result' : 'negative-model-result'"
-      :text="isWearingMask ? 'Usando Máscara' : 'Não possui Máscara'"
-    />
+    <FlexboxLayout flexDirection="row" justifyContent="space-between">
+      <Label :text="'Escuridade: ' + (imageDarkness > 0.7 ? 'Muito escuro' : 'Aceitável')" />
+      <Label :text="'raw: ' + (isNaN(imageDarkness) ? '-' : imageDarkness)" />
+    </FlexboxLayout>
+    <FlexboxLayout flexDirection="row" justifyContent="space-between">
+      <Label :text="'Claridade: ' + (imageLightness > 0.7 ? 'Muito claro' : 'Aceitável')" />
+      <Label :text="'raw: ' + (isNaN(imageLightness) ? '-' : imageLightness)" />
+    </FlexboxLayout>
+    <FlexboxLayout flexDirection="row" justifyContent="space-between">
+      <Label :text="'Nitidez: ' + (imageSharpness > 0.7 ? 'Borrado' : 'Aceitável')" />
+      <Label :text="'raw: ' + (isNaN(imageSharpness) ? '-' : imageSharpness)" />
+    </FlexboxLayout>
+    <FlexboxLayout
+      v-show="computerVisionMaskInference != null"
+      flexDirection="row"
+      justifyContent="space-between"
+    >
+      <Label
+        :class="computerVisionMaskInference < 0.8 ? 'positive-model-result' : 'negative-model-result'"
+        :text="computerVisionMaskInference < 0.8 ? 'Usando Máscara' : 'Não possui Máscara'"
+      />
+      <Label :text="'raw: ' + (isNaN(computerVisionMaskInference) ? '-' : computerVisionMaskInference)" />
+    </FlexboxLayout>
   </StackLayout>
 </template>
 
@@ -66,7 +84,16 @@ export default {
     imagePath: {
       default: "-"
     },
-    isWearingMask: {
+    imageDarkness: {
+      default: "-"
+    },
+    imageLightness: {
+      default: "-"
+    },
+    imageSharpness: {
+      default: "-"
+    },
+    computerVisionMaskInference: {
       default: false
     }
   },

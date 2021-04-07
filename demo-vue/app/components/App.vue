@@ -2,41 +2,41 @@
   <Page @loaded="onLoaded">
     <ActionBar title="Yoonit Camera"/>
     <GridLayout
-        height="100%"
-        width="100%"
+      height="100%"
+      width="100%"
     >
       <GridLayout
-          height="100%"
-          width="100%"
+        height="100%"
+        width="100%"
       >
         <YoonitCamera
-            ref="yooCamera"
-            :torch="enableTorch"
-            :lens="cameraLens"
-            :captureType="captureType"
-            :computerVision="true"
-            :detectionBox="enableDetectionBox"
-            :detectionBoxColor="enableDetectionBoxColor ? '#FF0000' : '#FFFFFF'"
-            :faceContours="enableFaceContours"
-            :faceContoursColor="enableFaceContoursColor ? '#FF0000' : '#FFFFFF'"
-            :detectionMinSize="enableDetectionMinSize ? '70%' : '0%'"
-            :detectionMaxSize="enableDetectionMaxsize ? '80%' : '100%'"
-            :roi="enableROI"
-            :roiAreaOffset="true"
-            :roiAreaOffsetColor="enableROIAreaOffsetColor ? '#FF0000' : '#FFFFFF'"
-            :roiTopOffset="'10%'"
-            :roiRightOffset="'10%'"
-            :roiBottomOffset="'10%'"
-            :roiLeftOffset="'10%'"
-            :imageCapture="enableImageCapture"
-            :imageCaptureAmount="0"
-            :imageCaptureInterval="300"
-            @faceDetected="doFaceDetected"
-            @imageCaptured="doImageCaptured"
-            @endCapture="doEndCapture"
-            @qrCodeContent="doQRCodeContent"
-            @status="doStatus"
-            @permissionDenied="doPermissionDenied"
+          ref="yooCamera"
+          :torch="enableTorch"
+          :lens="cameraLens"
+          :captureType="captureType"
+          :computerVision="true"
+          :detectionBox="enableDetectionBox"
+          :detectionBoxColor="enableDetectionBoxColor ? '#FF0000' : '#FFFFFF'"
+          :faceContours="enableFaceContours"
+          :faceContoursColor="enableFaceContoursColor ? '#FF0000' : '#FFFFFF'"
+          :detectionMinSize="enableDetectionMinSize ? '70%' : '0%'"
+          :detectionMaxSize="enableDetectionMaxsize ? '80%' : '100%'"
+          :roi="enableROI"
+          :roiAreaOffset="true"
+          :roiAreaOffsetColor="enableROIAreaOffsetColor ? '#FF0000' : '#FFFFFF'"
+          :roiTopOffset="'10%'"
+          :roiRightOffset="'10%'"
+          :roiBottomOffset="'10%'"
+          :roiLeftOffset="'10%'"
+          :imageCapture="enableImageCapture"
+          :imageCaptureAmount="0"
+          :imageCaptureInterval="300"
+          @faceDetected="doFaceDetected"
+          @imageCaptured="doImageCaptured"
+          @endCapture="doEndCapture"
+          @qrCodeContent="doQRCodeContent"
+          @status="doStatus"
+          @permissionDenied="doPermissionDenied"
         />
       </GridLayout>
       <GridLayout
@@ -61,29 +61,29 @@
         </FlexboxLayout>
       </GridLayout>
       <GridLayout
-          height="100%"
-          width="100%"
+        height="100%"
+        width="100%"
       >
         <StackLayout>
           <FlexboxLayout flexDirection="row" backgroundColor="#26262675">
             <StackLayout orientation="horizontal">
               <Button
-                  :class="panel === 'configurations' ? 'selected' : ''"
-                  text="Configurações"
-                  horizontalAlignment="left"
-                  @tap='panel = "configurations"'
+                :class="panel === 'configurations' ? 'selected' : ''"
+                text="Configurações"
+                horizontalAlignment="left"
+                @tap='panel = "configurations"'
               />
               <Button
-                  :class="panel === 'analysis' ? 'selected' : ''"
-                  text="Análise da Face"
-                  horizontalAlignment="left"
-                  @tap="panel = 'analysis'"
+                :class="panel === 'analysis' ? 'selected' : ''"
+                text="Análise da Face"
+                horizontalAlignment="left"
+                @tap="panel = 'analysis'"
               />
               <Button
-                  :class="panel === 'hide' ? 'selected' : ''"
-                  text="X"
-                  horizontalAlignment="left"
-                  @tap="panel = 'hide'"
+                :class="panel === 'hide' ? 'selected' : ''"
+                text="X"
+                horizontalAlignment="left"
+                @tap="panel = 'hide'"
               />
             </StackLayout>
           </FlexboxLayout>
@@ -91,110 +91,113 @@
             <FlexboxLayout flexDirection="row">
               <StackLayout width="50%" paddingLeft="-10">
                 <YooSwitch
-                    label="Camera"
-                    initialChecked="true"
-                    @tap="toggleCamera"
+                  label="Camera"
+                  initialChecked="true"
+                  @tap="toggleCamera"
                 />
                 <YooSwitch
-                    label="Capturar Imagem"
-                    initialChecked="true"
-                    @tap="enableImageCapture = !enableImageCapture"
+                  label="Capturar Imagem"
+                  initialChecked="true"
+                  @tap="enableImageCapture = !enableImageCapture"
                 />
                 <YooSwitch
-                    label="Caixa de Detecção"
-                    initialChecked="true"
-                    @tap="enableDetectionBox = !enableDetectionBox"
+                  label="Caixa de Detecção"
+                  initialChecked="true"
+                  @tap="enableDetectionBox = !enableDetectionBox"
                 />
                 <YooSwitch
-                    label="Contorno da Face"
-                    @tap="enableFaceContours = !enableFaceContours"
+                  label="Contorno da Face"
+                  @tap="enableFaceContours = !enableFaceContours"
                 />
                 <YooSwitch
-                    label="ROI"
-                    @tap="enableROI = !enableROI"
+                  label="ROI"
+                  @tap="enableROI = !enableROI"
                 />
                 <YooSwitch
-                    label="Tam Mín 70%"
-                    @tap="enableDetectionMinSize = !enableDetectionMinSize"
+                  label="Tam Mín 70%"
+                  @tap="enableDetectionMinSize = !enableDetectionMinSize"
                 />
               </StackLayout>
               <StackLayout width="50%" paddingLeft="-10">
                 <YooSwitch
-                    label="Lanterna"
-                    @tap="enableTorch = !enableTorch"
+                  label="Lanterna"
+                  @tap="enableTorch = !enableTorch"
                 />
                 <YooSwitch
-                    label="Lente Frontal"
-                    initialChecked="true"
-                    @tap="cameraLens = cameraLens === 'back' ? 'front' : 'back'"
+                  label="Lente Frontal"
+                  initialChecked="true"
+                  @tap="cameraLens = cameraLens === 'back' ? 'front' : 'back'"
                 />
                 <YooSwitch
-                    label="Cor da Caixa"
-                    @tap="enableDetectionBoxColor = !enableDetectionBoxColor"
+                  label="Cor da Caixa"
+                  @tap="enableDetectionBoxColor = !enableDetectionBoxColor"
                 />
                 <YooSwitch
-                    label="Cor do Contorno"
-                    @tap="enableFaceContoursColor = !enableFaceContoursColor"
+                  label="Cor do Contorno"
+                  @tap="enableFaceContoursColor = !enableFaceContoursColor"
                 />
                 <YooSwitch
-                    label="Cor do ROI"
-                    @tap="enableROIAreaOffsetColor = !enableROIAreaOffsetColor"
+                  label="Cor do ROI"
+                  @tap="enableROIAreaOffsetColor = !enableROIAreaOffsetColor"
                 />
                 <YooSwitch
-                    label="Tam Max 70%"
-                    @tap="enableDetectionMaxsize = !enableDetectionMaxsize"
+                  label="Tam Max 70%"
+                  @tap="enableDetectionMaxsize = !enableDetectionMaxsize"
                 />
               </StackLayout>
             </FlexboxLayout>
             <Label text="Tipos de Captura:" marginLeft="10"/>
             <StackLayout orientation="horizontal">
               <Button
-                  :class="captureType === 'none' ? 'selected' : ''"
-                  text="NONE"
-                  horizontalAlignment="left"
-                  @tap='captureType = "none"'
+                :class="captureType === 'none' ? 'selected' : ''"
+                text="NONE"
+                horizontalAlignment="left"
+                @tap='captureType = "none"'
               />
               <Button
-                  :class="captureType === 'face' ? 'selected' : ''"
-                  text="FACE"
-                  horizontalAlignment="left"
-                  @tap="captureType = 'face'"
+                :class="captureType === 'face' ? 'selected' : ''"
+                text="FACE"
+                horizontalAlignment="left"
+                @tap="captureType = 'face'"
               />
               <Button
-                  :class="captureType === 'qrcode' ? 'selected' : ''"
-                  text="QRCODE"
-                  horizontalAlignment="left"
-                  @tap="captureType = 'qrcode'"
+                :class="captureType === 'qrcode' ? 'selected' : ''"
+                text="QRCODE"
+                horizontalAlignment="left"
+                @tap="captureType = 'qrcode'"
               />
               <Button
-                  :class="captureType === 'frame' ? 'selected' : ''"
-                  text="FRAME"
-                  horizontalAlignment="left"
-                  @tap="captureType = 'frame'"
+                :class="captureType === 'frame' ? 'selected' : ''"
+                text="FRAME"
+                horizontalAlignment="left"
+                @tap="captureType = 'frame'"
               />
             </StackLayout>
             <FlexboxLayout>
               <Label
-                  marginLeft="10"
-                  v-if="captureType === 'face' || captureType === 'frame'"
-                  text="Quantidade de captura de imagens: "
+                marginLeft="10"
+                v-if="captureType === 'face' || captureType === 'frame'"
+                text="Quantidade de captura de imagens: "
               />
               <Label
-                  v-if="captureType === 'face' || captureType === 'frame'"
-                  :text="imageInformationCaptured"
+                v-if="captureType === 'face' || captureType === 'frame'"
+                :text="imageInformationCaptured"
               />
             </FlexboxLayout>
           </StackLayout>
           <YooFaceAnalysis
-              :show="panel === 'analysis'"
-              :faceLeftEyeOpenProbability=faceLeftEyeOpenProbability
-              :faceRightEyeOpenProbability=faceRightEyeOpenProbability
-              :faceSmilingProbability=faceSmilingProbability
-              :faceHeadEulerAngleX=faceHeadEulerAngleX
-              :faceHeadEulerAngleY=faceHeadEulerAngleY
-              :faceHeadEulerAngleZ=faceHeadEulerAngleZ
-              :isWearingMask=isWearingMask
-              :imagePath=imagePath
+            :show="panel === 'analysis'"
+            :faceLeftEyeOpenProbability=faceLeftEyeOpenProbability
+            :faceRightEyeOpenProbability=faceRightEyeOpenProbability
+            :faceSmilingProbability=faceSmilingProbability
+            :faceHeadEulerAngleX=faceHeadEulerAngleX
+            :faceHeadEulerAngleY=faceHeadEulerAngleY
+            :faceHeadEulerAngleZ=faceHeadEulerAngleZ
+            :imagePath=imagePath
+            :imageDarkness="imageDarkness"
+            :imageLightness="imageLightness"
+            :imageSharpness="imageSharpness"
+            :computerVisionMaskInference=computerVisionMaskInference
           />
         </StackLayout>
       </GridLayout>
@@ -230,8 +233,11 @@ export default {
     enableROIAreaOffsetColor: false,
     imagePath: null,
     imageInformationCaptured: '',
+    imageDarkness: null,
+    imageLightness: null,
+    imageSharpness: null,
     qrCodeContent: '',
-    isWearingMask: false,
+    computerVisionMaskInference: null,
     faceLeftEyeOpenProbability: '',
     faceRightEyeOpenProbability: '',
     faceSmilingProbability: '',
@@ -296,7 +302,10 @@ export default {
         path,
         source
       },
-      inferences
+      inferences,
+      darkness,
+      lightness,
+      sharpness
     }) {
       if (total === 0) {
         console.log('[YooCamera] doImageCaptured', `${type}: [${count}] ${path}`)
@@ -305,8 +314,13 @@ export default {
         console.log('[YooCamera] doImageCaptured', `${type}: [${count}] of [${total}] - ${path}`)
         this.imageInformationCaptured = `${count} de ${total}`
       }
-      this.doVerifyMaskUsage(inferences)
+
+      this.imageDarkness = parseFloat(darkness).toFixed(4)
+      this.imageLightness = parseFloat(lightness).toFixed(4)
+      this.imageSharpness = parseFloat(sharpness).toFixed(4)
       this.imagePath = source
+
+      this.doVerifyMaskUsage(inferences)
     },
     doEndCapture() {
       console.log('[YooCamera] doEndCapture');
@@ -323,18 +337,15 @@ export default {
     },
     doVerifyMaskUsage(inferences) {
       if (isAndroid) {
-        console.log('[YooCamera] Mask Pytorch', inferences)
-
-        const THRESHOLD = 0.8
         const MODEL_NAME = 'mask_custom_model.pt'
 
         if (!inferences[0] || !inferences[0][MODEL_NAME]) {
           return
         }
 
-        this.isWearingMask = inferences[0][MODEL_NAME] <= THRESHOLD;
+        this.computerVisionMaskInference = parseFloat(inferences[0][MODEL_NAME]).toFixed(4);
       } else {
-        this.isWearingMask = null;
+        this.computerVisionMaskInference = null;
       }
     }
   }
