@@ -58,13 +58,25 @@ export class YoonitCamera extends CameraBase {
         super.initNativeView();
 
         Validator.PropMap.forEach((prop) => {
-            if (this.nativeView[prop.name]) {
-                if (prop.length > 1) {
-                    return this.nativeView[prop.name](...prop.value);
-                }
-                this.nativeView[prop.name](prop.value);
+            if (this.nativeView[prop.name] === null || this.nativeView[prop.name] === undefined) {
+                return;
+            }
+
+            switch (prop.type) {
+                case 'attribute':
+                    this.nativeView[prop.name] = prop.value;
+                    return;
+                case 'method':
+                    if (prop.length > 1) {
+                        return this.nativeView[prop.name](...prop.value);
+                    }
+                    this.nativeView[prop.name](prop.value);
+                    return;
+                default:
+                    return;
             }
         });
+
         Validator.PropMap = [];
     }
 

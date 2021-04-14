@@ -22,7 +22,7 @@ class Validator {
     static RegexPercentage: RegExp = /(^(([0-9])?([0-9])?|0)(\.[0-9]{0,2})?.\%$)/ig;
     static RegexNumber: RegExp = /[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$/ig;
     static RegexPX: RegExp = /[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)+(px)$/ig;
-    static PropMap: Array<{ name: string, value: any, length: number }> = [];
+    static PropMap: Array<{ type: string, name: string, value: any, length: number }> = [];
 
     private static getErrorMessage(
         propName: String,
@@ -169,9 +169,48 @@ class Validator {
                         }
 
                         Validator.PropMap.push({
+                            type: 'method',
                             name,
                             value: arguments[parameterIndex],
                             length
+                        });
+                    }
+                }
+
+                return method.apply(this, arguments);
+            };
+        };
+    }
+
+    public static NativeAttribute(name: string): Function {
+        return function(
+            target: any,
+            propertyName: string,
+            descriptor: TypedPropertyDescriptor<Function>
+        ) {
+            let method = descriptor.value;
+
+            descriptor.value = function() {
+                let validateParameters: number[] = Reflect.getOwnMetadata(
+                    MetadataKey,
+                    target,
+                    propertyName
+                );
+                if (validateParameters) {
+                    for (let parameterIndex of validateParameters) {
+                        const invalid: boolean =
+                            parameterIndex >= arguments.length ||
+                            arguments[parameterIndex] === undefined;
+
+                        if (invalid) {
+                            throw new Error("Missing argument.");
+                        }
+
+                        Validator.PropMap.push({
+                            type: 'attribute',
+                            name,
+                            value: arguments[parameterIndex],
+                            length: 0
                         });
                     }
                 }
