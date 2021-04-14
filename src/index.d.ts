@@ -62,10 +62,10 @@ export declare class Camera extends ContentView {
     setDetectionBoxColor(color: string): void;
     setDetectionMinSize(percentage: string): void;
     setDetectionMaxSize(percentage: string): void;
-    setDetectionTopSize(percentage: number): void;
-    setDetectionRightSize(percentage: number): void;
-    setDetectionBottomSize(percentage: number): void;
-    setDetectionLeftSize(percentage: number): void;
+    setDetectionTopSize(percentage: string): void;
+    setDetectionRightSize(percentage: string): void;
+    setDetectionBottomSize(percentage: string): void;
+    setDetectionLeftSize(percentage: string): void;
 
     // Image Capture
     setImageCapture(enable: boolean): void;

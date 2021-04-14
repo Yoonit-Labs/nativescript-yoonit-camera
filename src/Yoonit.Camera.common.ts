@@ -261,28 +261,28 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
     @ValidateProps('detectionTopSize', RegexPercentage)
     @PercentageToNumber
     @NativeAttribute('detectionTopSize')
-    public setDetectionTopSize(@Required percentage: number): void {
+    public setDetectionTopSize(@Required percentage): void {
         this.nativeView.detectionTopSize = percentage;
     }
 
     @ValidateProps('detectionRightSize', RegexPercentage)
     @PercentageToNumber
     @NativeAttribute('detectionRightSize')
-    public setDetectionRightSize(@Required percentage: number): void {
+    public setDetectionRightSize(@Required percentage): void {
         this.nativeView.detectionRightSize = percentage;
     }
 
     @ValidateProps('detectionBottomSize', RegexPercentage)
     @PercentageToNumber
     @NativeAttribute('detectionBottomSize')
-    public setDetectionBottomSize(@Required percentage: number): void {
+    public setDetectionBottomSize(@Required percentage): void {
         this.nativeView.detectionBottomSize = percentage;
     }
 
     @ValidateProps('detectionLeftSize', RegexPercentage)
     @PercentageToNumber
     @NativeAttribute('detectionLeftSize')
-    public setDetectionLeftSize(@Required percentage: number): void {
+    public setDetectionLeftSize(@Required percentage): void {
         this.nativeView.detectionLeftSize = percentage;
     }
 
