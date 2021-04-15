@@ -62,6 +62,10 @@ export declare class Camera extends ContentView {
     setDetectionBoxColor(color: string): void;
     setDetectionMinSize(percentage: string): void;
     setDetectionMaxSize(percentage: string): void;
+    setDetectionTopSize(percentage: string): void;
+    setDetectionRightSize(percentage: string): void;
+    setDetectionBottomSize(percentage: string): void;
+    setDetectionLeftSize(percentage: string): void;
 
     // Image Capture
     setImageCapture(enable: boolean): void;
@@ -89,7 +93,7 @@ export declare class Camera extends ContentView {
     setComputerVisionLoadModels(modelPaths: Array<string>): void; // Only Android.
     computerVisionClearModels(): void; // Only Android.
 
-    // UTILITIES
+    // Utils
     setTorch(enable: boolean): void;
 
     on(eventNames: string, callback: (data: EventData) => void, thisArg?: any);

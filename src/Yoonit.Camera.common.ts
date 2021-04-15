@@ -25,6 +25,7 @@ const {
     ValidateProps,
     Required,
     NativeMethod,
+    NativeAttribute,
     RegexNumber,
     RegexPX,
     PercentageToNumber,
@@ -85,6 +86,22 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
 
     public set detectionMaxSize(value: string) {
         this.setDetectionMaxSize(value);
+    }
+
+    public set detectionTopSize(value: number) {
+        this.setDetectionTopSize(value);
+    }
+
+    public set detectionRightSize(value: number) {
+        this.setDetectionRightSize(value);
+    }
+
+    public set detectionBottomSize(value: number) {
+        this.setDetectionBottomSize(value);
+    }
+
+    public set detectionLeftSize(value: number) {
+        this.setDetectionLeftSize(value);
     }
 
     public set roi(value: boolean) {
@@ -239,6 +256,34 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
     @NativeMethod({ name: 'setDetectionMaxSize', length: 1 })
     public setDetectionMaxSize(@Required percentage): void {
         this.nativeView.setDetectionMaxSize(percentage);
+    }
+
+    @ValidateProps('detectionTopSize', RegexPercentage)
+    @PercentageToNumber
+    @NativeAttribute('detectionTopSize')
+    public setDetectionTopSize(@Required percentage): void {
+        this.nativeView.detectionTopSize = percentage;
+    }
+
+    @ValidateProps('detectionRightSize', RegexPercentage)
+    @PercentageToNumber
+    @NativeAttribute('detectionRightSize')
+    public setDetectionRightSize(@Required percentage): void {
+        this.nativeView.detectionRightSize = percentage;
+    }
+
+    @ValidateProps('detectionBottomSize', RegexPercentage)
+    @PercentageToNumber
+    @NativeAttribute('detectionBottomSize')
+    public setDetectionBottomSize(@Required percentage): void {
+        this.nativeView.detectionBottomSize = percentage;
+    }
+
+    @ValidateProps('detectionLeftSize', RegexPercentage)
+    @PercentageToNumber
+    @NativeAttribute('detectionLeftSize')
+    public setDetectionLeftSize(@Required percentage): void {
+        this.nativeView.detectionLeftSize = percentage;
     }
 
     @ValidateProps('roi', [false, true])

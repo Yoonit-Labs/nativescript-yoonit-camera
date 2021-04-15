@@ -37,6 +37,10 @@ declare class CameraView extends UIView {
     ): void;
     setDetectionMinSize(detectionMinSize: number): void;
     setDetectionMaxSize(detectionMaxSize: number): void;
+    detectionTopSize: number;
+    detectionRightSize: number;
+    detectionBottomSize: number;
+    detectionLeftSize: number;
     setROI(enable: boolean): void;
     setROITopOffset(topOffset: number): void;
     setROIRightOffset(rightOffset: number): void;

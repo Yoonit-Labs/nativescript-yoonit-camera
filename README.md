@@ -40,6 +40,7 @@ A NativeScript plugin to provide:
     * [Events](#events)
     * [Face Analysis](#face-analysis)
     * [Head Movements](#head-movements)
+    * [Image Quality](#image-quality)
     * [Messages](#messages)
 * [Contribute](#contribute-and-make-it-better)
 
@@ -204,7 +205,11 @@ After that, you can access the camera object in your entire project using `this.
 | detectionBox                    | `boolean`                                    | `false`       | Show/hide the face detection box.
 | detectionBoxColor               | `string`                                     | `#ffffff`     | Set detection box color. |  
 | detectionMinSize                | `"NN%"`                                      | `"0%"`        | The face minimum size percentage to capture. |  
-| detectionMaxSize                | `"NN%"`                                      | `"100%"`      | The face maximum size percentage to capture. |  
+| detectionMaxSize                | `"NN%"`                                      | `"100%"`      | The face maximum size percentage to capture. |
+| detectionTopSize                | `"NN%"`                                      | `"100%"`      | Represents the percentage. Positive value enlarges and negative value reduce the top side of the detection. Use the `detectionBox` to have a visual result.
+| detectionRightSize              | `"NN%"`                                      | `"100%"`      | Represents the percentage. Positive value enlarges and negative value reduce the right side of the detection. Use the `detectionBox` to have a visual result.
+| detectionBottomSize             | `"NN%"`                                      | `"100%"`      | Represents the percentage. Positive value enlarges and negative value reduce the bottom side of the detection. Use the `detectionBox` to have a visual result.
+| detectionLeftSize               | `"NN%"`                                      | `"100%"`      | Represents the percentage. Positive value enlarges and negative value reduce the left side of the detection. Use the `detectionBox` to have a visual result.
 | roi                             | `boolean`                                    | `false`       | Enable/disable the region of interest capture. |  
 | roiTopOffset                    | `"NN%"`                                      | `"0%"`        | Distance in percentage of the top face bounding box with the top of the camera preview. |  
 | roiRightOffset                  | `"NN%"`                                      | `"0%"`        | Distance in percentage of the right face bounding box with the right of the camera preview. |
@@ -240,7 +245,11 @@ After that, you can access the camera object in your entire project using `this.
 | setDetectionBoxColor                         | `color: string`             | hexadecimal                                                                       | void        | Set detection box color. | 
 | setFacePaddingPercent                        | `percentage: string`        |  Value format must be in `NN%`                                                    | void        | Set face image capture and detection box padding in percentage. |    
 | setDetectionMinSize                          | `percentage: string`        | Value format must be in `NN%`                                                     | void        | Set the face minimum size percentage to capture. |  
-| setDetectionMaxSize                          | `percentage: string`        | Value format must be in `NN%`                                                     | void        | Set the face maximum size percentage to capture. |  
+| setDetectionMaxSize                          | `percentage: string`        | Value format must be in `NN%`                                                     | void        | Set the face maximum size percentage to capture. |
+| setDetectionTopSize                          | `percentage: string`        | Value format must be in `NN%`                                                     | void        | Represents the percentage. Positive value enlarges and negative value reduce the top side of the detection. Use the `setDetectionBox` to have a visual result.
+| setDetectionRightSize                        | `percentage: string`        | Value format must be in `NN%`                                                     | void        | Represents the percentage. Positive value enlarges and negative value reduce the right side of the detection. Use the `setDetectionBox` to have a visual result.
+| setDetectionBottomSize                       | `percentage: string`        | Value format must be in `NN%`                                                     | void        | Represents the percentage. Positive value enlarges and negative value reduce the bottom side of the detection. Use the `setDetectionBox` to have a visual result.
+| setDetectionLeftSize                         | `percentage: string`        | Value format must be in `NN%`                                                     | void        | Represents the percentage. Positive value enlarges and negative value reduce the left side of the detection. Use the `setDetectionBox` to have a visual result.
 | setROI                                       | `enable: boolean`           | `true` or `false`                                                                 | void        | Enable/disable face region of interest capture. |  
 | setROITopOffset                              | `percentage: string`        | Value format must be in `NN%`                                                     | void        | Distance in percentage of the top face bounding box with the top of the camera preview. |  
 | setROIRightOffset                            | `percentage: string`        | Value format must be in `NN%`                                                     | void        | Distance in percentage of the right face bounding box with the right of the camera preview. |  
@@ -293,6 +302,22 @@ Here we're explaining the above gif and how reached the "results". Each "movemen
 | Vertical       | `headEulerAngleX` | Super Down  | Down              | Frontal          | Up              | Super Up    |
 | Horizontal     | `headEulerAngleY` | Super Left  | Left              | Frontal          | Right           | Super Right |
 | Tilt           | `headEulerAngleZ` | Super Right | Right             | Frontal          | Left            | Super Left  |
+
+### Image Quality
+
+The image quality is the classification of the three attributes: darkness, lightness and sharpness. Result available in the `imageCapture` event. Let's see each parameter specifications:
+
+| Threshold           | Classification
+| -                   | -
+| **Darkness**        |
+| darkness > 0.7  	  | Too dark
+| darkness <= 0.7     | Acceptable
+| **Lightness**       |
+| lightness > 0.65    | Too light
+| lightness <= 0.65   | Acceptable
+| **Sharpness**       |
+| sharpness >= 0.1591 | Blurred
+| sharpness < 0.1591  | Acceptable
 
 #### Messages
 

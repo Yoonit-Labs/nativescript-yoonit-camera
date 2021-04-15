@@ -43,6 +43,10 @@ declare namespace ai {
 					): void;
 					public setDetectionMinSize(param0: number): void;
 					public setDetectionMaxSize(param0: number): void;
+					public detectionTopSize: number;
+					public detectionRightSize: number;
+					public detectionBottomSize: number;
+					public detectionLeftSize: number;
 					public setROI(param0: boolean): void;
 					public setROITopOffset(param0: number): void;
 					public setROIRightOffset(param0: number): void;
