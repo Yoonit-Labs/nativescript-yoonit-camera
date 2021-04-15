@@ -1,0 +1,25 @@
+/* Include.gradle configuration: http://docs.nativescript.org/plugins/plugins#includegradle-specification */
+
+android {
+
+}
+
+repositories {
+    google()
+    jcenter()
+    maven { url "https://jitpack.io" }
+}
+
+dependencies {
+    api fileTree(dir: 'libs', include: ['*.aar'])
+
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+
+    implementation "androidx.camera:camera-view:1.0.0-alpha15"
+    implementation "androidx.camera:camera-camera2:1.0.0-beta08"
+
+    implementation 'com.google.mlkit:barcode-scanning:16.0.3'
+    implementation 'com.google.mlkit:face-detection:16.0.2'
+
+	implementation 'com.github.Yoonit-Labs:android-yoonit-camera:2.11.0'
+}

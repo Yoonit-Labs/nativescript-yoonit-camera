@@ -1,0 +1,2 @@
+LIBRARY_SEARCH_PATHS = $(SDKROOT)/usr/lib/swift
+LD_RUNPATH_SEARCH_PATHS = '/usr/lib/swift' $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
