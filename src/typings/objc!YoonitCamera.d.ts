@@ -27,7 +27,6 @@ declare class CameraView extends UIView {
     setOutputImageWidth(width: number): void;
     setOutputImageHeight(height: number): void;
     setSaveImageCaptured(enable: boolean): void;
-    setFacePaddingPercent(facePaddingPercent: number): void;
     setDetectionBox(enable: boolean): void;
     setDetectionBoxColor(
         alpha: number,

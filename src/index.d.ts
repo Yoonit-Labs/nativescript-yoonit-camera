@@ -57,7 +57,6 @@ export declare class Camera extends ContentView {
     startCapture(type: string): void;
 
     // Detection
-    setFacePaddingPercent(percentage: string): void;
     setDetectionBox(enable: boolean): void;
     setDetectionBoxColor(color: string): void;
     setDetectionMinSize(percentage: string): void;
