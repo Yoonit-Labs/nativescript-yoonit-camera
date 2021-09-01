@@ -225,12 +225,6 @@ export abstract class CameraBase extends ContentView implements CameraDefinition
 
     public setImageCaptureColorEncoding(colorEncoding: string): void {}
 
-    @PercentageToNumber
-    @NativeMethod({ name: 'setFacePaddingPercent', length: 1 })
-    public setFacePaddingPercent(@Required percentage): void {
-        this.nativeView.setFacePaddingPercent(percentage);
-    }
-
     @ValidateProps('detectionBox', [false, true])
     @NativeMethod({ name: 'setDetectionBox', length: 1 })
     public setDetectionBox(@Required enable: boolean): void {
