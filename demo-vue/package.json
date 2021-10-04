@@ -5,8 +5,8 @@
   "version": "1.0.0",
   "description": "NativeScript Application",
   "author": {
-    "name": "Luigui Delyer, Haroldo Teruya, Victor Goulart, Gabriel Rizzo & Márcio Bruffato @ Cyberlabs AI - 2020-2021",
-    "email": "contato@cyberlabs.ai"
+    "name": "Luigui Delyer, Haroldo Teruya, Victor Goulart, Gabriel Rizzo & Márcio Bruffato @ 2020-2021",
+    "email": "about@yoonit.dev"
   },
   "license": "MIT",
   "publishConfig": {
