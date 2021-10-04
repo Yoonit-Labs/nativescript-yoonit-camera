@@ -1,33 +1,71 @@
+<h1 align="center">NativeScript Yoonit Camera</h1>
 
-[<img src="https://raw.githubusercontent.com/Yoonit-Labs/nativescript-yoonit-camera/development/logo_cyberlabs.png" width="300">](https://cyberlabs.ai/)
-
-# NativeScript Yoonit Camera
-
-![NativeScript](https://img.shields.io/badge/NativeScript-7-lightgrey.svg?style=for-the-badge&logo=nativescript) ![Version](https://img.shields.io/npm/v/@yoonit/nativescript-camera?color=lightgrey&style=for-the-badge&logo=npm) ![Downloads](https://img.shields.io/npm/dm/@yoonit/nativescript-camera?color=lightgrey&logo=npm&style=for-the-badge)
-
-![Android](https://img.shields.io/badge/Android-YES-lightgrey.svg?style=for-the-badge&logo=android) ![iOS](https://img.shields.io/badge/iOS-YES-lightgrey.svg?style=for-the-badge&logo=apple) ![MIT license](https://img.shields.io/npm/l/@yoonit/nativescript-camera?color=lightgrey&style=for-the-badge)
-
-A NativeScript plugin to provide:
-- Modern Android Camera API [Camera X](https://developer.android.com/training/camerax)
-- Camera preview (Front & Back)
-- [PyTorch](https://pytorch.org/mobile/home/) integration (Android)
-- Computer vision pipeline
-- Face detection, capture and image crop
-- Understanding of the human face
-- Frame capture
-- Capture timed images
-- QR Code scanning
+<p align="center">
+	<img src="https://img.shields.io/badge/NativeScript-7-lightgrey.svg?style=for-the-badge&logo=nativescript"/>
+	<img src="https://img.shields.io/npm/v/@yoonit/nativescript-camera?color=lightgrey&style=for-the-badge&logo=npm"/>
+	<img src="https://img.shields.io/npm/dm/@yoonit/nativescript-camera?color=lightgrey&logo=npm&style=for-the-badge"/>
+	<img src="https://img.shields.io/badge/Android-YES-lightgrey.svg?style=for-the-badge&logo=android"/>
+	<img src="https://img.shields.io/badge/iOS-YES-lightgrey.svg?style=for-the-badge&logo=apple"/>
+	<img src="https://img.shields.io/npm/l/@yoonit/nativescript-camera?color=lightgrey&style=for-the-badge"/>
+</p>
+<p align="center">The most advanced and complete NativeScript Camera plugin</p>
+<div align="center">
+	<table>
+		<tbody>
+			<tr>
+				<td align="left" valign="middle">
+                    <p>◻ Fully iOS and Android integration</p>
+                    <p>◻ VueJS Plugin</p>
+                    <p>◻ Modern Android Camera API [Camera X](https://developer.android.com/training/camerax)</p>
+                    <p>◻ Camera preview (Front & Back)</p>
+                    <p>◻ [PyTorch](https://pytorch.org/mobile/home/) integration (Android only)</p>
+                    <p>◻ Computer vision pipeline</p>
+                    <p>◻ Face detection with ROI, capture and crop, automagically</p>
+                    <p>◻ Face features understanding, face analysis, smiling, head position, blinking eyes</p>
+                    <p>◻ Image quality control</p>
+                    <p>◻ Full frame capture</p>
+                    <p>◻ Continuous image capture, frame by frame with time interval</p>
+                    <p>◻ QR Code scanning</p>
+                    <p>◻ Torch control</p>
+				</td>
+				<td align="center" valign="middle">
+					<img src="https://raw.githubusercontent.com/Yoonit-Labs/nativescript-yoonit-camera/main/screenshot_demo.jpg" width="300" />
+				</td>
+			</tr>
+		<tbody>
+	</table>
+</div>
 
 > ### More about...
 > 
 > The plugin's core is the native layer. Every change in the native layer, reflects here. This plugin, the Yoonit Camera, we can say that is an aggregation  of many Yoonit's native libs:
-> * [Android Yoonit Camera](https://github.com/Yoonit-Labs/android-yoonit-camera): Android core camera lib;
-> * [iOS Yoonit Camera](https://github.com/Yoonit-Labs/ios-yoonit-camera): iOS core camera lib;
+> * [Android Yoonit Camera](https://github.com/Yoonit-Labs/android-yoonit-camera): Android core lib;
 > * [Android Yoonit Facefy](https://github.com/Yoonit-Labs/android-yoonit-facefy): Android face detection and analysis;
+> * [iOS Yoonit Camera](https://github.com/Yoonit-Labs/ios-yoonit-camera): iOS core lib;
 > * [iOS Yoonit Facefy](https://github.com/Yoonit-Labs/ios-yoonit-facefy): iOS face detection and analysis;
 > 
-> All this native libs can be used independently.
- 
+> All this native libs can be used independently. Help us to improve it!
+
+
+<div align="center">
+	<h3>Sponsors</h3>
+	<table>
+		<tbody>
+			<tr>
+				<td>
+					<b>Platinum</b>
+				</td>
+			</tr>
+			<tr>
+				<td align="center" valign="middle">
+					<a href="https://cyberlabs.ai"><img src="https://raw.githubusercontent.com/Yoonit-Labs/nativescript-yoonit-camera/main/sponsor_cyberlabs.png" width="300" /></a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<h5><a href="mailto:about@yoonit.dev">Become a sponsor!</a></h5>
+</div>
+
 ## Table Of Contents
 
 * [Installation](#installation)
@@ -188,6 +226,9 @@ After that, you can access the camera object in your entire project using `this.
 </script>
 ```  
 
+#### Angular, React, Svelte or any other framework
+Currently we can't offer any other integration with other frameworks that works on top of NativeScript beyond VueJS, you are totaly open to create and send to us a PR. But, this is a pure NativeScript plugin, if you know how to manipulate your preferred platform you will be capable to include it in your project.
+
 ## API
 
 #### Props
@@ -328,16 +369,18 @@ Pre-define message constants used by the `status` event.
 | INVALID_MAXIMUM_SIZE | Face/QRCode width percentage in relation of the screen width is more than the set.
 | INVALID_OUT_OF_ROI   | Face bounding box is out of the set region of interest.
 
-## Contribute and make it better
+
+## To contribute and make it better
 
 Clone the repo, change what you want and send PR.
-
 For commit messages we use <a href="https://www.conventionalcommits.org/">Conventional Commits</a>.
 
-Contributions are always welcome, some people that already contributed!
+Contributions are always welcome!
 
-[<img src="https://contrib.rocks/image?repo=Yoonit-Labs/nativescript-yoonit-camera" />](https://github.com/Yoonit-Labs/nativescript-yoonit-camera/graphs/contributors)
+<a href="https://github.com/Yoonit-Labs/nativescript-yoonit-camera/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Yoonit-Labs/nativescript-yoonit-camera" />
+</a>
   
 ---  
 
-Code with ❤ by the [**Cyberlabs AI**](https://cyberlabs.ai/) Front-End Team
+Code with ❤ by the [**Yoonit**](https://yoonit.dev/) Team
