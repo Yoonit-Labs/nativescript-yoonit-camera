@@ -1,6 +1,6 @@
 {
 	"name": "@yoonit/nativescript-camera",
-	"version": "3.2.1",
+	"version": "3.2.2",
 	"description": "Yoonit Camera have a custom view that shows a preview layer of the front/back camera and detects human faces in it and read qr code.",
 	"main": "Yoonit.Camera",
 	"typings": "index.d.ts",
@@ -35,8 +35,8 @@
 		"iOS"
 	],
 	"author": {
-		"name": "Luigui Delyer, Haroldo Teruya, Victor Goulart, Gabriel Rizzo & Márcio Bruffato @ Cyberlabs AI - 2020-2021",
-		"email": "contato@cyberlabs.ai"
+		"name": "Luigui Delyer, Haroldo Teruya, Victor Goulart, Gabriel Rizzo & Márcio Bruffato @ 2020-2021",
+		"email": "about@yoonit.dev"
 	},
 	"license": "MIT",
 	"devDependencies": {
