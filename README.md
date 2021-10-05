@@ -29,7 +29,8 @@
                     <p>◻ Torch control</p>
 				</td>
 				<td align="center" valign="middle">
-					<img src="https://raw.githubusercontent.com/Yoonit-Labs/nativescript-yoonit-camera/main/screenshot_demo.jpg" width="300" />
+					<img src="https://raw.githubusercontent.com/Yoonit-Labs/nativescript-yoonit-camera/development/screenshot_demo.jpg" width="300" />
+                    <p style="font-size: 10px;">All these info it's coming from the demo app on the project. The module is only the camera stream into the view.</p>
 				</td>
 			</tr>
 		<tbody>
@@ -58,7 +59,7 @@
 			</tr>
 			<tr>
 				<td align="center" valign="middle">
-					<a href="https://cyberlabs.ai"><img src="https://raw.githubusercontent.com/Yoonit-Labs/nativescript-yoonit-camera/main/sponsor_cyberlabs.png" width="300" /></a>
+					<a href="https://cyberlabs.ai"><img src="https://raw.githubusercontent.com/Yoonit-Labs/nativescript-yoonit-camera/development/sponsor_cyberlabs.png" width="300" /></a>
 				</td>
 			</tr>
 		</tbody>
