@@ -23,12 +23,12 @@
     "@babel/preset-env": "~7.1.0",
     "@nativescript/android": "7.0.1",
     "@nativescript/ios": "7.0.4",
-    "@nativescript/webpack": "~3.0.0",
-    "babel-loader": "~8.0.0",
+    "@nativescript/webpack": "~5.0.12",
+    "babel-loader": "~8.3.0",
     "nativescript-vue-template-compiler": "~2.8.0",
     "node-sass": "^7.0.0",
     "typescript": "~3.9.0",
-    "vue-loader": "~15.9.3"
+    "vue-loader": "~17.0.1"
   },
   "private": false
 }
